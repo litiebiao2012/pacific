@@ -19,5 +19,9 @@
             <groupId>com.pacific</groupId>
             <artifactId>pacific-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>opensymphony</groupId>
+            <artifactId>sitemesh</artifactId>
+        </dependency>
     </dependencies>
 </project>

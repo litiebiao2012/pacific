@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<decorators defaultdir="/WEB-INF/layouts/">
+    <!-- 此处用来定义不需要过滤的页面 -->
+    <excludes>
+        <pattern>/resources/*</pattern>
+        <pattern>/images/*</pattern>
+        <pattern>/assets/*</pattern>
+        <pattern>/source/*</pattern>
+        <pattern>/index.jsp</pattern>
+        <pattern>*.html</pattern>
+        <pattern>*.json</pattern>
+    </excludes>
+
+    <decorator name="main" page="default.vm">
+        <pattern>/*</pattern>
+    </decorator>
+
+</decorators>
