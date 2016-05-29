@@ -9,15 +9,15 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>pacific-core</artifactId>
+    <artifactId>pacific-wechat</artifactId>
     <version>1.0.0</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
 
     <dependencies>
         <dependency>
-            <groupId>org.elasticsearch</groupId>
-            <artifactId>elasticsearch</artifactId>
+            <groupId>com.pacific</groupId>
+            <artifactId>pacific-common</artifactId>
         </dependency>
     </dependencies>
 </project>

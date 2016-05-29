@@ -13,6 +13,7 @@
         <module>pacific-dao</module>
         <module>pacific-core</module>
         <module>pacific-common</module>
+        <module>pacific-wechat</module>
     </modules>
 
 
