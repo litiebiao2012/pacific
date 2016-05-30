@@ -42,12 +42,17 @@
             <property name="enableSubPackages" value="false" />
         </javaClientGenerator>
 
-        <table tableName="t_error_log_record"
-                domainObjectName="ErrorLogRecord" enableCountByExample="false"
-                enableUpdateByExample="false" enableDeleteByExample="false"
-                enableSelectByExample="false" selectByExampleQueryId="false">
-        </table>
+        <!--<table tableName="t_error_log_record"-->
+                <!--domainObjectName="ErrorLogRecord" enableCountByExample="false"-->
+                <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+                <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <!--</table>-->
 
+        <table tableName="t_application"
+               domainObjectName="Application" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
 
 
 
