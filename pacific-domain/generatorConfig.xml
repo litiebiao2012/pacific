@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+    <context id="oracleGenerator" targetRuntime="MyBatis3">
+        <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin"></plugin>
+        <plugin type="org.mybatis.generator.plugins.SerializablePlugin"></plugin>
+        <!-- Pagination -->
+
+        <!-- 取消注释 -->
+        <commentGenerator>
+            <property name="suppressAllComments" value="true" />
+        </commentGenerator>
+
+        <!-- 配置连接数据信息 -->
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://rds6ue61m9thvq3yj268.mysql.rds.aliyuncs.com:3306/pacific" userId="pacific"
+                        password="pacific123456" />
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false" />
+        </javaTypeResolver>
+
+        <!-- 配置自动生成的Model的保存路径与其它参数 -->
+        <javaModelGenerator targetPackage="com.pacific.domain.entity"
+                            targetProject="src/main/java">
+            <property name="enableSubPackages" value="false" />
+            <property name="trimStrings" value="true" />
+        </javaModelGenerator>
+
+        <!-- 配置自动生成的Mappper.xml映射的保存路径与其它参数 -->
+        <sqlMapGenerator targetPackage="mapper"
+                         targetProject="../pacific-dao/src/main/resources">
+            <property name="enableSubPackages" value="false" />
+        </sqlMapGenerator>
+
+        <!-- 配置自动生成的Mappper.java接口的保存路径与其它参数 -->
+        <javaClientGenerator type="XMLMAPPER"
+                             targetPackage="com.pacific.mapper" targetProject="../pacific-dao/src/main/java">
+            <property name="enableSubPackages" value="false" />
+        </javaClientGenerator>
+
+        <table tableName="t_error_log_record"
+                domainObjectName="ErrorLogRecord" enableCountByExample="false"
+                enableUpdateByExample="false" enableDeleteByExample="false"
+                enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+
+
+
+
+
+
+    </context>
+</generatorConfiguration>

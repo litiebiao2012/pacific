@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pacific.mapper.ErrorLogRecordMapper" >
+  <resultMap id="BaseResultMap" type="com.pacific.domain.entity.ErrorLogRecord" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
+    <result column="elasticsearch_log_id" property="elasticsearchLogId" jdbcType="VARCHAR" />
+    <result column="elasticsearch_log_type" property="elasticsearchLogType" jdbcType="VARCHAR" />
+    <result column="elasticsearch_log_score" property="elasticsearchLogScore" jdbcType="INTEGER" />
+    <result column="elasticsearch_log_create_time" property="elasticsearchLogCreateTime" jdbcType="TIMESTAMP" />
+    <result column="elasticsearch_log_version" property="elasticsearchLogVersion" jdbcType="INTEGER" />
+    <result column="log_message" property="logMessage" jdbcType="VARCHAR" />
+    <result column="log_logger_name" property="logLoggerName" jdbcType="VARCHAR" />
+    <result column="log_thread_name" property="logThreadName" jdbcType="VARCHAR" />
+    <result column="log_level" property="logLevel" jdbcType="VARCHAR" />
+    <result column="log_value" property="logValue" jdbcType="INTEGER" />
+    <result column="log_host_name" property="logHostName" jdbcType="VARCHAR" />
+    <result column="log_file_path" property="logFilePath" jdbcType="VARCHAR" />
+    <result column="error_log_type" property="errorLogType" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.pacific.domain.entity.ErrorLogRecord" extends="BaseResultMap" >
+    <result column="log_stack_trace" property="logStackTrace" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, create_time, update_time, application_code, elasticsearch_log_id, elasticsearch_log_type, 
+    elasticsearch_log_score, elasticsearch_log_create_time, elasticsearch_log_version, 
+    log_message, log_logger_name, log_thread_name, log_level, log_value, log_host_name, 
+    log_file_path, error_log_type
+  </sql>
+  <sql id="Blob_Column_List" >
+    log_stack_trace
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_error_log_record
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_error_log_record
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pacific.domain.entity.ErrorLogRecord" >
+    insert into t_error_log_record (id, create_time, update_time, 
+      application_code, elasticsearch_log_id, elasticsearch_log_type, 
+      elasticsearch_log_score, elasticsearch_log_create_time, 
+      elasticsearch_log_version, log_message, log_logger_name, 
+      log_thread_name, log_level, log_value, 
+      log_host_name, log_file_path, error_log_type, 
+      log_stack_trace)
+    values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{applicationCode,jdbcType=VARCHAR}, #{elasticsearchLogId,jdbcType=VARCHAR}, #{elasticsearchLogType,jdbcType=VARCHAR}, 
+      #{elasticsearchLogScore,jdbcType=INTEGER}, #{elasticsearchLogCreateTime,jdbcType=TIMESTAMP}, 
+      #{elasticsearchLogVersion,jdbcType=INTEGER}, #{logMessage,jdbcType=VARCHAR}, #{logLoggerName,jdbcType=VARCHAR}, 
+      #{logThreadName,jdbcType=VARCHAR}, #{logLevel,jdbcType=VARCHAR}, #{logValue,jdbcType=INTEGER}, 
+      #{logHostName,jdbcType=VARCHAR}, #{logFilePath,jdbcType=VARCHAR}, #{errorLogType,jdbcType=VARCHAR}, 
+      #{logStackTrace,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pacific.domain.entity.ErrorLogRecord" >
+    insert into t_error_log_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="applicationCode != null" >
+        application_code,
+      </if>
+      <if test="elasticsearchLogId != null" >
+        elasticsearch_log_id,
+      </if>
+      <if test="elasticsearchLogType != null" >
+        elasticsearch_log_type,
+      </if>
+      <if test="elasticsearchLogScore != null" >
+        elasticsearch_log_score,
+      </if>
+      <if test="elasticsearchLogCreateTime != null" >
+        elasticsearch_log_create_time,
+      </if>
+      <if test="elasticsearchLogVersion != null" >
+        elasticsearch_log_version,
+      </if>
+      <if test="logMessage != null" >
+        log_message,
+      </if>
+      <if test="logLoggerName != null" >
+        log_logger_name,
+      </if>
+      <if test="logThreadName != null" >
+        log_thread_name,
+      </if>
+      <if test="logLevel != null" >
+        log_level,
+      </if>
+      <if test="logValue != null" >
+        log_value,
+      </if>
+      <if test="logHostName != null" >
+        log_host_name,
+      </if>
+      <if test="logFilePath != null" >
+        log_file_path,
+      </if>
+      <if test="errorLogType != null" >
+        error_log_type,
+      </if>
+      <if test="logStackTrace != null" >
+        log_stack_trace,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicationCode != null" >
+        #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="elasticsearchLogId != null" >
+        #{elasticsearchLogId,jdbcType=VARCHAR},
+      </if>
+      <if test="elasticsearchLogType != null" >
+        #{elasticsearchLogType,jdbcType=VARCHAR},
+      </if>
+      <if test="elasticsearchLogScore != null" >
+        #{elasticsearchLogScore,jdbcType=INTEGER},
+      </if>
+      <if test="elasticsearchLogCreateTime != null" >
+        #{elasticsearchLogCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="elasticsearchLogVersion != null" >
+        #{elasticsearchLogVersion,jdbcType=INTEGER},
+      </if>
+      <if test="logMessage != null" >
+        #{logMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="logLoggerName != null" >
+        #{logLoggerName,jdbcType=VARCHAR},
+      </if>
+      <if test="logThreadName != null" >
+        #{logThreadName,jdbcType=VARCHAR},
+      </if>
+      <if test="logLevel != null" >
+        #{logLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="logValue != null" >
+        #{logValue,jdbcType=INTEGER},
+      </if>
+      <if test="logHostName != null" >
+        #{logHostName,jdbcType=VARCHAR},
+      </if>
+      <if test="logFilePath != null" >
+        #{logFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="errorLogType != null" >
+        #{errorLogType,jdbcType=VARCHAR},
+      </if>
+      <if test="logStackTrace != null" >
+        #{logStackTrace,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pacific.domain.entity.ErrorLogRecord" >
+    update t_error_log_record
+    <set >
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="applicationCode != null" >
+        application_code = #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="elasticsearchLogId != null" >
+        elasticsearch_log_id = #{elasticsearchLogId,jdbcType=VARCHAR},
+      </if>
+      <if test="elasticsearchLogType != null" >
+        elasticsearch_log_type = #{elasticsearchLogType,jdbcType=VARCHAR},
+      </if>
+      <if test="elasticsearchLogScore != null" >
+        elasticsearch_log_score = #{elasticsearchLogScore,jdbcType=INTEGER},
+      </if>
+      <if test="elasticsearchLogCreateTime != null" >
+        elasticsearch_log_create_time = #{elasticsearchLogCreateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="elasticsearchLogVersion != null" >
+        elasticsearch_log_version = #{elasticsearchLogVersion,jdbcType=INTEGER},
+      </if>
+      <if test="logMessage != null" >
+        log_message = #{logMessage,jdbcType=VARCHAR},
+      </if>
+      <if test="logLoggerName != null" >
+        log_logger_name = #{logLoggerName,jdbcType=VARCHAR},
+      </if>
+      <if test="logThreadName != null" >
+        log_thread_name = #{logThreadName,jdbcType=VARCHAR},
+      </if>
+      <if test="logLevel != null" >
+        log_level = #{logLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="logValue != null" >
+        log_value = #{logValue,jdbcType=INTEGER},
+      </if>
+      <if test="logHostName != null" >
+        log_host_name = #{logHostName,jdbcType=VARCHAR},
+      </if>
+      <if test="logFilePath != null" >
+        log_file_path = #{logFilePath,jdbcType=VARCHAR},
+      </if>
+      <if test="errorLogType != null" >
+        error_log_type = #{errorLogType,jdbcType=VARCHAR},
+      </if>
+      <if test="logStackTrace != null" >
+        log_stack_trace = #{logStackTrace,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.pacific.domain.entity.ErrorLogRecord" >
+    update t_error_log_record
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      application_code = #{applicationCode,jdbcType=VARCHAR},
+      elasticsearch_log_id = #{elasticsearchLogId,jdbcType=VARCHAR},
+      elasticsearch_log_type = #{elasticsearchLogType,jdbcType=VARCHAR},
+      elasticsearch_log_score = #{elasticsearchLogScore,jdbcType=INTEGER},
+      elasticsearch_log_create_time = #{elasticsearchLogCreateTime,jdbcType=TIMESTAMP},
+      elasticsearch_log_version = #{elasticsearchLogVersion,jdbcType=INTEGER},
+      log_message = #{logMessage,jdbcType=VARCHAR},
+      log_logger_name = #{logLoggerName,jdbcType=VARCHAR},
+      log_thread_name = #{logThreadName,jdbcType=VARCHAR},
+      log_level = #{logLevel,jdbcType=VARCHAR},
+      log_value = #{logValue,jdbcType=INTEGER},
+      log_host_name = #{logHostName,jdbcType=VARCHAR},
+      log_file_path = #{logFilePath,jdbcType=VARCHAR},
+      error_log_type = #{errorLogType,jdbcType=VARCHAR},
+      log_stack_trace = #{logStackTrace,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pacific.domain.entity.ErrorLogRecord" >
+    update t_error_log_record
+    set create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      application_code = #{applicationCode,jdbcType=VARCHAR},
+      elasticsearch_log_id = #{elasticsearchLogId,jdbcType=VARCHAR},
+      elasticsearch_log_type = #{elasticsearchLogType,jdbcType=VARCHAR},
+      elasticsearch_log_score = #{elasticsearchLogScore,jdbcType=INTEGER},
+      elasticsearch_log_create_time = #{elasticsearchLogCreateTime,jdbcType=TIMESTAMP},
+      elasticsearch_log_version = #{elasticsearchLogVersion,jdbcType=INTEGER},
+      log_message = #{logMessage,jdbcType=VARCHAR},
+      log_logger_name = #{logLoggerName,jdbcType=VARCHAR},
+      log_thread_name = #{logThreadName,jdbcType=VARCHAR},
+      log_level = #{logLevel,jdbcType=VARCHAR},
+      log_value = #{logValue,jdbcType=INTEGER},
+      log_host_name = #{logHostName,jdbcType=VARCHAR},
+      log_file_path = #{logFilePath,jdbcType=VARCHAR},
+      error_log_type = #{errorLogType,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
