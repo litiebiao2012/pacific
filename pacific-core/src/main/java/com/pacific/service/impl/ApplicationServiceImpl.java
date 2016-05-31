@@ -1,6 +1,7 @@
 package com.pacific.service.impl;
 
 import com.pacific.domain.entity.Application;
+import com.pacific.domain.enums.StateEnums;
 import com.pacific.mapper.ApplicationMapper;
 import com.pacific.service.ApplicationService;
 
@@ -16,6 +17,6 @@ public class ApplicationServiceImpl implements ApplicationService {
     private ApplicationMapper applicationMapper;
 
     public List<Application> queryAllApplication() {
-        return null;
+        return applicationMapper.queryAllApplicationByState(StateEnums.AVAILABLE.getCode());
     }
 }

@@ -2,6 +2,8 @@ package com.pacific.mapper;
 
 import com.pacific.domain.entity.ErrorLogRecord;
 
+import java.util.Date;
+
 public interface ErrorLogRecordMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -16,4 +18,6 @@ public interface ErrorLogRecordMapper {
     int updateByPrimaryKeyWithBLOBs(ErrorLogRecord record);
 
     int updateByPrimaryKey(ErrorLogRecord record);
+
+    ErrorLogRecord queryErrorLogRecordByParam(Date beginDate,Date endDate,String applicationId);
 }
