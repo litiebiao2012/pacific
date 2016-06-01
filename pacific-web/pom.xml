@@ -20,6 +20,10 @@
             <artifactId>pacific-common</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.pacific</groupId>
+            <artifactId>pacific-core</artifactId>
+        </dependency>
+        <dependency>
             <groupId>opensymphony</groupId>
             <artifactId>sitemesh</artifactId>
         </dependency>

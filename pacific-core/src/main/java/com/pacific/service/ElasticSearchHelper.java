@@ -42,7 +42,7 @@ public class ElasticSearchHelper {
 
     private Settings settings = Settings
             .settingsBuilder()
-            .put("cluster.name",clusterName)
+            .put("cluster.name",Constants.ELASTICSEARCH_CLUSTER_NAME)
             .put("client.transport.sniff", true)
             .build();
 
@@ -71,7 +71,7 @@ public class ElasticSearchHelper {
             boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").gt(loggerQuery.getBeginDate().getTime()));
         }
 
-        SearchResponse response= client.prepareSearch(loggerQuery.getIndex())//设置要查询的索引(index)
+        SearchResponse response= getClient().prepareSearch(loggerQuery.getIndex())//设置要查询的索引(index)
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                 .setTypes(loggerQuery.getType())//设置type, 这个在建立索引的时候同时设置了, 或者可以使用head工具查看
                 .setQuery(boolQueryBuilder)//在这里"message"是要查询的field,"Accept"是要查询的内容
@@ -82,6 +82,8 @@ public class ElasticSearchHelper {
                 .actionGet();
 
         SearchHits searchHits = response.getHits();
+
+        logger.info("searchHist result : {}",FastJson.toJson(searchHits));
 
         List<LoggerResult> loggerResultList = new LinkedList<LoggerResult>();
 
@@ -109,13 +111,37 @@ public class ElasticSearchHelper {
                     loggerResult.setHostName((String)sourceMap.get("hostname"));
                     loggerResult.setHost((String)sourceMap.get("host"));
                     loggerResult.setPath((String)sourceMap.get("path"));
+
+                    loggerResultList.add(loggerResult);
                 } catch (ParseException e) {
                     logger.error("parse error , e : {}",e);
                 }
             }
         }
-        return null;
+        return loggerResultList;
     }
 
+    public String getClusterName() {
+        return clusterName;
+    }
 
+    public void setClusterName(String clusterName) {
+        this.clusterName = clusterName;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
+    public int getPort() {
+        return port;
+    }
+
+    public void setPort(int port) {
+        this.port = port;
+    }
 }

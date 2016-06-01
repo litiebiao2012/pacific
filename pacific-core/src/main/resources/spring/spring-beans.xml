@@ -3,6 +3,17 @@
        xmlns="http://www.springframework.org/schema/beans"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <bean id="alarmService" class="com.pacific.service.impl.AlarmServiceImpl"></bean>
+    <bean id="applicationService" class="com.pacific.service.impl.ApplicationServiceImpl"></bean>
+    <bean id="elasticSearchService" class="com.pacific.service.impl.ElasticSearchServiceImpl"></bean>
+    <bean id="errorLogRecordService" class="com.pacific.service.impl.ErrorLogRecordServiceImpl"></bean>
+
+    <bean id="elasticSearchHelper" class="com.pacific.service.ElasticSearchHelper">
+        <property name="ip" value="${elasticsearch.ip}"/>
+        <property name="port" value="${elasticsearch.port}"/>
+    </bean>
+
+
     <!-- 配置线程池 -->
     <bean id ="taskExecutor"  class ="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor" >
         <!-- 线程池维护线程的最少数量 -->

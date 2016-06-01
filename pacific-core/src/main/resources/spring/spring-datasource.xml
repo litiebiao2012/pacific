@@ -14,9 +14,9 @@
     </bean>
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <property name="url" value="${jdbc.url}" />
-        <property name="username" value="${jdbc.username}" />
-        <property name="password" value="${jdbc.password}" />
+        <property name="url" value="${pacific.jdbc.url}" />
+        <property name="username" value="${pacific.jdbc.username}" />
+        <property name="password" value="${pacific.jdbc.password}" />
         <property name="filters" value="stat" />
         <property name="maxActive" value="20" />
         <property name="initialSize" value="1" />
@@ -34,12 +34,12 @@
 
 
     <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.yike.mapper" />
+        <property name="basePackage" value="com.pacific.mapper" />
     </bean>
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
-        <property name="typeAliasesPackage" value="com.capi.entity" />
+        <property name="typeAliasesPackage" value="com.pacific.domain.entity" />
         <property name="mapperLocations" value="classpath*:mapper/*.xml" />
         <property name="configLocation" value="classpath:mybatis-config.xml"/>
     </bean>

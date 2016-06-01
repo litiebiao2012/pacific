@@ -6,5 +6,7 @@ package com.pacific.service;
 public class Constants {
     public static final String DEFAULT_ELASTIC_SEARCH_LOG_TYPE = "pacific_log_stash_log";
 
+    public static final String ELASTICSEARCH_CLUSTER_NAME = "elasticsearch";
+
 
 }
