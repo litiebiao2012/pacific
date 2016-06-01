@@ -1,6 +1,7 @@
 package com.pacific.service;
 
 import com.pacific.domain.entity.ErrorLogRecord;
+import com.pacific.domain.search.result.LoggerResult;
 
 import java.util.List;
 
@@ -15,4 +16,10 @@ public interface ErrorLogRecordService {
      * @return
      */
     public ErrorLogRecord queryErrorLogRecordInDayByApplicationCode(String applicationCode);
+
+    /**
+     * 错误日志批量入库
+     * @param loggerResultList
+     */
+    public void batchSaveErrorLogRecord(List<LoggerResult> loggerResultList);
 }

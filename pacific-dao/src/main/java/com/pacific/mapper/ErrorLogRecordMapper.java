@@ -3,11 +3,14 @@ package com.pacific.mapper;
 import com.pacific.domain.entity.ErrorLogRecord;
 
 import java.util.Date;
+import java.util.List;
 
 public interface ErrorLogRecordMapper {
     int deleteByPrimaryKey(Long id);
 
     int insert(ErrorLogRecord record);
+
+    int batchInsert(List<ErrorLogRecord> errorLogRecordList);
 
     int insertSelective(ErrorLogRecord record);
 
@@ -19,5 +22,5 @@ public interface ErrorLogRecordMapper {
 
     int updateByPrimaryKey(ErrorLogRecord record);
 
-    ErrorLogRecord queryErrorLogRecordByParam(Date beginDate,Date endDate,String applicationId);
+    ErrorLogRecord queryNewErrorLogRecordApplicationCode(String applicationCode);
 }

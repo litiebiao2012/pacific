@@ -60,6 +60,42 @@
       #{logHostName,jdbcType=VARCHAR}, #{logFilePath,jdbcType=VARCHAR}, #{errorLogType,jdbcType=VARCHAR}, 
       #{logStackTrace,jdbcType=LONGVARCHAR})
   </insert>
+
+  <insert id="batchInsert" parameterType="com.pacific.domain.entity.ErrorLogRecord" >
+    <selectKey resultType="long" keyProperty="id" order="AFTER">
+      SELECT
+      LAST_INSERT_ID()
+    </selectKey>
+    insert into t_error_log_record (create_time, update_time,
+    application_code, elasticsearch_log_id, elasticsearch_log_type,
+    elasticsearch_log_score, elasticsearch_log_create_time,
+    elasticsearch_log_version, log_message, log_logger_name,
+    log_thread_name, log_level, log_value,
+    log_host_name, log_file_path, error_log_type,
+    log_stack_trace)
+    values
+    <foreach collection="list" item="item" index="index" separator="," >
+      (#{item.createTime,jdbcType=TIMESTAMP},
+      #{item.updateTime,jdbcType=TIMESTAMP},
+      #{item.applicationCode,jdbcType=VARCHAR},
+      #{item.elasticsearchLogId,jdbcType=VARCHAR},
+      #{item.elasticsearchLogType,jdbcType=VARCHAR},
+      #{item.elasticsearchLogScore,jdbcType=INTEGER},
+      #{item.elasticsearchLogCreateTime,jdbcType=TIMESTAMP},
+      #{item.elasticsearchLogVersion,jdbcType=INTEGER},
+      #{item.logMessage,jdbcType=VARCHAR},
+      #{item.logLoggerName,jdbcType=VARCHAR},
+      #{item.logThreadName,jdbcType=VARCHAR},
+      #{item.logLevel,jdbcType=VARCHAR},
+      #{item.logValue,jdbcType=INTEGER},
+      #{item.logHostName,jdbcType=VARCHAR},
+      #{item.logFilePath,jdbcType=VARCHAR},
+      #{item.errorLogType,jdbcType=VARCHAR},
+      #{item.logStackTrace,jdbcType=LONGVARCHAR})
+    </foreach>
+  </insert>
+
+
   <insert id="insertSelective" parameterType="com.pacific.domain.entity.ErrorLogRecord" >
     insert into t_error_log_record
     <trim prefix="(" suffix=")" suffixOverrides="," >
@@ -273,4 +309,16 @@
       error_log_type = #{errorLogType,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="queryNewErrorLogRecordApplicationCode" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_error_log_record
+    where
+       application_code = #{applicationCode,jdbcType=VARCHAR}
+    order by elasticsearch_log_create_time desc
+    limit 0,1
+  </select>
 </mapper>

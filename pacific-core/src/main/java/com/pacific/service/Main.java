@@ -54,7 +54,7 @@ public class Main {
                 .setTypes(type)//设置type, 这个在建立索引的时候同时设置了, 或者可以使用head工具查看
                 .setQuery(QueryBuilders.boolQuery().
                         must(QueryBuilders.matchQuery("level", "ERROR")).
-                        must(QueryBuilders.rangeQuery("@timestamp").gt(begin.getMillis())))//在这里"message"是要查询的field,"Accept"是要查询的内容
+                        must(QueryBuilders.rangeQuery("@timestamp").lt(begin.getMillis())))//在这里"message"是要查询的field,"Accept"是要查询的内容
                 .setFrom(0)
                 .setSize(10000)
                 .setExplain(true)
