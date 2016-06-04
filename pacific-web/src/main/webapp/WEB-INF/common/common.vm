@@ -1,0 +1,10 @@
+<link href="/resources/superui/content/superui/base/bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link href="/resources/superui/content/superui/base/font-awesome/css/font-awesome.css" rel="stylesheet" />
+<link href="/resources/superui/content/superui/base/font-awesome/css/fontgstatic.css" rel="stylesheet" />
+<link href="/resources/superui/content/superui/base/simple-line-icons/simple-line-icons.css" rel="stylesheet" />
+<link href="/resources/superui/content/superui/base/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+<link href="/resources/superui/content/superui/base/bootstrap/css/matrix-login.css" rel="stylesheet" />
+
+
+<script src="/resources/superui/content/superui/base/jquery/jquery-1.9.1.min.js"></script>
+<script src="/resources/superui/content/superui/base/bootstrap/js/bootstrap.js"></script>

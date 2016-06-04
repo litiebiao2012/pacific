@@ -6,7 +6,7 @@ package com.pacific.domain.search.query;
 public class ElasticSearchBaseQuery {
 
     public static final Integer DEFAULT_START = 0;
-    public static final Integer DEFAULT_SIZE = 1000;
+    public static final Integer DEFAULT_SIZE = 100;
 
     private String index;
     private String type;

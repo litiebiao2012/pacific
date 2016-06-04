@@ -5,7 +5,7 @@
 
     <bean id="alarmService" class="com.pacific.service.impl.AlarmServiceImpl"></bean>
     <bean id="applicationService" class="com.pacific.service.impl.ApplicationServiceImpl"></bean>
-    <bean id="elasticSearchService" class="com.pacific.service.impl.ElasticSearchServiceImpl"></bean>
+    <bean id="elasticSearchService" class="com.pacific.service.impl.ElasticSearchServiceImpl" init-method="loadElasticSearchErrorLog"></bean>
     <bean id="errorLogRecordService" class="com.pacific.service.impl.ErrorLogRecordServiceImpl"></bean>
 
     <bean id="elasticSearchHelper" class="com.pacific.service.ElasticSearchHelper">

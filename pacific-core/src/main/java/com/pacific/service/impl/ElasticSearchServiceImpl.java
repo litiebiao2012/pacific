@@ -36,19 +36,19 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
     private ElasticSearchHelper elasticSearchHelper;
 
     public ElasticSearchServiceImpl() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (true) {
-                    try {
-                        Thread.sleep(BACK_THREAD_SLEEP_TIME);
-                        loadElasticSearchErrorLog();
-                    } catch (Exception e) {
-                        logger.error("loadElasticSearchErrorLog error ,e : {}",e);
-                    }
-                }
-            }
-        }).start();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                if (true) {
+//                    try {
+//                        Thread.sleep(1000);
+//                        loadElasticSearchErrorLog();
+//                    } catch (Exception e) {
+//                        logger.error("loadElasticSearchErrorLog error ,e : {}",e);
+//                    }
+//                }
+//            }
+//        }).start();
     }
 
 
@@ -73,6 +73,10 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
                 }
                 List<LoggerResult> returnList = new LinkedList<LoggerResult>();
                 queryLoggerResult(loggerQuery,returnList);
+
+                errorLogRecordService.batchSaveErrorLogRecord(returnList);
+
+
             }
         }
     }
@@ -90,11 +94,11 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
             @Override
             public int compare(LoggerResult o1, LoggerResult o2) {
                 if (o1.getTimestamp().getTime() > o2.getTimestamp().getTime())
-                    return 1;
+                    return -1;
                 else if (o1.getTimestamp().getTime() == o2.getTimestamp().getTime())
                     return 0;
                 else
-                    return -1;
+                    return 1;
 
             }
         });

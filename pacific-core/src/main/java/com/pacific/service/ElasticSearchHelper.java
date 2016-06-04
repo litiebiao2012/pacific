@@ -68,7 +68,7 @@ public class ElasticSearchHelper {
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         boolQueryBuilder.must(QueryBuilders.matchQuery("level",loggerQuery.getLevel()));
         if (loggerQuery.getBeginDate() != null) {
-            boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").gt(loggerQuery.getBeginDate().getTime()));
+            boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").lt(loggerQuery.getBeginDate().getTime()));
         }
 
         SearchResponse response= getClient().prepareSearch(loggerQuery.getIndex())//设置要查询的索引(index)
@@ -94,10 +94,10 @@ public class ElasticSearchHelper {
                     Map<String,Object> sourceMap = hit.getSource();
                     LoggerResult loggerResult = new LoggerResult();
 
-                    loggerResult.setIndex((String)sourceMap.get("_index"));
-                    loggerResult.setType((String)sourceMap.get("_type"));
-                    loggerResult.setId((String)sourceMap.get("_id"));
-                    loggerResult.setScore((Integer)sourceMap.get("_score"));
+                    loggerResult.setIndex(hit.getIndex());
+                    loggerResult.setType(hit.getType());
+                    loggerResult.setId(hit.getId());
+                    loggerResult.setScore(0);
                     String timestamp = (String)sourceMap.get("@timestamp");
                     loggerResult.setTimestamp(simpleDateFormat.parse(timestamp));
 
@@ -108,7 +108,7 @@ public class ElasticSearchHelper {
                     loggerResult.setLevel((String)sourceMap.get("level"));
                     loggerResult.setLevelValue((Integer)sourceMap.get("level_value"));
                     loggerResult.setStackTrace((String)sourceMap.get("stack_trace"));
-                    loggerResult.setHostName((String)sourceMap.get("hostname"));
+                    loggerResult.setHostName((String)sourceMap.get("host"));
                     loggerResult.setHost((String)sourceMap.get("host"));
                     loggerResult.setPath((String)sourceMap.get("path"));
 

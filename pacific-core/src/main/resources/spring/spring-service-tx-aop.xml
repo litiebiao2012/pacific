@@ -29,29 +29,29 @@
     </tx:advice>
     <!-- 那些类的哪些方法参与事务 -->
     <aop:config>
-        <aop:pointcut id="allManagerMethod" expression="execution(* com.pacific.service..*(..))" />
+        <aop:pointcut id="allManagerMethod" expression="execution(* com.pacific.service.impl.*.*(..))" />
         <aop:advisor pointcut-ref="allManagerMethod" advice-ref="txAdvice" />
     </aop:config>
 
 
-    <bean id="druid-stat-interceptor"
-          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
-    </bean>
-    <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
-          scope="prototype">
-        <property name="patterns">
-            <list>
-                <value>com.yike.service.*</value>
-                <value>com.yike.mapper.*</value>
-            </list>
-        </property>
-    </bean>
-    <aop:config>
-        <aop:pointcut id="baseServiceMethods" expression="execution(* com.pacific.service.impl.*.*(..))" />
-        <aop:advisor advice-ref="txAdvice" pointcut-ref="baseServiceMethods" />
-        <aop:advisor advice-ref="druid-stat-interceptor"
-                     pointcut-ref="druid-stat-pointcut" />
-    </aop:config>
+    <!--<bean id="druid-stat-interceptor"-->
+          <!--class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">-->
+    <!--</bean>-->
+    <!--<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"-->
+          <!--scope="prototype">-->
+        <!--<property name="patterns">-->
+            <!--<list>-->
+                <!--<value>com.yike.service.*</value>-->
+                <!--<value>com.yike.mapper.*</value>-->
+            <!--</list>-->
+        <!--</property>-->
+    <!--</bean>-->
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="baseServiceMethods" expression="execution(* com.pacific.service.impl.*.*(..))" />-->
+        <!--<aop:advisor advice-ref="txAdvice" pointcut-ref="baseServiceMethods" />-->
+        <!--<aop:advisor advice-ref="druid-stat-interceptor"-->
+                     <!--pointcut-ref="druid-stat-pointcut" />-->
+    <!--</aop:config>-->
 
 
 </beans>
