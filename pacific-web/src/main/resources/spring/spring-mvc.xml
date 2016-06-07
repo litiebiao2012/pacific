@@ -19,9 +19,19 @@
           class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
     </bean>
 
-    <!--<mvc:interceptors>-->
-       <!---->
-    <!--</mvc:interceptors>-->
+    <mvc:interceptors>
+       <mvc:interceptor>
+           <mvc:mapping path="/**"/>
+           <bean class="com.pacific.common.web.xuser.XUserInterceptor"/>
+       </mvc:interceptor>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.pacific.common.web.springmvc.interceptor.AnnotationOrXmlLoginCheckHandlerInterceptor">
+                <property name="checkLoginType"  value="annotation"/>
+                <property name="loginUri" value="/pc-yike/login.html"/>
+            </bean>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!-- 完成请求和注解POJO的映射 Spring3.2 -->
     <bean class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">

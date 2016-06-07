@@ -40,7 +40,6 @@ public class XUserSessionManager {
     private static String STORE_TYPE_REDIS = "redis";
     private static String STORE_TYPE_NATIVE = "native";
 
-    private static String STORE_TYPE = STORE_TYPE_REDIS;
     private static String TOKEN_KEY = Constants.APP_NAME + "-Token";
 
     public static boolean NEED_DEPEND_COOKIE = false;
@@ -59,7 +58,7 @@ public class XUserSessionManager {
      */
     private static XUserSession getXUserSession() {
         XUserSession xUserSession = null;
-        if (STORE_TYPE.equals(STORE_TYPE_NATIVE)) {
+        if (Constants.SESSION_STORE_TYPE.equals(STORE_TYPE_NATIVE)) {
             HttpSession httpSession = RequestContext.getSession();
             if (httpSession != null) {
                 xUserSession = (XUserSession) httpSession.getAttribute(XUSER_SESSION_KEY);
@@ -69,7 +68,7 @@ public class XUserSessionManager {
             }
         }
 
-        if (STORE_TYPE.equals(STORE_TYPE_REDIS)){
+        if (Constants.SESSION_STORE_TYPE.equals(STORE_TYPE_REDIS)){
             String token = getToken();
             ValueOperations<String,String> redisSerializer = redisTemplate.opsForValue();
             if (StringUtils.isNotEmpty(token)) {
@@ -93,7 +92,7 @@ public class XUserSessionManager {
      * @param xUserSession 当前用户sesseion
      */
     private static void setXUserSession(XUserSession xUserSession) {
-        if (STORE_TYPE.equals(STORE_TYPE_NATIVE)) {
+        if (Constants.SESSION_STORE_TYPE.equals(STORE_TYPE_NATIVE)) {
             HttpSession httpSession = RequestContext.getSession();
             if (httpSession != null) {
                 httpSession.setAttribute(XUSER_SESSION_KEY, xUserSession);
@@ -103,26 +102,25 @@ public class XUserSessionManager {
             }
         }
 
-        if (STORE_TYPE.equals(STORE_TYPE_REDIS)) {
+        if (Constants.SESSION_STORE_TYPE.equals(STORE_TYPE_REDIS)) {
             ValueOperations<String,String> redisSerializer = redisTemplate.opsForValue();
             String token = getToken();
             if (StringUtils.isEmpty(token)) token = xUserSession.getToken();
             redisSerializer.set(token,FastJson.toJson(xUserSession),Constants.TOKEN_EXPIRE_TIME, TimeUnit.HOURS);
         }
-
-
     }
 
     public static XUserSession getCurrent() {
         //TODO 先从上下文取
-        XUserSession xUserSession = RequestContext.getXUserSession();
+        XUserSession xUserSession = null;
+        if (Constants.SESSION_STORE_TYPE.equals(STORE_TYPE_REDIS))  xUserSession = RequestContext.getXUserSession();
 
         //TODO 再从缓存区
         if (xUserSession == null) xUserSession = getXUserSession();
 
         if (xUserSession == null)  xUserSession = initXUserSession();
 
-        RequestContext.setXUserSession(xUserSession);
+        if (Constants.SESSION_STORE_TYPE.equals(STORE_TYPE_REDIS))  RequestContext.setXUserSession(xUserSession);
         return xUserSession;
     }
 
@@ -147,11 +145,10 @@ public class XUserSessionManager {
                 }
             }
         }
-
         xUserSession.setXUser(xUser);
         setXUserSession(xUserSession);
 
-        setCookies(xUserSession);
+        if (Constants.NEED_DEPEND_COOKIE)  setCookies(xUserSession);
 
         return xUserSession;
 

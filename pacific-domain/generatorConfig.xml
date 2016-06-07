@@ -48,15 +48,29 @@
                 <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
         <!--</table>-->
 
-        <table tableName="t_application"
-               domainObjectName="Application" enableCountByExample="false"
+        <!--<table tableName="t_alarm_log"-->
+               <!--domainObjectName="AlarmLog" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <!--</table>-->
+
+        <!--<table tableName="t_alarm_template"-->
+               <!--domainObjectName="AlarmTemplate" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <!--</table>-->
+
+        <!--<table tableName="t_application_user_config"-->
+               <!--domainObjectName="ApplicationUserConfig" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <!--</table>-->
+
+        <table tableName="t_user"
+               domainObjectName="User" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false"
                enableSelectByExample="false" selectByExampleQueryId="false">
         </table>
-
-
-
-
 
     </context>
 </generatorConfiguration>

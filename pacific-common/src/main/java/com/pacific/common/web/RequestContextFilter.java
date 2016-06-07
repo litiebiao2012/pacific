@@ -20,9 +20,9 @@ public class RequestContextFilter implements Filter {
     private Boolean isOpenRefreshRemoteCache;
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
-        isOpenRefreshRemoteCache=    BooleanUtils.toBoolean(filterConfig.getInitParameter("isOpenRefreshRemoteCache"));
-        if(isOpenRefreshRemoteCache==null){
-            isOpenRefreshRemoteCache=true;
+        isOpenRefreshRemoteCache = BooleanUtils.toBoolean(filterConfig.getInitParameter("isOpenRefreshRemoteCache"));
+        if(isOpenRefreshRemoteCache == null){
+            isOpenRefreshRemoteCache = false;
         }
     }
 

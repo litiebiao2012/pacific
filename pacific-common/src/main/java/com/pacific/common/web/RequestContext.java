@@ -29,7 +29,6 @@ public class RequestContext {
     private static ThreadLocal<Object>              controllerContext           = new ThreadLocal<Object>();
     private static ThreadLocal<XUserSession>        xUserSessionContext         = new ThreadLocal<XUserSession>();
 
-    private static ThreadLocal<List<Runnable>>      afterControllerSucRunnables = new ThreadLocal<List<Runnable>>();
 
     public static void init(HttpServletRequest request, HttpServletResponse response, Object controller) {
         if (request != null) {
@@ -38,10 +37,6 @@ public class RequestContext {
             setController(controller);
             request.setAttribute(REQUEST_SEQ_KEY, Randoms.nextSeq());
         }
-        List<Runnable> runnables = new ArrayList<>();
-        afterControllerSucRunnables.set(runnables);
-        //init request sequence
-
     }
 
     public static HttpSession getSession() {
@@ -79,7 +74,6 @@ public class RequestContext {
         requestContext.remove();
         responseContext.remove();
         xUserSessionContext.remove();
-        afterControllerSucRunnables.remove();
     }
 
     public static String getSeq() {
@@ -103,13 +97,6 @@ public class RequestContext {
         return v;
     }
 
-    public static void addAfterControllerSucRunnables(Runnable runnable) {
-        afterControllerSucRunnables.get().add(runnable);
-    }
-
-    public static List<Runnable> getAfterControllerSucRunnables() {
-        return afterControllerSucRunnables.get();
-    }
 
     public static String getRequestUri() {
         return getRequest().getRequestURI().substring(getRequest().getContextPath().length());
