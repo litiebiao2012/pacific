@@ -19,6 +19,7 @@
     <result column="log_host_name" property="logHostName" jdbcType="VARCHAR" />
     <result column="log_file_path" property="logFilePath" jdbcType="VARCHAR" />
     <result column="error_log_type" property="errorLogType" jdbcType="VARCHAR" />
+    <result column="is_notify" property="isNotify" jdbcType="VARCHAR" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.pacific.domain.entity.ErrorLogRecord" extends="BaseResultMap" >
     <result column="log_stack_trace" property="logStackTrace" jdbcType="LONGVARCHAR" />
@@ -27,7 +28,7 @@
     id, create_time, update_time, application_code, elasticsearch_log_id, elasticsearch_log_type, 
     elasticsearch_log_score, elasticsearch_log_create_time, elasticsearch_log_version, 
     log_message, log_logger_name, log_thread_name, log_level, log_value, log_host_name, 
-    log_file_path, error_log_type
+    log_file_path, error_log_type,is_notify
   </sql>
   <sql id="Blob_Column_List" >
     log_stack_trace
@@ -51,14 +52,14 @@
       elasticsearch_log_version, log_message, log_logger_name, 
       log_thread_name, log_level, log_value, 
       log_host_name, log_file_path, error_log_type, 
-      log_stack_trace)
+      log_stack_trace,is_notify)
     values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{applicationCode,jdbcType=VARCHAR}, #{elasticsearchLogId,jdbcType=VARCHAR}, #{elasticsearchLogType,jdbcType=VARCHAR}, 
       #{elasticsearchLogScore,jdbcType=INTEGER}, #{elasticsearchLogCreateTime,jdbcType=TIMESTAMP}, 
       #{elasticsearchLogVersion,jdbcType=INTEGER}, #{logMessage,jdbcType=VARCHAR}, #{logLoggerName,jdbcType=VARCHAR}, 
       #{logThreadName,jdbcType=VARCHAR}, #{logLevel,jdbcType=VARCHAR}, #{logValue,jdbcType=INTEGER}, 
       #{logHostName,jdbcType=VARCHAR}, #{logFilePath,jdbcType=VARCHAR}, #{errorLogType,jdbcType=VARCHAR}, 
-      #{logStackTrace,jdbcType=LONGVARCHAR})
+      #{logStackTrace,jdbcType=LONGVARCHAR},#{isNotify,jdbcType=LONGVARCHAR})
   </insert>
 
   <insert id="batchInsert" parameterType="com.pacific.domain.entity.ErrorLogRecord" >
@@ -72,7 +73,7 @@
     elasticsearch_log_version, log_message, log_logger_name,
     log_thread_name, log_level, log_value,
     log_host_name, log_file_path, error_log_type,
-    log_stack_trace)
+    log_stack_trace,is_notify)
     values
     <foreach collection="list" item="item" index="index" separator="," >
       (#{item.createTime,jdbcType=TIMESTAMP},
@@ -91,7 +92,8 @@
       #{item.logHostName,jdbcType=VARCHAR},
       #{item.logFilePath,jdbcType=VARCHAR},
       #{item.errorLogType,jdbcType=VARCHAR},
-      #{item.logStackTrace,jdbcType=LONGVARCHAR})
+      #{item.logStackTrace,jdbcType=LONGVARCHAR},
+      #{item.isNotify,jdbcType=LONGVARCHAR})
     </foreach>
   </insert>
 
@@ -153,6 +155,9 @@
       <if test="logStackTrace != null" >
         log_stack_trace,
       </if>
+      <if test="isNotify != null" >
+        is_notify,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -208,6 +213,9 @@
       </if>
       <if test="logStackTrace != null" >
         #{logStackTrace,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="isNotify != null" >
+        #{isNotify,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -265,6 +273,9 @@
       <if test="logStackTrace != null" >
         log_stack_trace = #{logStackTrace,jdbcType=LONGVARCHAR},
       </if>
+      <if test="isNotify != null" >
+        is_notify = #{isNotify,jdbcType=LONGVARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -286,7 +297,8 @@
       log_host_name = #{logHostName,jdbcType=VARCHAR},
       log_file_path = #{logFilePath,jdbcType=VARCHAR},
       error_log_type = #{errorLogType,jdbcType=VARCHAR},
-      log_stack_trace = #{logStackTrace,jdbcType=LONGVARCHAR}
+      log_stack_trace = #{logStackTrace,jdbcType=LONGVARCHAR},
+      is_notify = #{isNotify,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.pacific.domain.entity.ErrorLogRecord" >
@@ -306,7 +318,8 @@
       log_value = #{logValue,jdbcType=INTEGER},
       log_host_name = #{logHostName,jdbcType=VARCHAR},
       log_file_path = #{logFilePath,jdbcType=VARCHAR},
-      error_log_type = #{errorLogType,jdbcType=VARCHAR}
+      error_log_type = #{errorLogType,jdbcType=VARCHAR},
+      is_notify = #{isNotify,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 

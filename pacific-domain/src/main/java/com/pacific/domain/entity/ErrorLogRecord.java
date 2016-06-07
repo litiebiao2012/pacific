@@ -40,6 +40,8 @@ public class ErrorLogRecord implements Serializable {
 
     private String logStackTrace;
 
+    private String isNotify;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -184,5 +186,13 @@ public class ErrorLogRecord implements Serializable {
 
     public void setLogStackTrace(String logStackTrace) {
         this.logStackTrace = logStackTrace == null ? null : logStackTrace.trim();
+    }
+
+    public String getIsNotify() {
+        return isNotify;
+    }
+
+    public void setIsNotify(String isNotify) {
+        this.isNotify = isNotify;
     }
 }

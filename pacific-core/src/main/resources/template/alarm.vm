@@ -1,0 +1,2 @@
+应用:${applicationName},发生异常,异常内容:${errorMsg},发生时间:${logCreateTime},日志id:${logId},详情堆栈信息访问:${errorLogDetailUrl},
+已经告警次数:${count},请尽快处理

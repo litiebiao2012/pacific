@@ -1,10 +1,24 @@
-<link href="/resources/superui/content/superui/base/bootstrap/css/bootstrap.css" rel="stylesheet" />
-<link href="/resources/superui/content/superui/base/font-awesome/css/font-awesome.css" rel="stylesheet" />
-<link href="/resources/superui/content/superui/base/font-awesome/css/fontgstatic.css" rel="stylesheet" />
-<link href="/resources/superui/content/superui/base/simple-line-icons/simple-line-icons.css" rel="stylesheet" />
-<link href="/resources/superui/content/superui/base/bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
-<link href="/resources/superui/content/superui/base/bootstrap/css/matrix-login.css" rel="stylesheet" />
+<!-- Bootstrap Core CSS -->
+<link href="/resources/sbamin/css/bootstrap.min.css" rel="stylesheet">
 
+<!-- Custom CSS -->
+<link href="/resources/sbamin/css/sb-admin.css" rel="stylesheet">
 
-<script src="/resources/superui/content/superui/base/jquery/jquery-1.9.1.min.js"></script>
-<script src="/resources/superui/content/superui/base/bootstrap/js/bootstrap.js"></script>
+<!-- Morris Charts CSS -->
+<link href="/resources/sbamin/css/plugins/morris.css" rel="stylesheet">
+
+<!-- Custom Fonts -->
+<link href="/resources/sbamin/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+<!-- /#wrapper -->
+
+<!-- jQuery -->
+<script src="/resources/sbamin/js/jquery.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/resources/sbamin/js/bootstrap.min.js"></script>
+
+<!-- Morris Charts JavaScript -->
+<script src="/resources/sbamin/js/plugins/morris/raphael.min.js"></script>
+<script src="/resources/sbamin/js/plugins/morris/morris.min.js"></script>
+<script src="/resources/sbamin/js/plugins/morris/morris-data.js"></script>

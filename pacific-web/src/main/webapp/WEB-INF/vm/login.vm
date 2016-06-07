@@ -1,59 +1,82 @@
-aaa<!--[if !IE]><!-->
+<!DOCTYPE html>
 <html lang="en">
-<!--<![endif]-->
-<!-- BEGIN HEAD -->
 <head>
-    <meta charset="utf-8" />
-    <title>SuperMgr前端框架</title>
-    <meta charset="UTF-8" />
+
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <meta content="" name="description" />
-    <meta content="" name="author" />
-    <!--全局通用框架样式 begin-->
-    <!--全局通用框架样式 begin-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Pacific分布式日志监控平台</title>
 
-    #parse ("/WEB-INF/common/common.vm")
-    <style type="text/css">
-        input {
-            font-family: "Microsoft Yahei";
-        }
+    <!-- CSS -->
+    <link rel="stylesheet" href="/resources/login/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/resources/login/assets/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/resources/login/assets/css/form-elements.css">
+    <link rel="stylesheet" href="/resources/login/assets/css/style.css">
 
-        .control-label {
-            color: #B2DFEE;
-            padding-left: 4px;
-        }
-    </style>
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Favicon and touch icons -->
+    <link rel="shortcut icon" href="/resources/login/assets/ico/favicon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/resources/login/assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/resources/login/assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/resources/login/assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="/resources/login/assets/ico/apple-touch-icon-57-precomposed.png">
+
 </head>
+
 <body>
-<div id="loginbox">
-    <div class="control-group normal_text">
-        <h2 style="color:#B2DFEE;font-size:28px;">SuperUI前端开发框架</h2>
-        <span style="font-size:14px;color:gray;">版权所有 &copy;tzhsweet 2015-2018</span>
+
+<!-- Top content -->
+<div class="top-content">
+
+    <div class="inner-bg">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8 col-sm-offset-2 text">
+                    <h1><strong>Pacific</strong> 分布式日志监控平台</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-6 col-sm-offset-3 form-box">
+                    <div class="form-top">
+                        <div class="form-top-left">
+                            <h3>Pacific</h3>
+                            <p>请输入账号和密码,未分配账号,请联系管理员!</p>
+                        </div>
+                        <div class="form-top-right">
+                            <i class="fa fa-lock"></i>
+                        </div>
+                    </div>
+                    <div class="form-bottom">
+                        <form role="form" action="" method="post" class="login-form">
+                            <div class="form-group">
+                                <label class="sr-only" for="form-username">用户名</label>
+                                <input type="text" name="form-username" placeholder="用户名" class="form-username form-control" id="form-username">
+                            </div>
+                            <div class="form-group">
+                                <label class="sr-only" for="form-password">密码</label>
+                                <input type="password" name="form-password" placeholder="密码" class="form-password form-control" id="form-password">
+                            </div>
+                            <button type="submit" class="btn">Sign in!</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <form id="loginform" class="form-vertical" action="admin/index.html">
-        <div class="control-group">
-            <label class="control-label">登陆账号</label>
-            <div class="controls">
-                <div class="main_input_box">
-                    <span class="add-on bg_lg"><i class="icon-user" style="font-size:16px;"></i></span><input type="text" />
-                </div>
-            </div>
-        </div>
-        <div class="control-group2">
-            <label class="control-label">登陆密码</label>
-            <div class="controls">
-                <div class="main_input_box">
-                    <span class="add-on bg_ly"><i class="icon-lock" style="font-size:16px;"></i></span><input type="password" />
-                </div>
-            </div>
-        </div>
-        <div class="form-actions">
-            <a href="admin/index.html" class="flip-link btn btn-success" style="width:440px;" id="checkBtn">登录</a>
-        </div>
-    </form>
 
 </div>
+
+<script src="/resources/login/assets/js/jquery-1.11.1.min.js"></script>
+<script src="/resources/login/assets/bootstrap/js/bootstrap.min.js"></script>
+<script src="/resources/login/assets/js/jquery.backstretch.min.js"></script>
+<script src="/resources/login/assets/js/scripts.js"></script>
+
 </body>
-<script src="/resources/superui/content/superui/pages/login/matrix.login.js"></script>
+
 </html>

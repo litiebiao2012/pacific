@@ -1,6 +1,7 @@
 package com.pacific.service.impl;
 
 import com.pacific.common.utils.CollectionUtil;
+import com.pacific.common.utils.NamedThreadFactory;
 import com.pacific.domain.entity.Application;
 import com.pacific.domain.entity.ErrorLogRecord;
 import com.pacific.domain.search.query.LoggerQuery;
@@ -11,11 +12,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.task.TaskExecutor;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * Created by Fe on 16/5/30.
@@ -26,6 +31,8 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
     public static final Logger logger = LoggerFactory.getLogger(ElasticSearchServiceImpl.class);
 
+    public static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1,new NamedThreadFactory("load-elasticsearch-error-log"));
+
     @Resource
     private ApplicationService applicationService;
 
@@ -35,20 +42,14 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
     @Resource
     private ElasticSearchHelper elasticSearchHelper;
 
-    public ElasticSearchServiceImpl() {
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                if (true) {
-//                    try {
-//                        Thread.sleep(1000);
-//                        loadElasticSearchErrorLog();
-//                    } catch (Exception e) {
-//                        logger.error("loadElasticSearchErrorLog error ,e : {}",e);
-//                    }
-//                }
-//            }
-//        }).start();
+    @PostConstruct
+    public void init() {
+        scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
+            @Override
+            public void run() {
+                loadElasticSearchErrorLog();
+            }
+        },1000,1000, TimeUnit.SECONDS);
     }
 
 
