@@ -9,6 +9,7 @@ import com.pacific.domain.enums.StateEnums;
 import com.pacific.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
@@ -50,5 +51,16 @@ public class UserController extends BaseController {
         xUser.setUserName(xUser.getPassword());
         refreshXUser(xUser);
         return ajaxResult;
+    }
+
+    @RequestMapping(value = "/userList.htm",method = RequestMethod.GET)
+    public String toUserList() {
+        return "user/userList";
+    }
+
+    @RequestMapping(value = "/userList.htm",method = RequestMethod.POST)
+    public AjaxResult doUserList() {
+
+        return null;
     }
 }

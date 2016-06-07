@@ -43,4 +43,9 @@
         <class>org.apache.commons.lang3.StringUtils</class>
     </tool>
 
+    <tool>
+        <key>pacificWebTool</key>
+        <scope>request</scope>
+        <class>com.pacific.web.tool.PacificWebTool</class>
+    </tool>
 </toolbox>

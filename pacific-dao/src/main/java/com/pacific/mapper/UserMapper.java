@@ -1,6 +1,10 @@
 package com.pacific.mapper;
 
 import com.pacific.domain.entity.User;
+import com.pacific.domain.query.UserQuery;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 public interface UserMapper {
     int deleteByPrimaryKey(Long id);
@@ -15,5 +19,9 @@ public interface UserMapper {
 
     int updateByPrimaryKey(User record);
 
-    User queryUserByAccount(String type,String account);
+    User queryUserByAccount(@Param("type") String type, @Param("account") String account);
+
+    List<User> queryUserListPageByParam(UserQuery userQuery);
+
+    Integer queryUserListCount(UserQuery userQuery);
 }

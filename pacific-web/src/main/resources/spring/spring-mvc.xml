@@ -28,7 +28,7 @@
             <mvc:mapping path="/**"/>
             <bean class="com.pacific.common.web.springmvc.interceptor.AnnotationOrXmlLoginCheckHandlerInterceptor">
                 <property name="checkLoginType"  value="annotation"/>
-                <property name="loginUri" value="/pc-yike/login.html"/>
+                <property name="loginUri" value="/login.htm"/>
             </bean>
         </mvc:interceptor>
     </mvc:interceptors>
@@ -82,5 +82,6 @@
     </bean>
 
     <bean class="com.pacific.common.web.ExceptionHandlerResolver"/>
+    <bean class="com.pacific.common.spring.SpringContext"/>
 
 </beans>

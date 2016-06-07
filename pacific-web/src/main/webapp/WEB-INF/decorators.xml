@@ -7,7 +7,7 @@
         <pattern>/assets/*</pattern>
         <pattern>/source/*</pattern>
         <pattern>/index.jsp</pattern>
-        <pattern>/login.htm</pattern>
+        <pattern>/login*</pattern>
         <pattern>*.html</pattern>
         <pattern>*.json</pattern>
     </excludes>

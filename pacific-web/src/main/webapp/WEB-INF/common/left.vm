@@ -32,7 +32,7 @@
             <a href="javascript:;" data-toggle="collapse" data-target="#user"><i class="fa fa-fw fa-arrows-v"></i> 用户管理 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="user" class="collapse">
                 <li>
-                    <a href="#">用户列表</a>
+                    <a href="/user/userList.htm">用户列表</a>
                 </li>
                 <li>
                     <a href="#">用户添加</a>

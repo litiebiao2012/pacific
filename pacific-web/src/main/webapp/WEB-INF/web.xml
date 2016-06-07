@@ -43,22 +43,6 @@
         <url-pattern>/*</url-pattern>
     </filter-mapping>
 
-    <filter>
-        <filter-name>sitemesh</filter-name>
-        <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>sitemesh</filter-name>
-        <url-pattern>*.htm</url-pattern>
-    </filter-mapping>
-    <servlet>
-        <servlet-name>sitemesh-velocity</servlet-name>
-        <servlet-class>com.opensymphony.module.sitemesh.velocity.VelocityDecoratorServlet</servlet-class>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>sitemesh-velocity</servlet-name>
-        <url-pattern>*.vm</url-pattern>
-    </servlet-mapping>
 
 
     <listener>
@@ -80,6 +64,24 @@
         <filter-name>requestContext</filter-name>
         <url-pattern>*.json</url-pattern>
     </filter-mapping>
+
+
+    <filter>
+        <filter-name>sitemesh</filter-name>
+        <filter-class>com.opensymphony.sitemesh.webapp.SiteMeshFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>sitemesh</filter-name>
+        <url-pattern>*.htm</url-pattern>
+    </filter-mapping>
+    <servlet>
+        <servlet-name>sitemesh-velocity</servlet-name>
+        <servlet-class>com.opensymphony.module.sitemesh.velocity.VelocityDecoratorServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>sitemesh-velocity</servlet-name>
+        <url-pattern>*.vm</url-pattern>
+    </servlet-mapping>
 
 
     <servlet>

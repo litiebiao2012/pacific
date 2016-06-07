@@ -2,7 +2,10 @@ package com.pacific.service.impl;
 
 import com.pacific.common.exception.PacificException;
 import com.pacific.common.utils.SensitiveDataUtil;
+import com.pacific.domain.dto.UserDto;
 import com.pacific.domain.entity.User;
+import com.pacific.domain.query.Pagination;
+import com.pacific.domain.query.UserQuery;
 import com.pacific.mapper.UserMapper;
 import com.pacific.service.UserService;
 import org.apache.commons.lang3.StringUtils;
@@ -32,5 +35,12 @@ public class UserServiceImpl implements UserService {
 
         return userMapper.queryUserByAccount(type,account);
 
+    }
+
+    @Override
+    public Pagination<UserDto> queryAllUserPage(UserQuery userQuery) {
+
+
+        return null;
     }
 }

@@ -22,7 +22,7 @@ public class Constants {
 
     public static String APP_NAME = resourceBundle.getString("appName");
 
-    public static String SESSION_STORE_TYPE = resourceBundle.getString("native");
+    public static String SESSION_STORE_TYPE = resourceBundle.getString("sessionStoreType");
 
     /**
      * session失效时间 分钟

@@ -1,5 +1,6 @@
 package com.pacific.web.controller;
 
+import com.pacific.common.annotation.LoginCheckAnnotation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,6 +21,7 @@ public class HomeController {
         return "home";
     }
 
+    @LoginCheckAnnotation(checked = false)
     @RequestMapping(value = "/login.htm",method = RequestMethod.GET)
     public String login() {
         return "login";

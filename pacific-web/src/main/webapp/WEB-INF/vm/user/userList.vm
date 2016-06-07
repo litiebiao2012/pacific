@@ -1,0 +1,31 @@
+<table id="userTable">
+</table>
+
+<script>
+    $(document).ready(function(){
+        $('#userTable').bootstrapTable({
+            columns: [{
+                field: 'id',
+                title: '用户id'
+            }, {
+                field: 'userName',
+                title: '用户名'
+            }, {
+                field: 'phone',
+                title: '手机号'
+            }, {
+                field: 'email',
+                title: '邮箱'
+            }, {
+                field: 'createTime',
+                title: '创建时间'
+            }, {
+                field: 'state',
+                title: '状态'
+            }, {
+                field: 'operate',
+                title: '操作'
+            }]
+        });
+    })
+</script>

@@ -1,16 +1,17 @@
 <!-- Bootstrap Core CSS -->
 <link href="/resources/sbamin/css/bootstrap.min.css" rel="stylesheet">
-
 <!-- Custom CSS -->
 <link href="/resources/sbamin/css/sb-admin.css" rel="stylesheet">
-
 <!-- Morris Charts CSS -->
 <link href="/resources/sbamin/css/plugins/morris.css" rel="stylesheet">
 
 <!-- Custom Fonts -->
 <link href="/resources/sbamin/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
-
 <!-- /#wrapper -->
+
+<!-- bootstrap table-->
+<link href="/resources/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet" type="text/css">
+
 
 <!-- jQuery -->
 <script src="/resources/sbamin/js/jquery.js"></script>
@@ -20,5 +21,8 @@
 
 <!-- Morris Charts JavaScript -->
 <script src="/resources/sbamin/js/plugins/morris/raphael.min.js"></script>
-<script src="/resources/sbamin/js/plugins/morris/morris.min.js"></script>
-<script src="/resources/sbamin/js/plugins/morris/morris-data.js"></script>
+
+
+<script src="/resources/bootstrap-table/dist/bootstrap-table.js"></script>
+<script src="/resources/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+
