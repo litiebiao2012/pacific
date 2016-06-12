@@ -4,8 +4,11 @@ import com.pacific.common.annotation.LoginCheckAnnotation;
 import com.pacific.common.web.result.AjaxResult;
 import com.pacific.common.web.xuser.XUser;
 import com.pacific.common.web.xuser.XUserSessionManager;
+import com.pacific.domain.dto.UserDto;
 import com.pacific.domain.entity.User;
 import com.pacific.domain.enums.StateEnums;
+import com.pacific.domain.query.Pagination;
+import com.pacific.domain.query.UserQuery;
 import com.pacific.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,7 +51,7 @@ public class UserController extends BaseController {
         XUser xUser = new XUser();
         xUser.setIsSignedIn(true);
         xUser.setUid(user.getId());
-        xUser.setUserName(xUser.getPassword());
+        xUser.setUserName(user.getUserName());
         refreshXUser(xUser);
         return ajaxResult;
     }
@@ -58,9 +61,13 @@ public class UserController extends BaseController {
         return "user/userList";
     }
 
+    @ResponseBody
     @RequestMapping(value = "/userList.htm",method = RequestMethod.POST)
     public AjaxResult doUserList() {
-
-        return null;
+        UserQuery userQuery = new UserQuery();
+        Pagination<UserDto> userDtoPagination = userService.queryAllUserPage(userQuery);
+        AjaxResult ajaxResult = new AjaxResult();
+        ajaxResult.setData(userDtoPagination);
+        return ajaxResult;
     }
 }

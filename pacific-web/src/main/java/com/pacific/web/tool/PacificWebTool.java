@@ -1,6 +1,8 @@
 package com.pacific.web.tool;
 
 import com.pacific.common.web.RequestContext;
+import com.pacific.common.web.xuser.XUser;
+import com.pacific.common.web.xuser.XUserSessionManager;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,5 +22,16 @@ public class PacificWebTool {
     public String getDescriptionByUri() {
         String requestUri = RequestContext.getRequest().getRequestURI();
         return uriDescriptionMapping.get(requestUri);
+    }
+
+    public String getLoginUserName() {
+        String userName = null;
+        if (XUserSessionManager.getCurrent() != null) {
+           XUser xUser = XUserSessionManager.getCurrent().getXUser();
+            if (xUser != null) {
+                userName = xUser.getUserName();
+            }
+        }
+        return userName;
     }
 }

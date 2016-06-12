@@ -2,6 +2,8 @@ package com.pacific.mapper;
 
 import com.pacific.domain.entity.ApplicationUserConfig;
 
+import java.util.List;
+
 public interface ApplicationUserConfigMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +16,8 @@ public interface ApplicationUserConfigMapper {
     int updateByPrimaryKeySelective(ApplicationUserConfig record);
 
     int updateByPrimaryKey(ApplicationUserConfig record);
+
+    List<ApplicationUserConfig> queryApplicationUserConfigByCode(String applicationCode);
+
+    List<ApplicationUserConfig> queryAllApplicationUserConfigByCode();
 }

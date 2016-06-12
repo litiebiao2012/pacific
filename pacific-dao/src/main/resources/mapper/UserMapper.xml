@@ -151,7 +151,8 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="queryUserByAccount"  resultMap="BaseResultMap">
+
+  <select id="queryUserByAccount" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
     from t_user
@@ -162,6 +163,13 @@
      <if test="type == 'phone'">
       phone = #{account,jdbcType=VARCHAR}
      </if>
+  </select>
+
+  <select id="queryUserListPageByParam" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select
+      <include refid="Base_Column_List" />
+    from t_user
+     where id = #{id,jdbcType=BIGINT}
   </select>
 
 </mapper>

@@ -1,8 +1,38 @@
+<form role="form">
+    <div class="form-group col-xs-3 col-md-3">
+        <label for="exampleInputName2">查询类型</label>
+        <select class="form-control" id="exampleInputName2" >
+            <option>1</option>
+            <option>2</option>
+            <option>3</option>
+            <option>4</option>
+            <option>5</option>
+        </select>
+    </div>
+    <div class="form-group col-xs-3 col-md-3">
+        <label>查询内容</label>
+        <input class="form-control" placeholder="请输入查询条件">
+    </div>
+    <button type="submit" class="btn btn-default">查询</button>
+</form>
 <table id="userTable">
 </table>
 
 <script>
     $(document).ready(function(){
+
+        var dataSet;
+        $.ajax({
+            type : 'POST',
+            url : '/user/userList.json',
+            dataType : 'json',
+            success : function(data){
+                if (data.status == 'OK') {
+                    dataSet = data.data;
+                }
+            }
+        });
+
         $('#userTable').bootstrapTable({
             columns: [{
                 field: 'id',
@@ -25,7 +55,9 @@
             }, {
                 field: 'operate',
                 title: '操作'
-            }]
+            }],
+            data : dataSet
+
         });
     })
 </script>

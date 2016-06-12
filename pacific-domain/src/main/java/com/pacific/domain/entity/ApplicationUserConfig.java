@@ -16,6 +16,10 @@ public class ApplicationUserConfig implements Serializable {
 
     private String monitorErrorLogKeywords;
 
+    private String applicationCode;
+
+    private Long userId;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -64,5 +68,21 @@ public class ApplicationUserConfig implements Serializable {
 
     public void setMonitorErrorLogKeywords(String monitorErrorLogKeywords) {
         this.monitorErrorLogKeywords = monitorErrorLogKeywords == null ? null : monitorErrorLogKeywords.trim();
+    }
+
+    public String getApplicationCode() {
+        return applicationCode;
+    }
+
+    public void setApplicationCode(String applicationCode) {
+        this.applicationCode = applicationCode == null ? null : applicationCode.trim();
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

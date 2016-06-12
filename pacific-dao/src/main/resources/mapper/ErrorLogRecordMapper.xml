@@ -334,4 +334,15 @@
     order by elasticsearch_log_create_time desc
     limit 0,1
   </select>
+
+  <select id="queryHasNoAlarmErrorLogRecord" resultMap="ResultMapWithBLOBs">
+    select
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_error_log_record
+    where id is_notify = 'n'
+    order by create_time asc
+    limit 0,100
+  </select>
 </mapper>

@@ -5,5 +5,5 @@ package com.pacific.service;
  */
 public interface ElasticSearchService {
 
-
+    public void loadElasticSearchErrorLog();
 }

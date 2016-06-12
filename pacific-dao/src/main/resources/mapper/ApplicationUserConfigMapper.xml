@@ -1,106 +1,159 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.pacific.mapper.ApplicationUserConfigMapper" >
-  <resultMap id="BaseResultMap" type="com.pacific.domain.entity.ApplicationUserConfig" >
-    <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
-    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-    <result column="channel_config" property="channelConfig" jdbcType="VARCHAR" />
-    <result column="is_monitor_all_error_log" property="isMonitorAllErrorLog" jdbcType="CHAR" />
-    <result column="monitor_error_log_keywords" property="monitorErrorLogKeywords" jdbcType="VARCHAR" />
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.pacific.mapper.ApplicationUserConfigMapper">
+  <resultMap id="BaseResultMap" type="com.pacific.domain.entity.ApplicationUserConfig">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
+    <result column="channel_config" jdbcType="VARCHAR" property="channelConfig" />
+    <result column="is_monitor_all_error_log" jdbcType="CHAR" property="isMonitorAllErrorLog" />
+    <result column="monitor_error_log_keywords" jdbcType="VARCHAR" property="monitorErrorLogKeywords" />
+    <result column="application_code" jdbcType="VARCHAR" property="applicationCode" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="state" jdbcType="VARCHAR" property="state" />
   </resultMap>
-  <sql id="Base_Column_List" >
-    id, create_time, update_time, channel_config, is_monitor_all_error_log, monitor_error_log_keywords
+  <sql id="Base_Column_List">
+    id, create_time, update_time, channel_config, is_monitor_all_error_log, monitor_error_log_keywords, 
+    application_code, user_id,state
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from t_application_user_config
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
     delete from t_application_user_config
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.pacific.domain.entity.ApplicationUserConfig" >
+  <insert id="insert" parameterType="com.pacific.domain.entity.ApplicationUserConfig">
     insert into t_application_user_config (id, create_time, update_time, 
-      channel_config, is_monitor_all_error_log, monitor_error_log_keywords
-      )
+      channel_config, is_monitor_all_error_log, monitor_error_log_keywords, 
+      application_code, user_id,state)
     values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{channelConfig,jdbcType=VARCHAR}, #{isMonitorAllErrorLog,jdbcType=CHAR}, #{monitorErrorLogKeywords,jdbcType=VARCHAR}
-      )
+      #{channelConfig,jdbcType=VARCHAR}, #{isMonitorAllErrorLog,jdbcType=CHAR}, #{monitorErrorLogKeywords,jdbcType=VARCHAR}, 
+      #{applicationCode,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, #{state,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.pacific.domain.entity.ApplicationUserConfig" >
+  <insert id="insertSelective" parameterType="com.pacific.domain.entity.ApplicationUserConfig">
     insert into t_application_user_config
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         id,
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         create_time,
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         update_time,
       </if>
-      <if test="channelConfig != null" >
+      <if test="channelConfig != null">
         channel_config,
       </if>
-      <if test="isMonitorAllErrorLog != null" >
+      <if test="isMonitorAllErrorLog != null">
         is_monitor_all_error_log,
       </if>
-      <if test="monitorErrorLogKeywords != null" >
+      <if test="monitorErrorLogKeywords != null">
         monitor_error_log_keywords,
       </if>
+      <if test="applicationCode != null">
+        application_code,
+      </if>
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="state != null">
+        state,
+      </if>
     </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="createTime != null" >
+      <if test="createTime != null">
         #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="channelConfig != null" >
+      <if test="channelConfig != null">
         #{channelConfig,jdbcType=VARCHAR},
       </if>
-      <if test="isMonitorAllErrorLog != null" >
+      <if test="isMonitorAllErrorLog != null">
         #{isMonitorAllErrorLog,jdbcType=CHAR},
       </if>
-      <if test="monitorErrorLogKeywords != null" >
+      <if test="monitorErrorLogKeywords != null">
         #{monitorErrorLogKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationCode != null">
+        #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.pacific.domain.entity.ApplicationUserConfig" >
+  <update id="updateByPrimaryKeySelective" parameterType="com.pacific.domain.entity.ApplicationUserConfig">
     update t_application_user_config
-    <set >
-      <if test="createTime != null" >
+    <set>
+      <if test="createTime != null">
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="updateTime != null" >
+      <if test="updateTime != null">
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="channelConfig != null" >
+      <if test="channelConfig != null">
         channel_config = #{channelConfig,jdbcType=VARCHAR},
       </if>
-      <if test="isMonitorAllErrorLog != null" >
+      <if test="isMonitorAllErrorLog != null">
         is_monitor_all_error_log = #{isMonitorAllErrorLog,jdbcType=CHAR},
       </if>
-      <if test="monitorErrorLogKeywords != null" >
+      <if test="monitorErrorLogKeywords != null">
         monitor_error_log_keywords = #{monitorErrorLogKeywords,jdbcType=VARCHAR},
+      </if>
+      <if test="applicationCode != null">
+        application_code = #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=VARCHAR},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.pacific.domain.entity.ApplicationUserConfig" >
+  <update id="updateByPrimaryKey" parameterType="com.pacific.domain.entity.ApplicationUserConfig">
     update t_application_user_config
     set create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       channel_config = #{channelConfig,jdbcType=VARCHAR},
       is_monitor_all_error_log = #{isMonitorAllErrorLog,jdbcType=CHAR},
-      monitor_error_log_keywords = #{monitorErrorLogKeywords,jdbcType=VARCHAR}
+      monitor_error_log_keywords = #{monitorErrorLogKeywords,jdbcType=VARCHAR},
+      application_code = #{applicationCode,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=BIGINT},
+      state = #{state,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="queryApplicationUserConfigByCode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_application_user_config
+    where application_code = #{applicationCode,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryAllApplicationUserConfigByCode" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_application_user_config auc
+    left join
+    t_user u
+    on
+    auc.user_id = u.id
+    where u.state = 'available'
+  </select>
+
 </mapper>

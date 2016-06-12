@@ -49,7 +49,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
             public void run() {
                 loadElasticSearchErrorLog();
             }
-        },1000,1000, TimeUnit.SECONDS);
+        },0,2, TimeUnit.SECONDS);
     }
 
 

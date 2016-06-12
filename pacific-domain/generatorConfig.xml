@@ -60,11 +60,11 @@
                <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
         <!--</table>-->
 
-        <!--<table tableName="t_application_user_config"-->
-               <!--domainObjectName="ApplicationUserConfig" enableCountByExample="false"-->
-               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
-               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
-        <!--</table>-->
+        <table tableName="t_application_user_config"
+               domainObjectName="ApplicationUserConfig" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
 
         <table tableName="t_user"
                domainObjectName="User" enableCountByExample="false"

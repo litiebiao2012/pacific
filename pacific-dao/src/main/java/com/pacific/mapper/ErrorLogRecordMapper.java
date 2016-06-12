@@ -23,4 +23,6 @@ public interface ErrorLogRecordMapper {
     int updateByPrimaryKey(ErrorLogRecord record);
 
     ErrorLogRecord queryNewErrorLogRecordApplicationCode(String applicationCode);
+
+    List<ErrorLogRecord> queryHasNoAlarmErrorLogRecord();
 }
