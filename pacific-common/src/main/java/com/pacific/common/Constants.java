@@ -24,6 +24,8 @@ public class Constants {
 
     public static String SESSION_STORE_TYPE = resourceBundle.getString("sessionStoreType");
 
+    public static String PACIFIC_ERROR_LOG_DETAIL_URL = resourceBundle.getString("pacific.error.log.detail.url");
+
     /**
      * session失效时间 分钟
      */

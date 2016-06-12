@@ -15,7 +15,6 @@
         <module>pacific-common</module>
         <module>pacific-wechat</module>
         <module>pacific-dingtalk</module>
-        <module>pacific-bearychat</module>
     </modules>
 
 

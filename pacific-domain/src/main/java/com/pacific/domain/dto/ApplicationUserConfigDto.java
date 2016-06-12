@@ -10,6 +10,8 @@ public class ApplicationUserConfigDto extends ApplicationUserConfig {
 
     private String email;
 
+    private String applicationName;
+
     public String getPhone() {
         return phone;
     }
@@ -24,5 +26,13 @@ public class ApplicationUserConfigDto extends ApplicationUserConfig {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getApplicationName() {
+        return applicationName;
+    }
+
+    public void setApplicationName(String applicationName) {
+        this.applicationName = applicationName;
     }
 }

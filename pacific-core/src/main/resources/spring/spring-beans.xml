@@ -8,6 +8,9 @@
     <bean id="elasticSearchService" class="com.pacific.service.impl.ElasticSearchServiceImpl" init-method="loadElasticSearchErrorLog"></bean>
     <bean id="errorLogRecordService" class="com.pacific.service.impl.ErrorLogRecordServiceImpl"></bean>
     <bean id="userService" class="com.pacific.service.impl.UserServiceImpl"/>
+    <bean id="bearyChatHelper" class="com.pacific.common.helper.BearyChatHelper">
+        <property name="url" value="${bearychat.api.url}"></property>
+    </bean>
 
     <bean id="elasticSearchHelper" class="com.pacific.service.ElasticSearchHelper">
         <property name="ip" value="${elasticsearch.ip}"/>

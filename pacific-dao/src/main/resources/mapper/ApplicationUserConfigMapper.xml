@@ -12,6 +12,14 @@
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="state" jdbcType="VARCHAR" property="state" />
   </resultMap>
+
+
+  <resultMap id="BaseResultDetailMap" type="com.pacific.domain.dto.ApplicationUserConfigDto" extends="BaseResultMap">
+    <result column="phone" jdbcType="VARCHAR" property="phone" />
+    <result column="email" jdbcType="VARCHAR" property="email" />
+    <result column="application_name" jdbcType="VARCHAR" property="applicationName" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, create_time, update_time, channel_config, is_monitor_all_error_log, monitor_error_log_keywords, 
     application_code, user_id,state
@@ -145,14 +153,29 @@
     where application_code = #{applicationCode,jdbcType=VARCHAR}
   </select>
 
-  <select id="queryAllApplicationUserConfigByCode" resultMap="BaseResultMap">
+  <select id="queryAllApplicationUserConfigByCode" resultMap="BaseResultDetailMap">
     select
-    <include refid="Base_Column_List" />
+    auc.id,
+    auc.create_time,
+    auc.update_time,
+    auc.channel_config,
+    auc.is_monitor_all_error_log,
+    auc.monitor_error_log_keywords,
+    auc.application_code,
+    auc.user_id,
+    auc.state,
+    u.email,
+    u.phone,
+    a.application_name
     from t_application_user_config auc
     left join
     t_user u
     on
     auc.user_id = u.id
+    left join
+    t_application a
+    on
+    auc.application_code = a.application_code
     where u.state = 'available'
      and
        auc.state = 'available'

@@ -1,6 +1,8 @@
 package com.pacific.service.impl;
 
+import com.pacific.common.Constants;
 import com.pacific.common.exception.PacificException;
+import com.pacific.common.helper.BearyChatHelper;
 import com.pacific.common.json.FastJson;
 import com.pacific.common.utils.CollectionUtil;
 import com.pacific.common.utils.NamedThreadFactory;
@@ -9,7 +11,6 @@ import com.pacific.domain.dto.ApplicationUserConfigDto;
 import com.pacific.domain.dto.ChannelDto;
 import com.pacific.domain.entity.AlarmLog;
 import com.pacific.domain.entity.AlarmTemplate;
-import com.pacific.domain.entity.ApplicationUserConfig;
 import com.pacific.domain.entity.ErrorLogRecord;
 import com.pacific.domain.enums.ChannelCodeEnums;
 import com.pacific.mapper.AlarmLogMapper;
@@ -19,12 +20,12 @@ import com.pacific.mapper.ErrorLogRecordMapper;
 import com.pacific.service.AlarmService;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
-import org.apache.velocity.context.EvaluateContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -48,6 +49,9 @@ public class AlarmServiceImpl implements AlarmService {
 
     @Resource
     private AlarmTemplateMapper alarmTemplateMapper;
+
+    @Resource
+    private BearyChatHelper bearyChatHelper;
 
 
     @PostConstruct
@@ -134,6 +138,10 @@ public class AlarmServiceImpl implements AlarmService {
     private String getMessage(AlarmTemplate alarmTemplate,ApplicationUserConfigDto applicationUserConfigDto,ErrorLogRecord errorLogRecord) {
         String templateText = alarmTemplate.getTemplateText();
         Context context = new VelocityContext();
+        context.put("applicationName",applicationUserConfigDto.getApplicationName());
+        context.put("errorMsg",errorLogRecord.getLogMessage());
+        context.put("logCreateTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(errorLogRecord.getElasticsearchLogCreateTime()));
+        context.put("errorLogDetailUrl", Constants.PACIFIC_ERROR_LOG_DETAIL_URL + errorLogRecord.getId());
         return VelocityTemplateUtil.merge(templateText,context);
     }
 
@@ -150,7 +158,6 @@ public class AlarmServiceImpl implements AlarmService {
             }
         }
         return flag;
-
     }
 
     private void alarmToAppUser(ChannelDto channelDto) {
@@ -162,7 +169,6 @@ public class AlarmServiceImpl implements AlarmService {
             if (channelDto.getChannelCode().equals(ChannelCodeEnums.EMAIL.getCode())) {
 
             }
-
             if (channelDto.getChannelCode().equals(ChannelCodeEnums.BEARY_CHAT)) {
 
             }
@@ -192,8 +198,5 @@ public class AlarmServiceImpl implements AlarmService {
             }
         }
         return userConfigMap;
-    }
-
-    public static void main(String args[]) {
     }
 }
