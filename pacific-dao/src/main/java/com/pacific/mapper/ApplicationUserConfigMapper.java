@@ -1,5 +1,6 @@
 package com.pacific.mapper;
 
+import com.pacific.domain.dto.ApplicationUserConfigDto;
 import com.pacific.domain.entity.ApplicationUserConfig;
 
 import java.util.List;
@@ -19,5 +20,5 @@ public interface ApplicationUserConfigMapper {
 
     List<ApplicationUserConfig> queryApplicationUserConfigByCode(String applicationCode);
 
-    List<ApplicationUserConfig> queryAllApplicationUserConfigByCode();
+    List<ApplicationUserConfigDto> queryAllApplicationUserConfigByCode();
 }

@@ -154,6 +154,8 @@
     on
     auc.user_id = u.id
     where u.state = 'available'
+     and
+       auc.state = 'available'
   </select>
 
 </mapper>

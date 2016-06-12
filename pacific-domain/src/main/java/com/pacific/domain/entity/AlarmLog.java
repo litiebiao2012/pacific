@@ -12,7 +12,7 @@ public class AlarmLog implements Serializable {
 
     private String message;
 
-    private Long applicationId;
+    private String applicationCode;
 
     private Long userId;
 
@@ -56,12 +56,12 @@ public class AlarmLog implements Serializable {
         this.message = message == null ? null : message.trim();
     }
 
-    public Long getApplicationId() {
-        return applicationId;
+    public String getApplicationCode() {
+        return applicationCode;
     }
 
-    public void setApplicationId(Long applicationId) {
-        this.applicationId = applicationId;
+    public void setApplicationCode(String applicationCode) {
+        this.applicationCode = applicationCode == null ? null : applicationCode.trim();
     }
 
     public Long getUserId() {

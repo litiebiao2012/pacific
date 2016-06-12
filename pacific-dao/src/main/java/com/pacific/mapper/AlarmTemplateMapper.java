@@ -14,4 +14,6 @@ public interface AlarmTemplateMapper {
     int updateByPrimaryKeySelective(AlarmTemplate record);
 
     int updateByPrimaryKey(AlarmTemplate record);
+
+    AlarmTemplate selectByChannelCode(String channelCode);
 }

@@ -103,4 +103,12 @@
       template_text = #{templateText,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByChannelCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from t_alarm_template
+    where channel_code = #{channelCode,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

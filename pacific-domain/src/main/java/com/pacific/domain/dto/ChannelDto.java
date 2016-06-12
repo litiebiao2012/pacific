@@ -10,10 +10,10 @@ public class ChannelDto {
     private String channelName;
     /** 是否开启 **/
     private boolean isOpen;
-    /** 通知次数 **/
-    private int notifyCount;
-    /** 延时时间间隔(每隔多长时间通知一次) 单位s , 300s ,  **/
-    private int delay;
+//    /** 通知次数 **/
+//    private int notifyCount;
+//    /** 延时时间间隔(每隔多长时间通知一次) 单位s , 300s ,  **/
+//    private int delay;
 
     public String getChannelCode() {
         return channelCode;
@@ -37,21 +37,5 @@ public class ChannelDto {
 
     public void setOpen(boolean open) {
         isOpen = open;
-    }
-
-    public int getNotifyCount() {
-        return notifyCount;
-    }
-
-    public void setNotifyCount(int notifyCount) {
-        this.notifyCount = notifyCount;
-    }
-
-    public int getDelay() {
-        return delay;
-    }
-
-    public void setDelay(int delay) {
-        this.delay = delay;
     }
 }
