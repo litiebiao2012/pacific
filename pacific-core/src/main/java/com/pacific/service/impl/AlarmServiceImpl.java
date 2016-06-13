@@ -61,7 +61,7 @@ public class AlarmServiceImpl implements AlarmService {
             public void run() {
                 alarm();
             }
-        },1,2, TimeUnit.SECONDS);
+        },0,Constants.ALARM_ERROR_LOG_SCHEDULE_DELAY, TimeUnit.SECONDS);
     }
 
 

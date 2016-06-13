@@ -1,5 +1,6 @@
 package com.pacific.service.impl;
 
+import com.pacific.common.*;
 import com.pacific.common.utils.CollectionUtil;
 import com.pacific.common.utils.NamedThreadFactory;
 import com.pacific.domain.entity.Application;
@@ -7,10 +8,8 @@ import com.pacific.domain.entity.ErrorLogRecord;
 import com.pacific.domain.search.query.LoggerQuery;
 import com.pacific.domain.search.result.LoggerResult;
 import com.pacific.service.*;
-import org.elasticsearch.bootstrap.Elasticsearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.task.TaskExecutor;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -44,12 +43,12 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
     @PostConstruct
     public void init() {
-//        scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
-//            @Override
-//            public void run() {
-//                loadElasticSearchErrorLog();
-//            }
-//        },0,2, TimeUnit.SECONDS);
+        scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
+            @Override
+            public void run() {
+                loadElasticSearchErrorLog();
+            }
+        },0, Constants.LOAD_ELASTIC_SEARCH_ERROR_LOG_DELAY, TimeUnit.SECONDS);
     }
 
 

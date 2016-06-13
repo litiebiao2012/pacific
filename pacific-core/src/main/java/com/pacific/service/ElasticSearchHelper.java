@@ -1,5 +1,6 @@
 package com.pacific.service;
 
+import com.pacific.common.Constants;
 import com.pacific.common.exception.PacificException;
 import com.pacific.common.json.FastJson;
 import com.pacific.domain.search.query.LoggerQuery;
@@ -42,7 +43,7 @@ public class ElasticSearchHelper {
 
     private Settings settings = Settings
             .settingsBuilder()
-            .put("cluster.name",Constants.ELASTICSEARCH_CLUSTER_NAME)
+            .put("cluster.name", Constants.ELASTICSEARCH_CLUSTER_NAME)
             .put("client.transport.sniff", true)
             .build();
 

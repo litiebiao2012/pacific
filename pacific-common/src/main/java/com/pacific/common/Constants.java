@@ -10,6 +10,11 @@ import java.util.ResourceBundle;
  * Created by Fe on 16/5/27.
  */
 public class Constants {
+
+    public static final String DEFAULT_ELASTIC_SEARCH_LOG_TYPE = "pacific_log_stash_log";
+
+    public static final String ELASTICSEARCH_CLUSTER_NAME = "elasticsearch";
+
     public static final String COOKIE_CRYPTO_PASS = "2A8B3#E@0(#%!*5(_#`~^*)@%$@$!$^%*CA@#%DE8#258$(@&%46F";
 
     private static Logger logger= LoggerFactory.getLogger(Constants.class);
@@ -26,6 +31,9 @@ public class Constants {
 
     public static String PACIFIC_ERROR_LOG_DETAIL_URL = resourceBundle.getString("pacific.error.log.detail.url");
 
+    public static final Integer  ALARM_ERROR_LOG_SCHEDULE_DELAY = Integer.parseInt(resourceBundle.getString("alarmErrorLogScheduleDelay"));
+
+    public static final Integer  LOAD_ELASTIC_SEARCH_ERROR_LOG_DELAY = Integer.parseInt(resourceBundle.getString("loadElasticsearchErrorLogDelay"));
     /**
      * session失效时间 分钟
      */
