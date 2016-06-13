@@ -9,7 +9,7 @@ public class ChannelDto {
     /** 渠道名称 **/
     private String channelName;
     /** 是否开启 **/
-    private boolean isOpen;
+    private String isOpen;
 //    /** 通知次数 **/
 //    private int notifyCount;
 //    /** 延时时间间隔(每隔多长时间通知一次) 单位s , 300s ,  **/
@@ -31,11 +31,11 @@ public class ChannelDto {
         this.channelName = channelName;
     }
 
-    public boolean isOpen() {
+    public String getIsOpen() {
         return isOpen;
     }
 
-    public void setOpen(boolean open) {
-        isOpen = open;
+    public void setIsOpen(String isOpen) {
+        this.isOpen = isOpen;
     }
 }

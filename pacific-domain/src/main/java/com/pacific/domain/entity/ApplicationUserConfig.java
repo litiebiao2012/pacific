@@ -18,6 +18,8 @@ public class ApplicationUserConfig implements Serializable {
 
     private String applicationCode;
 
+    private String state;
+
     private Long userId;
 
     private static final long serialVersionUID = 1L;
@@ -84,5 +86,13 @@ public class ApplicationUserConfig implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

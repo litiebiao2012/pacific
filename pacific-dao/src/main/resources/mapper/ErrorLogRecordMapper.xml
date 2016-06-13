@@ -341,7 +341,7 @@
     ,
     <include refid="Blob_Column_List" />
     from t_error_log_record
-    where id is_notify = 'n'
+    where  is_notify = 'n'
     order by create_time asc
     limit 0,100
   </select>

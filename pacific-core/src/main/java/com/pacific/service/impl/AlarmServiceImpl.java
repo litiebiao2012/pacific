@@ -61,30 +61,34 @@ public class AlarmServiceImpl implements AlarmService {
             public void run() {
                 alarm();
             }
-        },0,2, TimeUnit.SECONDS);
+        },1,2, TimeUnit.SECONDS);
     }
 
 
     @Override
     public void alarm() {
-        List<ErrorLogRecord> errorLogRecordList = errorLogRecordMapper.queryHasNoAlarmErrorLogRecord();
-        logger.info("will be alarm error log data : {}", FastJson.toJson(errorLogRecordList));
-        if (CollectionUtil.isNotEmpty(errorLogRecordList)) {
-            Map<String,List<ApplicationUserConfigDto>> appMap = groupByApplicationCode();
+        try {
+            List<ErrorLogRecord> errorLogRecordList = errorLogRecordMapper.queryHasNoAlarmErrorLogRecord();
+            logger.info("will be alarm error log data : {}", FastJson.toJson(errorLogRecordList));
+            if (CollectionUtil.isNotEmpty(errorLogRecordList)) {
+                Map<String,List<ApplicationUserConfigDto>> appMap = groupByApplicationCode();
 
-            if (appMap != null && appMap.size() > 0) {
-                for (ErrorLogRecord errorLogRecord : errorLogRecordList) {
-                    String applicationCode = errorLogRecord.getApplicationCode();
+                if (appMap != null && appMap.size() > 0) {
+                    for (ErrorLogRecord errorLogRecord : errorLogRecordList) {
+                        String applicationCode = errorLogRecord.getApplicationCode();
 
-                    List<ApplicationUserConfigDto> applicationUserConfigDtoList = appMap.get(applicationCode);
-                    if (CollectionUtil.isNotEmpty(applicationUserConfigDtoList)) {
-                        //TODO 根据每个用户的报警规则 开启报警
-                        for (ApplicationUserConfigDto applicationUserConfigDto : applicationUserConfigDtoList) {
-                            processApplicationUserConfig(applicationUserConfigDto,errorLogRecord);
+                        List<ApplicationUserConfigDto> applicationUserConfigDtoList = appMap.get(applicationCode);
+                        if (CollectionUtil.isNotEmpty(applicationUserConfigDtoList)) {
+                            //TODO 根据每个用户的报警规则 开启报警
+                            for (ApplicationUserConfigDto applicationUserConfigDto : applicationUserConfigDtoList) {
+                                processApplicationUserConfig(applicationUserConfigDto,errorLogRecord);
+                            }
                         }
                     }
                 }
             }
+        } catch (Exception e) {
+            logger.error("alarm error ,e {} ", e);
         }
     }
 
@@ -127,13 +131,14 @@ public class AlarmServiceImpl implements AlarmService {
         alarmLog.setApplicationCode(applicationUserConfigDto.getApplicationCode());
         alarmLog.setChannelCode(channelDto.getChannelCode());
 
-        alarmLog.setMessage(getMessage(alarmTemplate,applicationUserConfigDto,errorLogRecord));
+        String message = getMessage(alarmTemplate,applicationUserConfigDto,errorLogRecord);
+        alarmLog.setMessage(message);
         alarmLog.setSendTime(new Date());
         alarmLog.setUpdateTime(new Date());
         alarmLog.setErrorLogId(errorLogRecord.getId());
         alarmLogMapper.insertSelective(alarmLog);
 
-        alarmToAppUser(channelDto);
+        alarmToAppUser(channelDto,message,applicationUserConfigDto);
     }
     private String getMessage(AlarmTemplate alarmTemplate,ApplicationUserConfigDto applicationUserConfigDto,ErrorLogRecord errorLogRecord) {
         String templateText = alarmTemplate.getTemplateText();
@@ -142,6 +147,9 @@ public class AlarmServiceImpl implements AlarmService {
         context.put("errorMsg",errorLogRecord.getLogMessage());
         context.put("logCreateTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(errorLogRecord.getElasticsearchLogCreateTime()));
         context.put("errorLogDetailUrl", Constants.PACIFIC_ERROR_LOG_DETAIL_URL + errorLogRecord.getId());
+        context.put("logStackTrace",errorLogRecord.getLogStackTrace());
+        context.put("host",errorLogRecord.getLogHostName());
+        context.put("errorLogType",errorLogRecord.getErrorLogType());
         return VelocityTemplateUtil.merge(templateText,context);
     }
 
@@ -160,8 +168,8 @@ public class AlarmServiceImpl implements AlarmService {
         return flag;
     }
 
-    private void alarmToAppUser(ChannelDto channelDto) {
-        if (channelDto.isOpen()) {
+    private void alarmToAppUser(ChannelDto channelDto,String message,ApplicationUserConfigDto applicationUserConfigDto) {
+        if (channelDto.getIsOpen().equals("y")) {
             if (channelDto.getChannelCode().equals(ChannelCodeEnums.PHONE_MESSAGE.getCode())) {
 
             }
@@ -169,8 +177,8 @@ public class AlarmServiceImpl implements AlarmService {
             if (channelDto.getChannelCode().equals(ChannelCodeEnums.EMAIL.getCode())) {
 
             }
-            if (channelDto.getChannelCode().equals(ChannelCodeEnums.BEARY_CHAT)) {
-
+            if (channelDto.getChannelCode().equals(ChannelCodeEnums.BEARY_CHAT.getCode())) {
+                bearyChatHelper.sendMessage(applicationUserConfigDto.getEmail(),message);
             }
         }
     }
