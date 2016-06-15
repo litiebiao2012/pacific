@@ -10,6 +10,7 @@
         <pattern>/login*</pattern>
         <pattern>*.html</pattern>
         <pattern>*.json</pattern>
+        <pattern>/check.htm</pattern>
     </excludes>
 
     <decorator name="main" page="default.vm">

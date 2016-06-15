@@ -3,6 +3,8 @@ package com.pacific.service;
 import com.pacific.common.Constants;
 import com.pacific.common.exception.PacificException;
 import com.pacific.common.json.FastJson;
+import com.pacific.common.utils.DateUtil;
+import com.pacific.common.utils.GetUTCTimeUtil;
 import com.pacific.domain.search.query.LoggerQuery;
 import com.pacific.domain.search.result.LoggerResult;
 import org.elasticsearch.action.search.SearchResponse;
@@ -15,6 +17,7 @@ import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
@@ -23,9 +26,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Fe on 16/5/30.
@@ -34,7 +35,7 @@ public class ElasticSearchHelper {
 
     public static final Logger logger = LoggerFactory.getLogger(ElasticSearchHelper.class);
 
-    public static final String ELASTIC_SEARCH_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+    public static final String ELASTIC_SEARCH_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.sss";
 
 
     private String clusterName;
@@ -66,10 +67,12 @@ public class ElasticSearchHelper {
         Assert.notNull(loggerQuery);
         logger.info("searchNewErrorLog param : {}", FastJson.toJson(loggerQuery));
 
+
+
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
         boolQueryBuilder.must(QueryBuilders.matchQuery("level",loggerQuery.getLevel()));
         if (loggerQuery.getBeginDate() != null) {
-            boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").lt(loggerQuery.getBeginDate().getTime()));
+            boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").gt(loggerQuery.getBeginDate()));
         }
 
         SearchResponse response= getClient().prepareSearch(loggerQuery.getIndex())//设置要查询的索引(index)
@@ -88,7 +91,6 @@ public class ElasticSearchHelper {
 
         List<LoggerResult> loggerResultList = new LinkedList<LoggerResult>();
 
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(ELASTIC_SEARCH_DATE_FORMAT);
         if (searchHits.totalHits() > 0) {
             for (SearchHit hit : searchHits) {
                 try {
@@ -100,8 +102,7 @@ public class ElasticSearchHelper {
                     loggerResult.setId(hit.getId());
                     loggerResult.setScore(0);
                     String timestamp = (String)sourceMap.get("@timestamp");
-                    loggerResult.setTimestamp(simpleDateFormat.parse(timestamp));
-
+                    loggerResult.setTimestamp(GetUTCTimeUtil.getLocalTimeFromUTC(timestamp));
                     loggerResult.setVersion((Integer)sourceMap.get("@version"));
                     loggerResult.setMessage((String)sourceMap.get("message"));
                     loggerResult.setLoggerName((String)sourceMap.get("logger_name"));
@@ -114,7 +115,7 @@ public class ElasticSearchHelper {
                     loggerResult.setPath((String)sourceMap.get("path"));
 
                     loggerResultList.add(loggerResult);
-                } catch (ParseException e) {
+                } catch (Exception e) {
                     logger.error("parse error , e : {}",e);
                 }
             }
@@ -145,4 +146,5 @@ public class ElasticSearchHelper {
     public void setPort(int port) {
         this.port = port;
     }
+
 }

@@ -150,6 +150,8 @@ public class AlarmServiceImpl implements AlarmService {
         context.put("logStackTrace",errorLogRecord.getLogStackTrace());
         context.put("host",errorLogRecord.getLogHostName());
         context.put("errorLogType",errorLogRecord.getErrorLogType());
+        context.put("logLoggerName",errorLogRecord.getLogLoggerName());
+        context.put("logFilePath",errorLogRecord.getLogFilePath());
         return VelocityTemplateUtil.merge(templateText,context);
     }
 

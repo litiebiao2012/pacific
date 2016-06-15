@@ -56,6 +56,7 @@ public class ErrorLogRecordServiceImpl implements ErrorLogRecordService {
                 errorLogRecord.setLogFilePath(loggerResult.getPath());
                 errorLogRecord.setErrorLogType(ErrorLogTypeEnums.JAVA.getCode());
                 errorLogRecord.setLogStackTrace(loggerResult.getStackTrace());
+                errorLogRecord.setIsNotify("n");
 
                 errorLogRecordList.add(errorLogRecord);
             }

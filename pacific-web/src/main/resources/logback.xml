@@ -19,7 +19,7 @@
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
 
-    <root level="debug">
+    <root level="error">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="logStash"/>
     </root>

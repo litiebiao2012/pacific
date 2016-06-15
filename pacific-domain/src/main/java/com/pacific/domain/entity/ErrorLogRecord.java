@@ -18,7 +18,7 @@ public class ErrorLogRecord implements Serializable {
 
     private Integer elasticsearchLogScore;
 
-    private Date elasticsearchLogCreateTime;
+    private Long elasticsearchLogCreateTime;
 
     private Integer elasticsearchLogVersion;
 
@@ -98,14 +98,6 @@ public class ErrorLogRecord implements Serializable {
 
     public void setElasticsearchLogScore(Integer elasticsearchLogScore) {
         this.elasticsearchLogScore = elasticsearchLogScore;
-    }
-
-    public Date getElasticsearchLogCreateTime() {
-        return elasticsearchLogCreateTime;
-    }
-
-    public void setElasticsearchLogCreateTime(Date elasticsearchLogCreateTime) {
-        this.elasticsearchLogCreateTime = elasticsearchLogCreateTime;
     }
 
     public Integer getElasticsearchLogVersion() {
@@ -194,5 +186,13 @@ public class ErrorLogRecord implements Serializable {
 
     public void setIsNotify(String isNotify) {
         this.isNotify = isNotify;
+    }
+
+    public Long getElasticsearchLogCreateTime() {
+        return elasticsearchLogCreateTime;
+    }
+
+    public void setElasticsearchLogCreateTime(Long elasticsearchLogCreateTime) {
+        this.elasticsearchLogCreateTime = elasticsearchLogCreateTime;
     }
 }

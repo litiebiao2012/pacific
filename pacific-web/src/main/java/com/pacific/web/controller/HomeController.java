@@ -27,4 +27,15 @@ public class HomeController {
         return "login";
 
     }
+
+    @LoginCheckAnnotation(checked = false)
+    @RequestMapping(value = "/check.htm",method = RequestMethod.GET)
+    public void check() {
+        try {
+            int i = 0;
+            int res = 1 / 0;
+        } catch (Exception e) {
+            logger.error("我的错,e : {}",e);
+        }
+    }
 }

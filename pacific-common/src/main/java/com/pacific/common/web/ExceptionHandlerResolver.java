@@ -41,7 +41,7 @@ public class ExceptionHandlerResolver extends SimpleMappingExceptionResolver {
                 printWriter.flush();
                 printWriter.close();
             } catch (Exception e) {
-                logger.error("resolveException eror , e : {}", ExceptionUtil.exToString(e));
+                logger.error("resolveException eror !", e);
             } finally {
                 clearCache();
             }

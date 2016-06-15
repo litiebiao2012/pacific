@@ -2,21 +2,22 @@ package com.pacific.service.impl;
 
 import com.pacific.common.*;
 import com.pacific.common.utils.CollectionUtil;
+import com.pacific.common.utils.GetUTCTimeUtil;
 import com.pacific.common.utils.NamedThreadFactory;
 import com.pacific.domain.entity.Application;
 import com.pacific.domain.entity.ErrorLogRecord;
 import com.pacific.domain.search.query.LoggerQuery;
 import com.pacific.domain.search.result.LoggerResult;
 import com.pacific.service.*;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -65,11 +66,11 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
                 LoggerQuery loggerQuery = new LoggerQuery();
                 loggerQuery.setIndex(applicationCode);
-                loggerQuery.setLevel("ERROR");
+                loggerQuery.setLevel("error");
                 loggerQuery.setType(Constants.DEFAULT_ELASTIC_SEARCH_LOG_TYPE);
                 if (errorLogRecord != null) {
                     //TODO 如果已经加载过,则只加载数据库中最新的数据以后的 搜索引擎上的数据,增量抓取
-                    loggerQuery.setBeginDate(errorLogRecord.getElasticsearchLogCreateTime());
+                    loggerQuery.setBeginDate(new Date(errorLogRecord.getElasticsearchLogCreateTime()));
                 }
                 List<LoggerResult> returnList = new LinkedList<LoggerResult>();
                 queryLoggerResult(loggerQuery,returnList);
@@ -93,17 +94,18 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
         Collections.sort(loggerResultList, new Comparator<LoggerResult>() {
             @Override
             public int compare(LoggerResult o1, LoggerResult o2) {
-                if (o1.getTimestamp().getTime() > o2.getTimestamp().getTime())
-                    return -1;
-                else if (o1.getTimestamp().getTime() == o2.getTimestamp().getTime())
-                    return 0;
-                else
+                if (o1.getTimestamp() < o2.getTimestamp())
                     return 1;
+                else if (o1.getTimestamp() > o2.getTimestamp())
+                    return -1;
+                else
+                    return 0;
 
             }
         });
         returnList.addAll(loggerResultList);
-        loggerQuery.setBeginDate(loggerResultList.get(0).getTimestamp());
+        loggerQuery.setBeginDate(new Date(loggerResultList.get(0).getTimestamp()));
         queryLoggerResult(loggerQuery,returnList);
     }
+
 }

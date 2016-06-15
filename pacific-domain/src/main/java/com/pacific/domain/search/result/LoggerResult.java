@@ -11,7 +11,7 @@ public class LoggerResult {
     private String id;
     private String type;
     private Integer score;
-    private Date timestamp;
+    private Long timestamp;
     private Integer version;
     private String message;
     private String loggerName;
@@ -127,11 +127,11 @@ public class LoggerResult {
         this.score = score;
     }
 
-    public Date getTimestamp() {
+    public Long getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Long timestamp) {
         this.timestamp = timestamp;
     }
 

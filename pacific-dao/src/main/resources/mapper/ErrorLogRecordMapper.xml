@@ -9,7 +9,7 @@
     <result column="elasticsearch_log_id" property="elasticsearchLogId" jdbcType="VARCHAR" />
     <result column="elasticsearch_log_type" property="elasticsearchLogType" jdbcType="VARCHAR" />
     <result column="elasticsearch_log_score" property="elasticsearchLogScore" jdbcType="INTEGER" />
-    <result column="elasticsearch_log_create_time" property="elasticsearchLogCreateTime" jdbcType="TIMESTAMP" />
+    <result column="elasticsearch_log_create_time" property="elasticsearchLogCreateTime" jdbcType="BIGINT" />
     <result column="elasticsearch_log_version" property="elasticsearchLogVersion" jdbcType="INTEGER" />
     <result column="log_message" property="logMessage" jdbcType="VARCHAR" />
     <result column="log_logger_name" property="logLoggerName" jdbcType="VARCHAR" />
@@ -55,7 +55,7 @@
       log_stack_trace,is_notify)
     values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{applicationCode,jdbcType=VARCHAR}, #{elasticsearchLogId,jdbcType=VARCHAR}, #{elasticsearchLogType,jdbcType=VARCHAR}, 
-      #{elasticsearchLogScore,jdbcType=INTEGER}, #{elasticsearchLogCreateTime,jdbcType=TIMESTAMP}, 
+      #{elasticsearchLogScore,jdbcType=INTEGER}, #{elasticsearchLogCreateTime,jdbcType=BIGINT},
       #{elasticsearchLogVersion,jdbcType=INTEGER}, #{logMessage,jdbcType=VARCHAR}, #{logLoggerName,jdbcType=VARCHAR}, 
       #{logThreadName,jdbcType=VARCHAR}, #{logLevel,jdbcType=VARCHAR}, #{logValue,jdbcType=INTEGER}, 
       #{logHostName,jdbcType=VARCHAR}, #{logFilePath,jdbcType=VARCHAR}, #{errorLogType,jdbcType=VARCHAR}, 
@@ -82,7 +82,7 @@
       #{item.elasticsearchLogId,jdbcType=VARCHAR},
       #{item.elasticsearchLogType,jdbcType=VARCHAR},
       #{item.elasticsearchLogScore,jdbcType=INTEGER},
-      #{item.elasticsearchLogCreateTime,jdbcType=TIMESTAMP},
+      #{item.elasticsearchLogCreateTime,jdbcType=BIGINT},
       #{item.elasticsearchLogVersion,jdbcType=INTEGER},
       #{item.logMessage,jdbcType=VARCHAR},
       #{item.logLoggerName,jdbcType=VARCHAR},
@@ -182,7 +182,7 @@
         #{elasticsearchLogScore,jdbcType=INTEGER},
       </if>
       <if test="elasticsearchLogCreateTime != null" >
-        #{elasticsearchLogCreateTime,jdbcType=TIMESTAMP},
+        #{elasticsearchLogCreateTime,jdbcType=BIGINT},
       </if>
       <if test="elasticsearchLogVersion != null" >
         #{elasticsearchLogVersion,jdbcType=INTEGER},
@@ -241,7 +241,7 @@
         elasticsearch_log_score = #{elasticsearchLogScore,jdbcType=INTEGER},
       </if>
       <if test="elasticsearchLogCreateTime != null" >
-        elasticsearch_log_create_time = #{elasticsearchLogCreateTime,jdbcType=TIMESTAMP},
+        elasticsearch_log_create_time = #{elasticsearchLogCreateTime,jdbcType=BIGINT},
       </if>
       <if test="elasticsearchLogVersion != null" >
         elasticsearch_log_version = #{elasticsearchLogVersion,jdbcType=INTEGER},
@@ -287,7 +287,7 @@
       elasticsearch_log_id = #{elasticsearchLogId,jdbcType=VARCHAR},
       elasticsearch_log_type = #{elasticsearchLogType,jdbcType=VARCHAR},
       elasticsearch_log_score = #{elasticsearchLogScore,jdbcType=INTEGER},
-      elasticsearch_log_create_time = #{elasticsearchLogCreateTime,jdbcType=TIMESTAMP},
+      elasticsearch_log_create_time = #{elasticsearchLogCreateTime,jdbcType=BIGINT},
       elasticsearch_log_version = #{elasticsearchLogVersion,jdbcType=INTEGER},
       log_message = #{logMessage,jdbcType=VARCHAR},
       log_logger_name = #{logLoggerName,jdbcType=VARCHAR},
@@ -309,7 +309,7 @@
       elasticsearch_log_id = #{elasticsearchLogId,jdbcType=VARCHAR},
       elasticsearch_log_type = #{elasticsearchLogType,jdbcType=VARCHAR},
       elasticsearch_log_score = #{elasticsearchLogScore,jdbcType=INTEGER},
-      elasticsearch_log_create_time = #{elasticsearchLogCreateTime,jdbcType=TIMESTAMP},
+      elasticsearch_log_create_time = #{elasticsearchLogCreateTime,jdbcType=BIGINT},
       elasticsearch_log_version = #{elasticsearchLogVersion,jdbcType=INTEGER},
       log_message = #{logMessage,jdbcType=VARCHAR},
       log_logger_name = #{logLoggerName,jdbcType=VARCHAR},
@@ -343,6 +343,6 @@
     from t_error_log_record
     where  is_notify = 'n'
     order by create_time asc
-    limit 0,100
+    limit 0,1
   </select>
 </mapper>
