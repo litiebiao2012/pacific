@@ -3,6 +3,8 @@ package com.pacific.service.impl;
 import com.pacific.common.Constants;
 import com.pacific.common.exception.PacificException;
 import com.pacific.common.helper.BearyChatHelper;
+import com.pacific.common.helper.MailHelper;
+import com.pacific.common.helper.PhoneHelper;
 import com.pacific.common.json.FastJson;
 import com.pacific.common.utils.CollectionUtil;
 import com.pacific.common.utils.NamedThreadFactory;
@@ -52,6 +54,12 @@ public class AlarmServiceImpl implements AlarmService {
 
     @Resource
     private BearyChatHelper bearyChatHelper;
+
+    @Resource
+    private PhoneHelper phoneHelper;
+
+    @Resource
+    private MailHelper mailHelper;
 
 
     @PostConstruct
@@ -115,6 +123,7 @@ public class AlarmServiceImpl implements AlarmService {
         ErrorLogRecord updateErrorLogRecordParam = new ErrorLogRecord();
         updateErrorLogRecordParam.setId(errorLogRecord.getId());
         updateErrorLogRecordParam.setIsNotify("y");
+        updateErrorLogRecordParam.setUpdateTime(new Date());
         errorLogRecordMapper.updateByPrimaryKeySelective(updateErrorLogRecordParam);
     }
 
@@ -173,11 +182,11 @@ public class AlarmServiceImpl implements AlarmService {
     private void alarmToAppUser(ChannelDto channelDto,String message,ApplicationUserConfigDto applicationUserConfigDto) {
         if (channelDto.getIsOpen().equals("y")) {
             if (channelDto.getChannelCode().equals(ChannelCodeEnums.PHONE_MESSAGE.getCode())) {
-
+                phoneHelper.sendMessage(applicationUserConfigDto.getPhone(),message);
             }
 
             if (channelDto.getChannelCode().equals(ChannelCodeEnums.EMAIL.getCode())) {
-
+                mailHelper.sendMail(applicationUserConfigDto.getEmail(),message);
             }
             if (channelDto.getChannelCode().equals(ChannelCodeEnums.BEARY_CHAT.getCode())) {
                 bearyChatHelper.sendMessage(applicationUserConfigDto.getEmail(),message);

@@ -73,7 +73,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
                     loggerQuery.setBeginDate(new Date(errorLogRecord.getElasticsearchLogCreateTime()));
                 }
                 List<LoggerResult> returnList = new LinkedList<LoggerResult>();
-                queryLoggerResult(loggerQuery,returnList);
+                queryLoggerResult(loggerQuery,returnList,0);
 
                 errorLogRecordService.batchSaveErrorLogRecord(returnList);
 
@@ -87,7 +87,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
      * @param loggerQuery
      * @param returnList
      */
-    private void queryLoggerResult(LoggerQuery loggerQuery,List<LoggerResult> returnList) {
+    private void queryLoggerResult(LoggerQuery loggerQuery,List<LoggerResult> returnList,int index) {
         List<LoggerResult> loggerResultList = elasticSearchHelper.searchNewErrorLog(loggerQuery);
         if (CollectionUtil.isEmpty(loggerResultList)) return;
 
@@ -105,7 +105,10 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
         });
         returnList.addAll(loggerResultList);
         loggerQuery.setBeginDate(new Date(loggerResultList.get(0).getTimestamp()));
-        queryLoggerResult(loggerQuery,returnList);
+        //TODO 防止数据太多,无限递归,导致应用内存溢出
+        if (index == 5) return;
+        index++;
+        queryLoggerResult(loggerQuery,returnList,index);
     }
 
 }
