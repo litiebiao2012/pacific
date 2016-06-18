@@ -140,4 +140,17 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
+  <select id="queryTotalAlarmLog" resultType="java.lang.Long">
+    select
+       count(1)
+    from t_alarm_log
+    where 1 = 1
+    <if test="beginDate != null">
+      <![CDATA[ and send_time >=  #{beginDate,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="endDate != null">
+      <![CDATA[ and send_time <  #{endDate,jdbcType=TIMESTAMP}]]>
+    </if>
+  </select>
+
 </mapper>

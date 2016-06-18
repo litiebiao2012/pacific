@@ -1,22 +1,13 @@
-package com.pacific.domain.search.query;
+package com.pacific.domain.query;
 
 import java.util.Date;
 
 /**
- * Created by Fe on 16/5/30.
+ * Created by Fe on 16/6/18.
  */
-public class LoggerQuery extends ElasticSearchBaseQuery{
-    private String level;
+public class AlarmLogQuery extends BaseQuery {
     private Date beginDate;
     private Date endDate;
-
-    public String getLevel() {
-        return level;
-    }
-
-    public void setLevel(String level) {
-        this.level = level;
-    }
 
     public Date getBeginDate() {
         return beginDate;

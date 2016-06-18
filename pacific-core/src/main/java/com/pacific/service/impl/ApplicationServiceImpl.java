@@ -19,4 +19,9 @@ public class ApplicationServiceImpl implements ApplicationService {
     public List<Application> queryAllApplication() {
         return applicationMapper.queryAllApplicationByState(StateEnums.AVAILABLE.getCode());
     }
+
+    @Override
+    public Integer getTotalApplication() {
+        return applicationMapper.queryTotalApplication();
+    }
 }

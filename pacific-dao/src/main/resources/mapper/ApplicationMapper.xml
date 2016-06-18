@@ -110,4 +110,12 @@
     from t_application
     where state = #{state,jdbcType=VARCHAR}
   </select>
+
+  <select id="queryTotalApplication" resultType="java.lang.Integer">
+    select
+      count(1)
+    from t_application
+    where state = 'available'
+  </select>
+
 </mapper>
