@@ -3,7 +3,9 @@ package com.pacific.web.controller;
 import com.pacific.common.annotation.LoginCheckAnnotation;
 import com.pacific.common.utils.CollectionUtil;
 import com.pacific.common.utils.DateUtil;
+import com.pacific.domain.dto.AlarmLogDto;
 import com.pacific.domain.entity.Application;
+import com.pacific.domain.query.AlarmLogQuery;
 import com.pacific.domain.search.query.LoggerQuery;
 import com.pacific.service.AlarmLogService;
 import com.pacific.service.ApplicationService;
@@ -45,6 +47,7 @@ public class HomeController {
         long dayErrorLogTotal = 0;
         long dayAlarmLogTotal = alarmLogService.getDayAlarmLogCount();
 
+        List<AlarmLogDto> alarmLogDtoList = null;
         if (CollectionUtil.isNotEmpty(applicationList)) {
             String[] appCodes = new String[applicationList.size()];
             int index = 0;
@@ -61,6 +64,13 @@ public class HomeController {
             dayAllLogTotal = elasticSearchHelper.queryTotalLog(appCodes,loggerQuery);
             loggerQuery.setLevel("error");
             dayErrorLogTotal = elasticSearchHelper.queryTotalLog(appCodes,loggerQuery);
+
+            AlarmLogQuery alarmLogQuery = new AlarmLogQuery();
+            alarmLogQuery.setBeginDate(DateUtil.getBeginTimeOfDay(date).toDate());
+            alarmLogQuery.setEndDate(DateUtil.getEndTimeOfDay(date).toDate());
+            alarmLogQuery.setCurrentPage(1);
+            alarmLogQuery.setPageSize(10);
+            alarmLogDtoList = alarmLogService.queryDayAlarmLog(alarmLogQuery);
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
@@ -68,6 +78,7 @@ public class HomeController {
         modelAndView.addObject("dayAllLogTotal",dayAllLogTotal);
         modelAndView.addObject("dayErrorLogTotal",dayErrorLogTotal);
         modelAndView.addObject("dayAlarmLogTotal",dayAlarmLogTotal);
+        modelAndView.addObject("alarmLogDtoList",alarmLogDtoList);
         return modelAndView;
     }
 
