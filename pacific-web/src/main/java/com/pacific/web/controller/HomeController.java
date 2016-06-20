@@ -5,7 +5,7 @@ import com.pacific.common.utils.CollectionUtil;
 import com.pacific.common.utils.DateUtil;
 import com.pacific.common.web.result.AjaxResult;
 import com.pacific.domain.dto.AlarmLogDto;
-import com.pacific.domain.dto.AllAppErrorLogReportDto;
+import com.pacific.domain.dto.AllAppErrorLogSevenDayReportDto;
 import com.pacific.domain.entity.Application;
 import com.pacific.domain.query.AlarmLogQuery;
 import com.pacific.domain.search.query.LoggerQuery;
@@ -95,8 +95,8 @@ public class HomeController {
     @RequestMapping(value = "/allAppErrorLogReport.json",method = RequestMethod.GET)
     public AjaxResult allAppErrorLogReport() {
         AjaxResult ajaxResult = new AjaxResult();
-        AllAppErrorLogReportDto allAppErrorLogReportDto = alarmLogService.queryAllAppErrorLogReport();
-        ajaxResult.setData(allAppErrorLogReportDto);
+        AllAppErrorLogSevenDayReportDto allAppErrorLogSevenDayReportDto = alarmLogService.queryAllAppErrorLogSevenDayReport();
+        ajaxResult.setData(allAppErrorLogSevenDayReportDto);
         return ajaxResult;
     }
 

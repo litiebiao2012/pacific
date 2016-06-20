@@ -29,8 +29,8 @@
                                 <i class="fa fa-tasks fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">${dayAllLogTotal}</div>
-                                <div>当天日志总数</div>
+                                <div class="huge">$pacificWebTool.processNum(${dayAllLogTotal})</div>
+                                <div>当日采集日志总数</div>
                             </div>
                         </div>
                     </div>
@@ -51,7 +51,7 @@
                                 <i class="fa fa-shopping-cart fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">${dayAlarmLogTotal}</div>
+                                <div class="huge">$pacificWebTool.processNum(${dayAlarmLogTotal})</div>
                                 <div>今日报警次数</div>
                             </div>
                         </div>
@@ -73,8 +73,8 @@
                                 <i class="fa fa-support fa-5x"></i>
                             </div>
                             <div class="col-xs-9 text-right">
-                                <div class="huge">${dayErrorLogTotal}</div>
-                                <div>当天产生error log数量</div>
+                                <div class="huge">$pacificWebTool.processNum(${dayErrorLogTotal})</div>
+                                <div>当日采集错误日志总数</div>
                             </div>
                         </div>
                     </div>
@@ -106,7 +106,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> 当天日志报表</h3>
+                        <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> 用错误日志总数汇总</h3>
                     </div>
                     <div class="panel-body">
                         <div id="morris-donut-chart"></div>

@@ -3,7 +3,7 @@ package com.pacific.service.impl;
 import com.pacific.common.utils.CollectionUtil;
 import com.pacific.common.utils.DateUtil;
 import com.pacific.domain.dto.AlarmLogDto;
-import com.pacific.domain.dto.AllAppErrorLogReportDto;
+import com.pacific.domain.dto.AllAppErrorLogSevenDayReportDto;
 import com.pacific.domain.dto.AppErrorLogSeries;
 import com.pacific.domain.entity.Application;
 import com.pacific.domain.query.AlarmLogQuery;
@@ -46,19 +46,19 @@ public class AlarmLogServiceImpl implements AlarmLogService {
     }
 
 
-    public AllAppErrorLogReportDto queryAllAppErrorLogReport() {
+    public AllAppErrorLogSevenDayReportDto queryAllAppErrorLogSevenDayReport() {
 
-        AllAppErrorLogReportDto allAppErrorLogReportDto = new AllAppErrorLogReportDto();
+        AllAppErrorLogSevenDayReportDto allAppErrorLogSevenDayReportDto = new AllAppErrorLogSevenDayReportDto();
 
         List<Application> applicationList = applicationService.queryAllApplication();
         if (CollectionUtil.isNotEmpty(applicationList)) {
             Map<String,String> titleMap = new HashMap<String,String>();
             titleMap.put("text","最近7日错误日志汇总统计");
-            allAppErrorLogReportDto.setTitle(titleMap);
+            allAppErrorLogSevenDayReportDto.setTitle(titleMap);
 
             Map<String,String> tooltipMap = new HashMap<String,String>();
             tooltipMap.put("trigger","axis");
-            allAppErrorLogReportDto.setTooltip(tooltipMap);
+            allAppErrorLogSevenDayReportDto.setTooltip(tooltipMap);
 
             List<String> appNameList = new LinkedList<String>();
 
@@ -92,19 +92,19 @@ public class AlarmLogServiceImpl implements AlarmLogService {
             }
             Map<String,List<String>> legendMap = new HashMap<String,List<String>>();
             legendMap.put("data",appNameList);
-            allAppErrorLogReportDto.setLegend(legendMap);
+            allAppErrorLogSevenDayReportDto.setLegend(legendMap);
 
             Map<String,Object> toolboxMap = new HashMap<String,Object>();
             Map<String,Object> saveImageMap = new HashMap<String,Object>();
             toolboxMap.put("feature",saveImageMap);
-            allAppErrorLogReportDto.setToolbox(toolboxMap);
+            allAppErrorLogSevenDayReportDto.setToolbox(toolboxMap);
 
             Map<String,Object> gridMap = new HashMap<String,Object>();
             gridMap.put("left","3%");
             gridMap.put("right","4%");
             gridMap.put("bottom","3%");
             gridMap.put("containLabel",true);
-            allAppErrorLogReportDto.setGrid(gridMap);
+            allAppErrorLogSevenDayReportDto.setGrid(gridMap);
 
 
             List<Map<String,Object>> xAxis = new ArrayList<Map<String,Object>>();
@@ -118,17 +118,17 @@ public class AlarmLogServiceImpl implements AlarmLogService {
             }
             xAxisMap.put("data",xAxisDataList);
             xAxis.add(xAxisMap);
-            allAppErrorLogReportDto.setxAxis(xAxis);
+            allAppErrorLogSevenDayReportDto.setxAxis(xAxis);
 
             List<Map<String,Object>> yAxis = new ArrayList<Map<String,Object>>();
             Map<String,Object> yAxisMap = new HashMap<String,Object>();
             yAxisMap.put("type","value");
             yAxis.add(yAxisMap);
-            allAppErrorLogReportDto.setyAxis(yAxis);
+            allAppErrorLogSevenDayReportDto.setyAxis(yAxis);
 
-            allAppErrorLogReportDto.setSeries(appErrorLogSeriesList);
+            allAppErrorLogSevenDayReportDto.setSeries(appErrorLogSeriesList);
         }
-        return allAppErrorLogReportDto;
+        return allAppErrorLogSevenDayReportDto;
     }
 
     private List<Date> buildSevenDayDateList() {

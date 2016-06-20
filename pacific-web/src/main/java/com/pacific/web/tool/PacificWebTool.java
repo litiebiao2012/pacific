@@ -38,6 +38,16 @@ public class PacificWebTool {
         return userName;
     }
 
+    public String processNum(Long num) {
+        StringBuffer numSb = new StringBuffer();
+        if (num > 99999) {
+            String str = num + "";
+            return numSb.append(str.substring(0,5)).append("万").toString();
+        } else {
+            return num + "";
+        }
+    }
+
     public String formatDate(Date date) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         return simpleDateFormat.format(date);
