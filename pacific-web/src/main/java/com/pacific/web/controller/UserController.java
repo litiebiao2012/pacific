@@ -62,7 +62,7 @@ public class UserController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/userList.htm",method = RequestMethod.POST)
+    @RequestMapping(value = "/userList.json",method = RequestMethod.POST)
     public AjaxResult doUserList() {
         UserQuery userQuery = new UserQuery();
         Pagination<UserDto> userDtoPagination = userService.queryAllUserPage(userQuery);
