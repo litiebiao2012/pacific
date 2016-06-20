@@ -92,8 +92,17 @@ public class HomeController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/allAppErrorLogReport.json",method = RequestMethod.GET)
-    public AjaxResult allAppErrorLogReport() {
+    @RequestMapping(value = "/queryAllAppErrorLogSevenDayReport.json",method = RequestMethod.GET)
+    public AjaxResult queryAllAppErrorLogSevenDayReport() {
+        AjaxResult ajaxResult = new AjaxResult();
+        AllAppErrorLogSevenDayReportDto allAppErrorLogSevenDayReportDto = alarmLogService.queryAllAppErrorLogSevenDayReport();
+        ajaxResult.setData(allAppErrorLogSevenDayReportDto);
+        return ajaxResult;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/queryAllAppErrorLogReport.json",method = RequestMethod.GET)
+    public AjaxResult queryAllAppErrorLogReport() {
         AjaxResult ajaxResult = new AjaxResult();
         AllAppErrorLogSevenDayReportDto allAppErrorLogSevenDayReportDto = alarmLogService.queryAllAppErrorLogSevenDayReport();
         ajaxResult.setData(allAppErrorLogSevenDayReportDto);

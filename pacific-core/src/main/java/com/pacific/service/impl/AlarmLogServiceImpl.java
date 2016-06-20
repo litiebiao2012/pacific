@@ -3,6 +3,7 @@ package com.pacific.service.impl;
 import com.pacific.common.utils.CollectionUtil;
 import com.pacific.common.utils.DateUtil;
 import com.pacific.domain.dto.AlarmLogDto;
+import com.pacific.domain.dto.AllAppErrorLogReportDto;
 import com.pacific.domain.dto.AllAppErrorLogSevenDayReportDto;
 import com.pacific.domain.dto.AppErrorLogSeries;
 import com.pacific.domain.entity.Application;
@@ -129,6 +130,11 @@ public class AlarmLogServiceImpl implements AlarmLogService {
             allAppErrorLogSevenDayReportDto.setSeries(appErrorLogSeriesList);
         }
         return allAppErrorLogSevenDayReportDto;
+    }
+
+
+    public AllAppErrorLogReportDto queryAllAppErrorLogReport() {
+        return null;
     }
 
     private List<Date> buildSevenDayDateList() {
