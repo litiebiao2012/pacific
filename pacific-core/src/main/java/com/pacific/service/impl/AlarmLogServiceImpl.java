@@ -135,8 +135,8 @@ public class AlarmLogServiceImpl implements AlarmLogService {
         DateUtil.yesterday();
         List<Date> dateList = new LinkedList<Date>();
         dateList.add(new Date());
-        for (int i = 1; i <=6; i++) {
-            dateList.add(DateUtil.yesterday().toDate());
+        for (int i = -1; i >=-6; i--) {
+            dateList.add(DateUtil.offsiteDay(new Date(),i).toDate());
         }
         CollectionUtil.sort(dateList, new Comparator<Date>() {
             @Override
