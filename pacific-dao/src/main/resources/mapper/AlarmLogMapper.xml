@@ -5,13 +5,19 @@
     <id column="id" jdbcType="BIGINT" property="id" />
     <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
     <result column="update_time" jdbcType="TIMESTAMP" property="updateTime" />
-    <result column="message" jdbcType="VARCHAR" property="message" />
+    <result column="message" jdbcType="LONGVARCHAR" property="message" />
     <result column="application_code" jdbcType="VARCHAR" property="applicationCode" />
     <result column="user_id" jdbcType="BIGINT" property="userId" />
     <result column="error_log_id" jdbcType="BIGINT" property="errorLogId" />
     <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
     <result column="channel_code" jdbcType="VARCHAR" property="channelCode" />
   </resultMap>
+
+  <resultMap id="BaseDetailResultMap" type="com.pacific.domain.dto.AlarmLogDto" extends="BaseResultMap">
+    <result column="user_name" jdbcType="VARCHAR" property="userName" />
+    <result column="application_name" jdbcType="VARCHAR" property="applicationName" />
+  </resultMap>
+
   <sql id="Base_Column_List">
     id, create_time, update_time, message, application_code, user_id, error_log_id, send_time, 
     channel_code
@@ -139,5 +145,51 @@
       channel_code = #{channelCode,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="queryTotalAlarmLog" resultType="java.lang.Long">
+    select
+       count(1)
+    from t_alarm_log
+    where 1 = 1
+    <if test="beginDate != null">
+      <![CDATA[ and create_time >=  #{beginDate,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="endDate != null">
+      <![CDATA[ and create_time <  #{endDate,jdbcType=TIMESTAMP}]]>
+    </if>
+  </select>
+
+  <select id="queryAlarmLog" resultMap="BaseDetailResultMap">
+    select
+    al.id,
+    al.create_time,
+    al.update_time,
+    al.message,
+    al.application_code,
+    al.user_id,
+    al.error_log_id,
+    al.send_time,
+    al.channel_code,
+    a.application_name,
+    u.user_name
+    from t_alarm_log al
+     left join t_application a
+    on
+    al.application_code = a.application_code
+    left join  t_user u
+    on
+    al.user_id = u.id
+    where 1 = 1
+    <if test="beginDate != null">
+      <![CDATA[ and al.create_time >=  #{beginDate,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="endDate != null">
+      <![CDATA[ and al.create_time <  #{endDate,jdbcType=TIMESTAMP}]]>
+    </if>
+    order by al.create_time desc
+    <include refid="Page.footer"/>
+  </select>
+
+
 
 </mapper>

@@ -63,10 +63,6 @@
   </insert>
 
   <insert id="batchInsert" parameterType="com.pacific.domain.entity.ErrorLogRecord" >
-    <selectKey resultType="long" keyProperty="id" order="AFTER">
-      SELECT
-      LAST_INSERT_ID()
-    </selectKey>
     insert into t_error_log_record (create_time, update_time,
     application_code, elasticsearch_log_id, elasticsearch_log_type,
     elasticsearch_log_score, elasticsearch_log_create_time,

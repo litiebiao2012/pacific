@@ -83,5 +83,6 @@
 
     <bean class="com.pacific.common.web.ExceptionHandlerResolver"/>
     <bean class="com.pacific.common.spring.SpringContext"/>
+    <bean class="com.pacific.web.XUserServiceImpl"/>
 
 </beans>

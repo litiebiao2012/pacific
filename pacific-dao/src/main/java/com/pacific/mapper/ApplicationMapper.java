@@ -18,4 +18,6 @@ public interface ApplicationMapper {
     int updateByPrimaryKey(Application record);
 
     List<Application> queryAllApplicationByState(String state);
+
+    int queryTotalApplication();
 }

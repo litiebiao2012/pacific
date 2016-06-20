@@ -7,6 +7,8 @@ import com.pacific.common.utils.DateUtil;
 import com.pacific.common.utils.GetUTCTimeUtil;
 import com.pacific.domain.search.query.LoggerQuery;
 import com.pacific.domain.search.result.LoggerResult;
+import org.apache.commons.lang.StringUtils;
+import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.action.search.SearchType;
 import org.elasticsearch.client.Client;
@@ -85,6 +87,7 @@ public class ElasticSearchHelper {
                 .execute()
                 .actionGet();
 
+
         SearchHits searchHits = response.getHits();
 
         logger.info("searchHist result : {}",FastJson.toJson(searchHits));
@@ -122,6 +125,42 @@ public class ElasticSearchHelper {
         }
         return loggerResultList;
     }
+
+    public IndexResponse createIndexResponse(String indexName, String type, String jsondata){
+        IndexResponse response = client.prepareIndex(indexName, type)
+                .setSource(jsondata)
+                .execute()
+                .actionGet();
+        return response;
+    }
+
+    public Long queryTotalLog(String applicationCode,LoggerQuery loggerQuery) {
+        return queryTotalLog(new String[]{applicationCode},loggerQuery);
+    }
+
+    public Long queryTotalLog(String[] applicationCodes,LoggerQuery loggerQuery) {
+
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+        if (loggerQuery != null) {
+            if (StringUtils.isNotEmpty(loggerQuery.getLevel()))  boolQueryBuilder.must(QueryBuilders.matchQuery("level",loggerQuery.getLevel()));
+
+            if (loggerQuery.getBeginDate() != null &&
+                    loggerQuery.getEndDate() != null) {
+                boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").gte(loggerQuery.getBeginDate()).lt(loggerQuery.getEndDate()));
+            }
+        }
+
+        SearchResponse response= getClient().prepareSearch(applicationCodes)//设置要查询的索引(index)
+                .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
+                .setTypes(Constants.DEFAULT_ELASTIC_SEARCH_LOG_TYPE)//设置type, 这个在建立索引的时候同时设置了, 或者可以使用head工具查看
+                .setQuery(boolQueryBuilder)//在这里"message"是要查询的field,"Accept"是要查询的内容
+                .setExplain(true)
+                .execute()
+                .actionGet();
+        return response.getHits().getTotalHits();
+    }
+
+
 
     public String getClusterName() {
         return clusterName;

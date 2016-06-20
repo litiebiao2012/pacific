@@ -5,4 +5,6 @@ package com.pacific.service;
  */
 public interface AlarmService {
     public void alarm();
+
+
 }

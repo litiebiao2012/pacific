@@ -11,4 +11,6 @@ public interface ApplicationService {
 
     public List<Application> queryAllApplication();
 
+    public Integer getTotalApplication();
+
 }

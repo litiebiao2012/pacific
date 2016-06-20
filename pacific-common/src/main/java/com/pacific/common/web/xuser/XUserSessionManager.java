@@ -35,7 +35,9 @@ public class XUserSessionManager {
 
     private static XUserService xUserService      = SpringContext.getBean(XUserService.class);
 
-    private static RedisTemplate redisTemplate    = SpringContext.getBean(RedisTemplate.class);
+  //  private static RedisTemplate redisTemplate    = SpringContext.getBean(RedisTemplate.class);
+
+    private static RedisTemplate redisTemplate;
 
     private static String STORE_TYPE_REDIS = "redis";
     private static String STORE_TYPE_NATIVE = "native";
