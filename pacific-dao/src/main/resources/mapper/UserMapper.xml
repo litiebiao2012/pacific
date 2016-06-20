@@ -165,11 +165,19 @@
      </if>
   </select>
 
-  <select id="queryUserListPageByParam" parameterType="java.lang.Long" resultMap="BaseResultMap">
+  <select id="queryUserListPageByParam" resultMap="BaseResultMap">
     select
       <include refid="Base_Column_List" />
     from t_user
-     where id = #{id,jdbcType=BIGINT}
+    <include refid="Page.footer"/>
   </select>
+
+  <select id="queryUserListCount" resultType="java.lang.Integer">
+    select
+     count(1)
+    from t_user
+  </select>
+
+
 
 </mapper>

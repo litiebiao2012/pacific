@@ -12,6 +12,7 @@
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             <a href="#">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
@@ -31,9 +32,24 @@
                     <div class="col-xs-9 text-right">
                         <div class="huge">${dayAllLogTotal}</div>
                         <div>当天日志总数</div>
+=======
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-tasks fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">$pacificWebTool.processNum(${dayAllLogTotal})</div>
+                                <div>当日采集日志总数</div>
+                            </div>
+                        </div>
+>>>>>>> 399ecea3db4844445cb17e6093b5a882345cefef
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             <a href="#">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
@@ -53,9 +69,24 @@
                     <div class="col-xs-9 text-right">
                         <div class="huge">${dayAlarmLogTotal}</div>
                         <div>今日报警次数</div>
+=======
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-yellow">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-shopping-cart fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">$pacificWebTool.processNum(${dayAlarmLogTotal})</div>
+                                <div>今日报警次数</div>
+                            </div>
+                        </div>
+>>>>>>> 399ecea3db4844445cb17e6093b5a882345cefef
                     </div>
                 </div>
             </div>
+<<<<<<< HEAD
             <a href="#">
                 <div class="panel-footer">
                     <span class="pull-left">View Details</span>
@@ -75,6 +106,20 @@
                     <div class="col-xs-9 text-right">
                         <div class="huge">${dayErrorLogTotal}</div>
                         <div>当天产生error log数量</div>
+=======
+            <div class="col-lg-3 col-md-6">
+                <div class="panel panel-red">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-3">
+                                <i class="fa fa-support fa-5x"></i>
+                            </div>
+                            <div class="col-xs-9 text-right">
+                                <div class="huge">$pacificWebTool.processNum(${dayErrorLogTotal})</div>
+                                <div>当日采集错误日志总数</div>
+                            </div>
+                        </div>
+>>>>>>> 399ecea3db4844445cb17e6093b5a882345cefef
                     </div>
                 </div>
             </div>
@@ -90,6 +135,7 @@
 </div>
 <!-- /.row -->
 <div class="row">
+<<<<<<< HEAD
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -97,12 +143,24 @@
             </div>
             <div class="panel-body">
                 <div id="recent-error-chart" style="width: 100%;height:400px;"></div>
+=======
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 最近7日错误日志统计</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="morris-area-chart"></div>
+                    </div>
+                </div>
+>>>>>>> 399ecea3db4844445cb17e6093b5a882345cefef
             </div>
         </div>
     </div>
 </div>
 <!-- /.row -->
 <div class="row">
+<<<<<<< HEAD
     <div class="col-lg-4">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -191,6 +249,58 @@
                 </div>
                 <div class="text-right">
                     <a href="#">查看详情 <i class="fa fa-arrow-circle-right"></i></a>
+=======
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> 错误日志总数汇总</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div id="morris-donut-chart"></div>
+                        <div class="text-right">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 最新报警记录</h3>
+                    </div>
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-hover table-striped">
+                                <thead>
+                                <tr>
+                                    <th>用户名</th>
+                                    <th>应用名</th>
+                                    <th>通知方式</th>
+                                    <th>通知时间</th>
+                                    <th>异常内容</th>
+                                    <th>机器地址</th>
+                                    <th>log文件地址</th>
+                                </tr>
+                                </thead>
+                                <tboddy>
+                                    #foreach( $item in $alarmLogDtoList)
+                                        <tr>
+                                            <td>$item.userName</td>
+                                            <td>$item.applicationName</td>
+                                            <td>$pacificWebTool.getChannelText($item.channelCode)</td>
+                                            <td>$pacificWebTool.formatDate($item.createTime)</td>
+                                            <td>$item.logMessage</td>
+                                            <td>$item.logHostName</td>
+                                            <td>$item.logFilePath</td>
+                                        </tr>
+                                    #end
+                                </tboddy>
+                            </table>
+                        </div>
+                        <div class="text-right">
+                            <a href="#">查看详情 <i class="fa fa-arrow-circle-right"></i></a>
+                        </div>
+                    </div>
+>>>>>>> 399ecea3db4844445cb17e6093b5a882345cefef
                 </div>
             </div>
         </div>

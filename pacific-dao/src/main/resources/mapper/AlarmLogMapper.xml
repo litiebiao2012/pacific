@@ -16,6 +16,9 @@
   <resultMap id="BaseDetailResultMap" type="com.pacific.domain.dto.AlarmLogDto" extends="BaseResultMap">
     <result column="user_name" jdbcType="VARCHAR" property="userName" />
     <result column="application_name" jdbcType="VARCHAR" property="applicationName" />
+    <result column="log_message" jdbcType="VARCHAR" property="logMessage" />
+    <result column="log_host_name" jdbcType="VARCHAR" property="logHostName" />
+    <result column="log_file_path" jdbcType="VARCHAR" property="logFilePath" />
   </resultMap>
 
   <sql id="Base_Column_List">
@@ -171,7 +174,10 @@
     al.send_time,
     al.channel_code,
     a.application_name,
-    u.user_name
+    u.user_name,
+    elr.log_message,
+    elr.log_host_name,
+    elr.log_file_path
     from t_alarm_log al
      left join t_application a
     on
@@ -179,6 +185,10 @@
     left join  t_user u
     on
     al.user_id = u.id
+    left join
+    t_error_log_record elr
+    on
+     al.error_log_id = elr.id
     where 1 = 1
     <if test="beginDate != null">
       <![CDATA[ and al.create_time >=  #{beginDate,jdbcType=TIMESTAMP}]]>
