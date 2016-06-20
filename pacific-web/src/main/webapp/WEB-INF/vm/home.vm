@@ -93,7 +93,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 日志汇总报表</h3>
+                        <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 各应用错误日志汇总统计</h3>
                     </div>
                     <div class="panel-body">
                         <div id="morris-area-chart"></div>
@@ -183,7 +183,7 @@
                                             <td>$item.userName</td>
                                             <td>$item.applicationName</td>
                                             <td>$item.errorLogId</td>
-                                            <td>$item.createTime</td>
+                                            <td>$pacificWebTool.formatDate($item.createTime)</td>
                                         </tr>
                                     #end
                                 </tboddy>

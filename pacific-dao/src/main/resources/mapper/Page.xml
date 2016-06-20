@@ -5,8 +5,8 @@
 <mapper namespace="Page">
 
     <sql id="footer">
-        <if test="start != null and pageSize != null">
-            limit ${start} , ${pageSize}
+        <if test="startRow != null and pageSize != null">
+            limit ${startRow} , ${pageSize}
         </if>
     </sql>
 </mapper>
