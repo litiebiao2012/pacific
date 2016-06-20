@@ -27,6 +27,7 @@ public class DateUtil {
 
     /** 标准日期格式 */
     public final static String                   NORM_DATE_PATTERN            = "yyyy-MM-dd";
+    public final static String                   DATE_PATTERN                 = "MM-dd";
     /** 标准时间格式 */
     public final static String                   NORM_TIME_PATTERN            = "HH:mm:ss";
     /** 标准日期时间格式，精确到分 */
@@ -316,6 +317,7 @@ public class DateUtil {
     public static DateTime yesterday() {
         return offsiteDay(new Date(), -1);
     }
+
 
     /**
      * 上周

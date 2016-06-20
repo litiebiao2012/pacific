@@ -134,6 +134,10 @@ public class ElasticSearchHelper {
         return response;
     }
 
+    public Long queryTotalLog(String applicationCode,LoggerQuery loggerQuery) {
+        return queryTotalLog(new String[]{applicationCode},loggerQuery);
+    }
+
     public Long queryTotalLog(String[] applicationCodes,LoggerQuery loggerQuery) {
 
         BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();

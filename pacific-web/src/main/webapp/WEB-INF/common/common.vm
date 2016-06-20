@@ -26,4 +26,4 @@
 <script src="/resources/bootstrap-table/dist/bootstrap-table.js"></script>
 <script src="/resources/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
 
-<script src="/resources/ehcharts/echarts.min.js"/>
+##<script src="/resources/ehcharts/echarts.min.js"/>

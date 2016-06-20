@@ -1,6 +1,7 @@
 package com.pacific.service;
 
 import com.pacific.domain.dto.AlarmLogDto;
+import com.pacific.domain.dto.AllAppErrorLogReportDto;
 import com.pacific.domain.query.AlarmLogQuery;
 
 import java.util.List;
@@ -13,4 +14,6 @@ public interface AlarmLogService {
     public Long getDayAlarmLogCount();
 
     public List<AlarmLogDto> queryDayAlarmLog(AlarmLogQuery alarmLogQuery);
+
+    public AllAppErrorLogReportDto queryAllAppErrorLogReport();
 }

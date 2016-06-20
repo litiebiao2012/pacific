@@ -93,7 +93,7 @@
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <div class="panel-heading">
-                        <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 各应用错误日志汇总统计</h3>
+                        <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 最近7日错误日志汇总统计</h3>
                     </div>
                     <div class="panel-body">
                         <div id="morris-area-chart"></div>
@@ -197,3 +197,20 @@
             </div>
         </div>
 <!-- /.row -->
+
+##<script>
+##    $.ready(function(){
+##        // 基于准备好的dom，初始化echarts实例
+##        var allAppErrorLogChart = echarts.init($('#allAppErrorLogChart'));
+##        $.ajax({
+##            type : 'POST',
+##            url : '/allAppErrorLogReport.json',
+##            dataType : 'json',
+##            success : function(data){
+##                if (data.status == 'OK') {
+##                    allAppErrorLogChart.setOption(data.data);
+##                }
+##            }
+##        });
+##    })
+##</script>

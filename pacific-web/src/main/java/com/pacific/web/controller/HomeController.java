@@ -3,7 +3,9 @@ package com.pacific.web.controller;
 import com.pacific.common.annotation.LoginCheckAnnotation;
 import com.pacific.common.utils.CollectionUtil;
 import com.pacific.common.utils.DateUtil;
+import com.pacific.common.web.result.AjaxResult;
 import com.pacific.domain.dto.AlarmLogDto;
+import com.pacific.domain.dto.AllAppErrorLogReportDto;
 import com.pacific.domain.entity.Application;
 import com.pacific.domain.query.AlarmLogQuery;
 import com.pacific.domain.search.query.LoggerQuery;
@@ -15,6 +17,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -86,7 +89,15 @@ public class HomeController {
     @RequestMapping(value = "/login.htm",method = RequestMethod.GET)
     public String login() {
         return "login";
+    }
 
+    @ResponseBody
+    @RequestMapping(value = "/allAppErrorLogReport.json",method = RequestMethod.GET)
+    public AjaxResult allAppErrorLogReport() {
+        AjaxResult ajaxResult = new AjaxResult();
+        AllAppErrorLogReportDto allAppErrorLogReportDto = alarmLogService.queryAllAppErrorLogReport();
+        ajaxResult.setData(allAppErrorLogReportDto);
+        return ajaxResult;
     }
 
     @LoginCheckAnnotation(checked = false)
