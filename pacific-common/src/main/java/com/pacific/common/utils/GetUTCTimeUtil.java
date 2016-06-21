@@ -1,24 +1,12 @@
 package com.pacific.common.utils;
 
-import org.apache.lucene.search.BooleanQuery;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
-import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
 import org.joda.time.LocalDateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-import org.springframework.format.datetime.DateFormatter;
-import sun.org.mozilla.javascript.internal.EcmaError;
-
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.TimeZone;
 
 /**
  * Created by Fe on 16/6/13.
