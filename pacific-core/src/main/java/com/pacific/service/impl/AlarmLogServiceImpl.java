@@ -134,7 +134,63 @@ public class AlarmLogServiceImpl implements AlarmLogService {
 
 
     public AllAppErrorLogReportDto queryAllAppErrorLogReport() {
-        return null;
+
+        AllAppErrorLogReportDto allAppErrorLogReportDto = new AllAppErrorLogReportDto();
+        List<Application> applicationList = applicationService.queryAllApplication();
+        if (CollectionUtil.isNotEmpty(applicationList)) {
+            Map<String,String> titleMap = new HashMap<String,String>();
+            titleMap.put("text","错误日志总数汇总");
+            titleMap.put("subtext","数据汇总");
+            titleMap.put("x","center");
+            allAppErrorLogReportDto.setTitle(titleMap);
+
+            Map<String,String> tooltipMap = new HashMap<String,String>();
+            tooltipMap.put("trigger","item");
+            tooltipMap.put("formatter","{a} <br/>{b} : {c} ({d}%)");
+            allAppErrorLogReportDto.setTooltip(tooltipMap);
+
+
+            Map<String,Object> legendMap = new HashMap<String,Object>();
+            legendMap.put("orient","vertical");
+            legendMap.put("left","left");
+
+
+            List<String> appNameList = new LinkedList<String>();
+
+            List<Map<String,Object>> seriesList = new ArrayList<Map<String,Object>>();
+
+            Map<String,Object> seriesMap = new HashMap<String,Object>();
+            List<Map<String,Object>> seriesDataList = new LinkedList<Map<String,Object>>();
+            LoggerQuery loggerQuery = new LoggerQuery();
+            loggerQuery.setLevel("error");
+            for (Application app : applicationList) {
+                appNameList.add(app.getApplicationName());
+                Map<String,Object> dataMap = new HashMap<String,Object>();
+
+                Long total = elasticSearchHelper.queryTotalLog(app.getApplicationCode(),loggerQuery);
+                dataMap.put("value",total);
+                dataMap.put("name",app.getApplicationName());
+                seriesDataList.add(dataMap);
+            }
+            legendMap.put("data",appNameList);
+            allAppErrorLogReportDto.setLegend(legendMap);
+
+            seriesMap.put("name","错误日志数量汇总");
+            seriesMap.put("type","pie");
+            seriesMap.put("radius","55%");
+            seriesMap.put("center",Arrays.asList("50%","60%"));
+            seriesMap.put("data",seriesDataList);
+
+            Map<String,Object> itemStyleMap = new HashMap<String,Object>();
+            Map<String,Object> emphasisMap = new HashMap<String,Object>();
+            emphasisMap.put("shadowBlur",10);
+            emphasisMap.put("shadowOffsetX",0);
+            emphasisMap.put("shadowColor","rgba(0, 0, 0, 0.5)");
+            itemStyleMap.put("emphasis",itemStyleMap);
+            seriesMap.put("itemStyle",itemStyleMap);
+            seriesList.add(seriesMap);
+        }
+        return allAppErrorLogReportDto;
     }
 
     private List<Date> buildSevenDayDateList() {
