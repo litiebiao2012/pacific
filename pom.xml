@@ -15,6 +15,7 @@
         <module>pacific-common</module>
         <module>pacific-wechat</module>
         <module>pacific-dingtalk</module>
+        <module>pacific-task</module>
     </modules>
 
 

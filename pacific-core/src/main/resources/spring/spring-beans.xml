@@ -26,4 +26,16 @@
         <!-- 线程池所使用的缓冲队列 -->
         <property name ="queueCapacity" value ="200" />
     </bean>
+
+    <bean id="mailHelper" class="com.pacific.common.helper.MailHelper"></bean>
+    <bean id="phoneHelper" class="com.pacific.common.helper.PhoneHelper"></bean>
+    <bean id="bearyChatHelper" class="com.pacific.common.helper.BearyChatHelper">
+        <property name="url" value="${bearychat.api.url}"></property>
+        <property name="notification" value="好=͟͟͞͞可=͟͟͞͞怕=͟͟͞͞,有=͟͟͞͞错=͟͟͞͞误=͟͟͞͞日=͟͟͞͞志=͟͟͞͞报=͟͟͞͞警=͟͟͞͞!!!!!"></property>
+        <property name="attTitle" value="Pacific日志监控平台"></property>
+        <property name="attText" value="错误日志,请应用相关开发人员尽快处理,么么哒 (* ￣3)(ε￣ *)ლ(°◕‵ƹ′◕ლ)!"></property>
+        <property name="attColor" value="#ff0000"></property>
+        <property name="attUrl" value="http://ico.ooopic.com/ajax/iconpng/?id=97158.png"></property>
+    </bean>
+
 </beans>

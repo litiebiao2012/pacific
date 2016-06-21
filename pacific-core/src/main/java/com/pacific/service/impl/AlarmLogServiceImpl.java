@@ -189,6 +189,7 @@ public class AlarmLogServiceImpl implements AlarmLogService {
             itemStyleMap.put("emphasis",itemStyleMap);
             seriesMap.put("itemStyle",itemStyleMap);
             seriesList.add(seriesMap);
+            allAppErrorLogReportDto.setSeries(seriesList);
         }
         return allAppErrorLogReportDto;
     }
