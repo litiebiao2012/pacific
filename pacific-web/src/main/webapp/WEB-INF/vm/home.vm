@@ -29,8 +29,8 @@
                         <i class="fa fa-tasks fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">${dayAllLogTotal}</div>
-                        <div>当天日志总数</div>
+                        <div class="huge">$pacificWebTool.processNum(${dayAllLogTotal})</div>
+                        <div>当日采集日志总数</div>
                     </div>
                 </div>
             </div>
@@ -51,7 +51,7 @@
                         <i class="fa fa-shopping-cart fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">${dayAlarmLogTotal}</div>
+                        <div class="huge">$pacificWebTool.processNum(${dayAlarmLogTotal})</div>
                         <div>今日报警次数</div>
                     </div>
                 </div>
@@ -73,8 +73,8 @@
                         <i class="fa fa-support fa-5x"></i>
                     </div>
                     <div class="col-xs-9 text-right">
-                        <div class="huge">${dayErrorLogTotal}</div>
-                        <div>当天产生error log数量</div>
+                        <div class="huge">$pacificWebTool.processNum(${dayErrorLogTotal})</div>
+                        <div>当日采集错误日志总数</div>
                     </div>
                 </div>
             </div>
@@ -93,7 +93,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 最近7日错误日志汇总统计</h3>
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 最近7日错误日志统计</h3>
             </div>
             <div class="panel-body">
                 <div id="recent-error-chart" style="width: 100%;height:400px;"></div>
@@ -103,10 +103,10 @@
 </div>
 <!-- /.row -->
 <div class="row">
-    <div class="col-lg-4">
+    <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> 当天日志报表</h3>
+                <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> 错误日志总数汇总</h3>
             </div>
             <div class="panel-body">
                 <div id="morris-donut-chart"></div>
@@ -115,56 +115,10 @@
             </div>
         </div>
     </div>
-    <div class="col-lg-4">
+    <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-clock-o fa-fw"></i> 应用列表</h3>
-            </div>
-            <div class="panel-body">
-                <div class="list-group">
-                    <a href="#" class="list-group-item">
-                        <span class="badge">just now</span>
-                        <i class="fa fa-fw fa-calendar"></i> Calendar updated
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <span class="badge">4 minutes ago</span>
-                        <i class="fa fa-fw fa-comment"></i> Commented on a post
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <span class="badge">23 minutes ago</span>
-                        <i class="fa fa-fw fa-truck"></i> Order 392 shipped
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <span class="badge">46 minutes ago</span>
-                        <i class="fa fa-fw fa-money"></i> Invoice 653 has been paid
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <span class="badge">1 hour ago</span>
-                        <i class="fa fa-fw fa-user"></i> A new user has been added
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <span class="badge">2 hours ago</span>
-                        <i class="fa fa-fw fa-check"></i> Completed task: "pick up dry cleaning"
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <span class="badge">yesterday</span>
-                        <i class="fa fa-fw fa-globe"></i> Saved the world
-                    </a>
-                    <a href="#" class="list-group-item">
-                        <span class="badge">two days ago</span>
-                        <i class="fa fa-fw fa-check"></i> Completed task: "fix error on sales page"
-                    </a>
-                </div>
-                <div class="text-right">
-                    <a href="#">查看详情 <i class="fa fa-arrow-circle-right"></i></a>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="col-lg-4">
-        <div class="panel panel-default">
-            <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 当天日志报警记录</h3>
+                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 最新报警记录</h3>
             </div>
             <div class="panel-body">
                 <div class="table-responsive">
@@ -173,8 +127,11 @@
                         <tr>
                             <th>用户名</th>
                             <th>应用名</th>
-                            <th>logId</th>
+                            <th>通知方式</th>
                             <th>通知时间</th>
+                            <th>异常内容</th>
+                            <th>机器地址</th>
+                            <th>log文件地址</th>
                         </tr>
                         </thead>
                         <tboddy>
@@ -182,8 +139,11 @@
                                 <tr>
                                     <td>$item.userName</td>
                                     <td>$item.applicationName</td>
-                                    <td>$item.errorLogId</td>
+                                    <td>$pacificWebTool.getChannelText($item.channelCode)</td>
                                     <td>$pacificWebTool.formatDate($item.createTime)</td>
+                                    <td>$item.logMessage</td>
+                                    <td>$item.logHostName</td>
+                                    <td>$item.logFilePath</td>
                                 </tr>
                             #end
                         </tboddy>
@@ -201,7 +161,6 @@
 <script src="/resources/ehcharts/echarts.min.js"></script>
 
 <script type="text/javascript">
-    console.log("hello");
     $(document).ready(function () {
         // 基于准备好的dom，初始化echarts实例
         var myChart = echarts.init(document.getElementById('recent-error-chart'));
