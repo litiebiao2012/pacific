@@ -11,15 +11,13 @@
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
             <level>info</level>
         </filter>
-        <file>/Users/Fe/coding/log-monitor/logs/pacific_file.log</file>
+        <file>/work/logs/pacific_task.log</file>
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-            <fileNamePattern>/Users/Fe/coding/log-monitor/logs/pacific_file.log.%d{yyyy-MM-dd}</fileNamePattern>
+            <fileNamePattern>/work/logs/pacific_task.log.%d{yyyy-MM-dd}</fileNamePattern>
             <maxHistory>30</maxHistory>
         </rollingPolicy>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder" />
     </appender>
-
-
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

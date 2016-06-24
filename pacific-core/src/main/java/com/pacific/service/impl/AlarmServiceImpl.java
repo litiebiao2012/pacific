@@ -64,12 +64,12 @@ public class AlarmServiceImpl implements AlarmService {
 
     @PostConstruct
     public void init() {
-        /*scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
+        scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
                 alarm();
             }
-        },0,Constants.ALARM_ERROR_LOG_SCHEDULE_DELAY, TimeUnit.SECONDS);*/
+        },0,Constants.ALARM_ERROR_LOG_SCHEDULE_DELAY, TimeUnit.SECONDS);
     }
 
 
