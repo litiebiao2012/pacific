@@ -44,12 +44,16 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
 
     @PostConstruct
     public void init() {
-        /*scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
+        scheduledExecutorService.scheduleWithFixedDelay(new Runnable() {
             @Override
             public void run() {
-                loadElasticSearchErrorLog();
+                try {
+                    loadElasticSearchErrorLog();
+                } catch (Exception e) {
+                    logger.error("loadElasticSearchErrorLog error !",e);
+                }
             }
-        },0, Constants.LOAD_ELASTIC_SEARCH_ERROR_LOG_DELAY, TimeUnit.SECONDS);*/
+        },0, Constants.LOAD_ELASTIC_SEARCH_ERROR_LOG_DELAY, TimeUnit.SECONDS);
     }
 
 
