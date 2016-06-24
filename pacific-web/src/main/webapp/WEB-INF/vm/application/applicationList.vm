@@ -6,24 +6,42 @@
                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 应用列表</h3>
             </div>
             <div class="panel-body">
-                <div class="">
-                    <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
-                        <thead>
-                        <tr>
-                            <th>id</th>
-                            <th>应用编码</th>
-                            <th>应用名称</th>
-                            <th>状态</th>
-                            <th>创建时间</th>
-                            <th>修改时间</th>
-                        </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form class="form-inline" id="searchForm" onsubmit="return false;">
+                            <div class="form-group">
+                                <label for="applicationName">应用名称</label>
+                                <input type="text" class="form-control" name="applicationName" id="applicationName" placeholder="应用名称">
+                            </div>
+                            <div class="form-group">
+                                <label for="applicationCode">应用编码</label>
+                                <input type="email" class="form-control" name="applicationCode" id="applicationCode" placeholder="应用编码">
+                            </div>
+                            <button type="submit" id="searchButton" class="btn btn-default">查找</button>
+                        </form>
+                    </div>
                 </div>
-                <div class="text-right">
-                    <a href="#">查看详情 <i class="fa fa-arrow-circle-right"></i></a>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>应用编码</th>
+                                <th>应用名称</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                                <th>修改时间</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
                 </div>
+            #*<div class="text-right">
+                <a href="#">查看详情 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>*#
             </div>
         </div>
     </div>
@@ -32,7 +50,7 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        $('#table').dataTable({
+        table = $('#table').DataTable({
             language: Common.language,
             serverSide: true,
             searching: false,
@@ -44,7 +62,7 @@
                 var sortDirection = orderLength == 0 ? '' : data.order[0].dir;
                 $.ajax({
                     type: "post",
-                    url: '/application/list.json',
+                    url: '/application/list.json?' + $('#searchForm').serialize(),
                     dataType: "json",
                     data: {
                         'pageSize': data.length,
@@ -66,10 +84,11 @@
                 })
             },
 
-            columnDefs: [{
-                defaultContent: '',
-                targets: '_all'
-            }],
+            columnDefs: [
+                {
+                    defaultContent: '',
+                    targets: '_all'
+                }],
             order: [],
             columns: [
                 {
@@ -92,10 +111,26 @@
                 {
                     data: 'updateTime',
                     sort: 'update_time',
+                },
+                {
+                    render: function () {
+                        return "<button>Click!</button>";
+                    }
                 }
             ]
         });
 
+
+        $('#table tbody').on('click', 'button', function () {
+            var data = table.row($(this).parents('tr')).data();
+            console.log(data);
+            alert(data.id + " 的应用名:" + data.applicationName);
+        });
+
+
+        $('#searchButton').click(function () {
+            table.ajax.reload();
+        });
 
     });
 
