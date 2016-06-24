@@ -12,8 +12,8 @@ public class BaseQuery {
     private static final Integer defaultPageSize  = new Integer(20);
     private static final Integer defaultFristPage = new Integer(1);
     private static final Integer defaultTotalItem = new Integer(0);
-    public static final String ASC ="asc" ;
-    public static final String DESC ="desc" ;
+    public static final String   ASC              = "asc";
+    public static final String   DESC             = "desc";
 
     /**
      * 总共多少条

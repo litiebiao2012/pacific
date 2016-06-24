@@ -1,20 +1,26 @@
 <!-- Bootstrap Core CSS -->
-<link href="/resources/sbamin/css/bootstrap.min.css" rel="stylesheet">
+<link href="/resources/sbamin/css/bootstrap.min.css" rel="stylesheet" type="text/css">
 <!-- Custom CSS -->
-<link href="/resources/sbamin/css/sb-admin.css" rel="stylesheet">
+<link href="/resources/sbamin/css/sb-admin.css" rel="stylesheet" type="text/css">
 <!-- Morris Charts CSS -->
-<link href="/resources/sbamin/css/plugins/morris.css" rel="stylesheet">
+<link href="/resources/sbamin/css/plugins/morris.css" rel="stylesheet" type="text/css">
 
 <!-- Custom Fonts -->
 <link href="/resources/sbamin/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <!-- /#wrapper -->
 
+
+<link href="/resources/datatables/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
+
 <!-- bootstrap table-->
+#*
 <link href="/resources/bootstrap-table/dist/bootstrap-table.css" rel="stylesheet" type="text/css">
+*#
 
 
 <!-- jQuery -->
 <script src="/resources/sbamin/js/jquery.js"></script>
+<script src="/resources/common.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
 <script src="/resources/sbamin/js/bootstrap.min.js"></script>
@@ -23,6 +29,11 @@
 <script src="/resources/sbamin/js/plugins/morris/raphael.min.js"></script>
 
 
+
+<script type="text/javascript" src="/resources/datatables/js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="/resources/datatables/js/dataTables.bootstrap.min.js"></script>
+
+#*
 <script src="/resources/bootstrap-table/dist/bootstrap-table.js"></script>
-<script src="/resources/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>
+<script src="/resources/bootstrap-table/dist/locale/bootstrap-table-zh-CN.js"></script>*#
 

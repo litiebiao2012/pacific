@@ -4,6 +4,7 @@ import com.pacific.common.web.RequestContext;
 import com.pacific.common.web.xuser.XUser;
 import com.pacific.common.web.xuser.XUserSessionManager;
 import com.pacific.domain.enums.ChannelCodeEnums;
+import org.apache.commons.lang3.StringUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -39,6 +40,11 @@ public class PacificWebTool {
     }
 
     public String processNum(Long num) {
+
+        if (num == null) {
+            return StringUtils.EMPTY;
+        }
+
         StringBuffer numSb = new StringBuffer();
         if (num > 99999) {
             String str = num + "";
