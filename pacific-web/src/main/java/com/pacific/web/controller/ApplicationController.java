@@ -2,6 +2,7 @@ package com.pacific.web.controller;
 
 import com.pacific.domain.entity.Application;
 import com.pacific.domain.query.Pagination;
+import com.pacific.service.ApplicationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -10,8 +11,10 @@ import org.springframework.web.servlet.ModelAndView;
 import com.pacific.common.web.result.AjaxResult;
 import com.pacific.domain.query.ApplicationQuery;
 
+import javax.annotation.Resource;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Fe on 16/6/21.
@@ -19,6 +22,9 @@ import java.util.Date;
 @Controller
 @RequestMapping("/application")
 public class ApplicationController {
+
+    @Resource
+    private ApplicationService applicationService;
 
     @RequestMapping("/list.htm")
     public ModelAndView list() {
@@ -31,29 +37,10 @@ public class ApplicationController {
     @RequestMapping("/list.json")
     public AjaxResult list(ApplicationQuery query) {
         AjaxResult ajaxResult = new AjaxResult();
-
-        Application application1 = new Application();
-        application1.setId(1l);
-        application1.setApplicationCode("app");
-        application1.setApplicationName("应用");
-        application1.setState("normal");
-        application1.setCreateTime(new Date());
-
-        Application application = new Application();
-        application.setId(2l);
-        application.setApplicationCode("app2");
-        application.setApplicationName("应用2");
-        application.setState("normal2");
-        application.setCreateTime(new Date());
-
-
-
-        Pagination<Application> pagination = new Pagination<Application>(query, Arrays.asList(application1, application), 2);
-
+        List<Application> applicationList = applicationService.queryAllApplication();
+        Integer total = applicationService.getTotalApplication();
+        Pagination<Application> pagination = new Pagination<Application>(query, applicationList, total);
         ajaxResult.setData(pagination);
-
-//        ajaxResult.setStatus(AjaxResult.STATUS_PARAM_ERROR);
-
         return ajaxResult;
     }
 

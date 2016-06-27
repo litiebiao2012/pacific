@@ -3,19 +3,32 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 应用列表</h3>
+                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 日志列表</h3>
             </div>
             <div class="panel-body">
                 <div class="row">
                     <div class="col-lg-12">
                         <form class="form-inline" id="searchForm" onsubmit="return false;">
                             <div class="form-group">
-                                <label for="applicationName">应用名称</label>
-                                <input type="text" class="form-control" name="applicationName" id="applicationName" placeholder="应用名称">
+                                <label for="index">应用编号</label>
+                                <select class="form-control" id="index" name="index">
+                                    #foreach($item in $applicationList)
+                                        <option value="$item.applicationCode">$item.applicationName</option>
+                                    #end
+                                </select>
                             </div>
                             <div class="form-group">
-                                <label for="applicationCode">应用编码</label>
-                                <input type="email" class="form-control" name="applicationCode" id="applicationCode" placeholder="应用编码">
+                                <label for="level">日志级别</label>
+                                <select class="form-control" id="level" name="level">
+                                    <option>all</option>
+                                    <option>debug</option>
+                                    <option>info</option>
+                                    <option>error</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="message">日志message关键字</label>
+                                <input type="email" class="form-control" name="message" id="message" placeholder="应用编码">
                             </div>
                             <button type="submit" id="searchButton" class="btn btn-default">查找</button>
                         </form>
@@ -26,22 +39,21 @@
                         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
                             <thead>
                             <tr>
-                                <th>id</th>
                                 <th>应用编码</th>
-                                <th>应用名称</th>
-                                <th>状态</th>
-                                <th>创建时间</th>
-                                <th>修改时间</th>
-                                <th>操作</th>
+                                <th>日志产生时间</th>
+                                <th>日志级别</th>
+                                <th>日志message</th>
+                                <th>日志堆栈</th>
+                                <th>日志产生机器</th>
+                                <th>日志产生文件</th>
+                                <th>日志产生线程</th>
                             </tr>
                             </thead>
                             <tbody></tbody>
                         </table>
                     </div>
                 </div>
-            #*<div class="text-right">
-                <a href="#">查看详情 <i class="fa fa-arrow-circle-right"></i></a>
-            </div>*#
+
             </div>
         </div>
     </div>
@@ -62,7 +74,7 @@
                 var sortDirection = orderLength == 0 ? '' : data.order[0].dir;
                 $.ajax({
                     type: "post",
-                    url: '/application/list.json?' + $('#searchForm').serialize(),
+                    url: '/log/list.json?' + $('#searchForm').serialize(),
                     dataType: "json",
                     data: {
                         'pageSize': data.length,
@@ -92,29 +104,33 @@
             order: [],
             columns: [
                 {
-                    data: 'id',
+                    data: 'index',
                 },
                 {
-                    data: 'applicationCode',
+                    data: 'timestamp',
+                    sort: 'timestamp'
                 },
                 {
-                    data: 'applicationName',
+                    data: 'level',
                 },
                 {
-                    data: 'state',
-                    sort: 'state',
+                    data: 'message',
                 },
                 {
-                    data: 'createTime',
-                    sort: 'create_time',
+                    data: 'stackTrace',
                 },
                 {
-                    data: 'updateTime',
-                    sort: 'update_time',
+                    data: 'host',
+                },
+                {
+                    data: 'path',
+                },
+                {
+                    data: 'threadName',
                 },
                 {
                     render: function () {
-                        return "<button class='btn btn-primary'>编辑</button>";
+                        return "<button class='btn btn-primary'>查看</button>";
                     }
                 }
             ]

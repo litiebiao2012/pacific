@@ -69,20 +69,14 @@ public class ElasticSearchHelper {
         Assert.notNull(loggerQuery);
         logger.info("searchNewErrorLog param : {}", FastJson.toJson(loggerQuery));
 
-
-
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        boolQueryBuilder.must(QueryBuilders.matchQuery("level",loggerQuery.getLevel()));
-        if (loggerQuery.getBeginDate() != null) {
-            boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").gt(loggerQuery.getBeginDate()));
-        }
+        BoolQueryBuilder boolQueryBuilder = buildBoolQueryBuilder(loggerQuery);
 
         SearchResponse response= getClient().prepareSearch(loggerQuery.getIndex())//设置要查询的索引(index)
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
                 .setTypes(loggerQuery.getType())//设置type, 这个在建立索引的时候同时设置了, 或者可以使用head工具查看
                 .setQuery(boolQueryBuilder)//在这里"message"是要查询的field,"Accept"是要查询的内容
-                .setFrom(loggerQuery.getStart())
-                .setSize(loggerQuery.getSize())
+                .setFrom(loggerQuery.getStartRow())
+                .setSize(loggerQuery.getPageSize())
                 .setExplain(true)
                 .execute()
                 .actionGet();
@@ -140,15 +134,7 @@ public class ElasticSearchHelper {
 
     public Long queryTotalLog(String[] applicationCodes,LoggerQuery loggerQuery) {
 
-        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
-        if (loggerQuery != null) {
-            if (StringUtils.isNotEmpty(loggerQuery.getLevel()))  boolQueryBuilder.must(QueryBuilders.matchQuery("level",loggerQuery.getLevel()));
-
-            if (loggerQuery.getBeginDate() != null &&
-                    loggerQuery.getEndDate() != null) {
-                boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").gte(loggerQuery.getBeginDate()).lt(loggerQuery.getEndDate()));
-            }
-        }
+        BoolQueryBuilder boolQueryBuilder = buildBoolQueryBuilder(loggerQuery);
 
         SearchResponse response= getClient().prepareSearch(applicationCodes)//设置要查询的索引(index)
                 .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
@@ -158,6 +144,26 @@ public class ElasticSearchHelper {
                 .execute()
                 .actionGet();
         return response.getHits().getTotalHits();
+    }
+
+
+    private BoolQueryBuilder buildBoolQueryBuilder(LoggerQuery loggerQuery) {
+        BoolQueryBuilder boolQueryBuilder = QueryBuilders.boolQuery();
+
+        if(StringUtils.isNotEmpty(loggerQuery.getLevel())) boolQueryBuilder.must(QueryBuilders.matchQuery("level",loggerQuery.getLevel()));
+
+        if (StringUtils.isNotEmpty(loggerQuery.getMessage())) {
+            boolQueryBuilder.must(QueryBuilders.moreLikeThisQuery("message").addLikeText(loggerQuery.getMessage()));
+        }
+
+        if (loggerQuery.getBeginDate() != null) {
+            boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").gte(loggerQuery.getBeginDate()));
+        }
+
+        if (loggerQuery.getEndDate() != null) {
+            boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").lt(loggerQuery.getEndDate()));
+        }
+        return boolQueryBuilder;
     }
 
 

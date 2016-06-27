@@ -10,7 +10,7 @@
             <a href="javascript:;" data-toggle="collapse" data-target="#log"><i class="fa fa-fw fa-wrench"></i> 应用日志管理 <i class="fa fa-fw fa-caret-down"></i></a>
             <ul id="log" class="collapse">
                 <li>
-                    <a href="#">日志查询</a>
+                    <a href="/log/list.htm">日志查询</a>
                 </li>
                 <li>
                     <a href="#">日志报表统计</a>

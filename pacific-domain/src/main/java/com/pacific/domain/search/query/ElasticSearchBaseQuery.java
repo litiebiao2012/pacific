@@ -1,9 +1,11 @@
 package com.pacific.domain.search.query;
 
+import com.pacific.domain.query.BaseQuery;
+
 /**
  * Created by Fe on 16/5/30.
  */
-public class ElasticSearchBaseQuery {
+public class ElasticSearchBaseQuery extends BaseQuery {
 
     public static final Integer DEFAULT_START = 0;
     public static final Integer DEFAULT_SIZE = 5000;
@@ -13,9 +15,6 @@ public class ElasticSearchBaseQuery {
     private String id;
     private String score;
     private Integer version;
-
-    private Integer start = DEFAULT_START;
-    private Integer size = DEFAULT_SIZE;
 
     public String getIndex() {
         return index;
@@ -57,19 +56,4 @@ public class ElasticSearchBaseQuery {
         this.version = version;
     }
 
-    public Integer getStart() {
-        return start;
-    }
-
-    public void setStart(Integer start) {
-        this.start = start;
-    }
-
-    public Integer getSize() {
-        return size;
-    }
-
-    public void setSize(Integer size) {
-        this.size = size;
-    }
 }

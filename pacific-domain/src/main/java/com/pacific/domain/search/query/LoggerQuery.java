@@ -9,6 +9,7 @@ public class LoggerQuery extends ElasticSearchBaseQuery{
     private String level;
     private Date beginDate;
     private Date endDate;
+    private String message;
 
     public String getLevel() {
         return level;
@@ -32,5 +33,13 @@ public class LoggerQuery extends ElasticSearchBaseQuery{
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 }

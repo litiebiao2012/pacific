@@ -24,7 +24,7 @@ public class ExceptionHandlerResolver extends SimpleMappingExceptionResolver {
     public ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
         logger.info(HttpUtils.requestMessage(request));
         if (ex != null) {
-            logger.error("seq : {" + RequestContext.getSeq() + "} , yike runtime exception, e : {}",ex);
+            logger.error("seq : {" + RequestContext.getSeq() + "} , pacific runtime exception, e : {}",ex);
 
             AjaxResult ajaxResult = null;
             if (ex instanceof PacificException) {
