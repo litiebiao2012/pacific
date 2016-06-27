@@ -7,30 +7,56 @@
             </div>
             <div class="panel-body">
                 <div class="row">
-                    <div class="col-lg-12">
-                        <form class="form-inline" id="searchForm" onsubmit="return false;">
-                            <div class="form-group">
-                                <label for="index">应用编号</label>
-                                <select class="form-control" id="index" name="index">
-                                    #foreach($item in $applicationList)
-                                        <option value="$item.applicationCode">$item.applicationName</option>
-                                    #end
-                                </select>
+                    <div class="col-lg-8">
+                        <form class="form-horizontal" id="searchForm" onsubmit="return false;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="index" class="col-md-4 control-label">应用编号</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control" id="index" name="index">
+                                                #foreach($item in $applicationList)
+                                                    <option value="$item.applicationCode">$item.applicationName</option>
+                                                #end
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label for="level" class="col-md-4 control-label">日志级别</label>
+                                        <div class="col-md-8">
+                                            <select class="form-control" id="level" name="level">
+                                                <option>all</option>
+                                                <option>debug</option>
+                                                <option>info</option>
+                                                <option>error</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="level">日志级别</label>
-                                <select class="form-control" id="level" name="level">
-                                    <option>all</option>
-                                    <option>debug</option>
-                                    <option>info</option>
-                                    <option>error</option>
-                                </select>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label for="message" class="col-md-4 control-label">日志消息</label>
+                                        <div class="col-md-8">
+                                            <input type="email" class="form-control" name="message" id="message" placeholder="应用编码">
+                                        </div>
+                                    </div>
+                                </div>
+
                             </div>
-                            <div class="form-group">
-                                <label for="message">日志message关键字</label>
-                                <input type="email" class="form-control" name="message" id="message" placeholder="应用编码">
+                            <div class="row">
+
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <div class="col-md-4 text-right">
+                                            <button type="submit" id="searchButton" class="btn btn-primary">查找</button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <button type="submit" id="searchButton" class="btn btn-default">查找</button>
                         </form>
                     </div>
                 </div>
@@ -40,13 +66,14 @@
                             <thead>
                             <tr>
                                 <th>应用编码</th>
-                                <th>日志产生时间</th>
-                                <th>日志级别</th>
-                                <th>日志message</th>
-                                <th>日志堆栈</th>
-                                <th>日志产生机器</th>
-                                <th>日志产生文件</th>
-                                <th>日志产生线程</th>
+                                <th>产生时间</th>
+                                <th>级别</th>
+                                <th>message</th>
+                                <th>堆栈</th>
+                                <th>机器</th>
+                                <th>文件</th>
+                                <th>线程</th>
+                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody></tbody>
@@ -104,31 +131,50 @@
             order: [],
             columns: [
                 {
-                    data: 'index',
+                    width: '10%',
+                    data: 'index'
                 },
                 {
+                    render: Common.dateFormatter,
+                    width: '10%',
                     data: 'timestamp',
                     sort: 'timestamp'
                 },
                 {
-                    data: 'level',
+                    orderable: false,
+                    width: '5%',
+                    data: 'level'
                 },
                 {
+                    orderable: false,
+                    width: '20%',
                     data: 'message',
+                    render: Common.cellMore
+
                 },
                 {
-                    data: 'stackTrace',
+                    orderable: false,
+                    width: '20%',
+                    data: 'stackTrace'
                 },
                 {
-                    data: 'host',
+                    orderable: false,
+                    width: '8%',
+                    data: 'host'
                 },
                 {
-                    data: 'path',
+                    orderable: false,
+                    width: '8%',
+                    data: 'path'
                 },
                 {
-                    data: 'threadName',
+                    orderable: false,
+                    width: '8%',
+                    data: 'threadName'
                 },
                 {
+                    orderable: false,
+                    width: '8%',
                     render: function () {
                         return "<button class='btn btn-primary'>查看</button>";
                     }
@@ -137,11 +183,11 @@
         });
 
 
-        $('#table tbody').on('click', 'button', function () {
+        /*$('#table tbody').on('click', 'button', function () {
             var data = table.row($(this).parents('tr')).data();
             console.log(data);
             alert(data.id + " 的应用名:" + data.applicationName);
-        });
+        });*/
 
 
         $('#searchButton').click(function () {

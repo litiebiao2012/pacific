@@ -18,7 +18,7 @@ $(document).ajaxSuccess(function (event, xhr, settings) {
         } else if (json.status == 'NO_PERMISSION') {
             //没有全限
             alert('没有权限, 请联系管理员');
-        } else if(json.status != 'OK') {
+        } else if (json.status != 'OK') {
             alert('服务器响应超时, 请联系管理员');
         }
 
@@ -82,7 +82,78 @@ Common = {
             "sSortDescending": ": 以降序排列此列"
         }
     }
+    ,
+    uuid: function () {
+        var s = [];
+        var hexDigits = "0123456789abcdef";
+        for (var i = 0; i < 36; i++) {
+            s[i] = hexDigits.substr(Math.floor(Math.random() * 0x10), 1);
+        }
+        s[14] = "4";  // bits 12-15 of the time_hi_and_version field to 0010
+        s[19] = hexDigits.substr((s[19] & 0x3) | 0x8, 1);  // bits 6-7 of the clock_seq_hi_and_reserved to 01
+        s[8] = s[13] = s[18] = s[23] = "-";
+
+        var uuid = s.join("");
+        return uuid;
+
+    },
+
+
+    cellMore: function (text) {
+        if (text == undefined) {
+            return '';
+        }
+
+        var showText = '';
+        if (text.length > 100) {
+            showText = text.substring(0, 100) + " ...<br>";
+
+            var id = Common.uuid();
+            if (Common.cellMoreData == undefined) {
+                Common.cellMoreData = {};
+            }
+            Common.cellMoreData[id] = text;
+            var moreButton = '<button name="cellMore" data="' + id + '"  class="glyphicon glyphicon-eye-open btn btn-link" aria-hidden="true">更多</button>';
+            showText += moreButton;
+        }
+
+        return showText;
+
+    },
+
+    dateFormatter : function (data) {
+        if (data == undefined) {
+            return '';
+        }
+
+        if (!isNaN(data)) {
+            return DateFormat.format.date(parseInt(data), 'yyyy-MM-dd HH:mm:ss');
+        }
+
+        return data;
+    }
+
 
 };
 
 
+$(function () {
+
+    /**
+     * 表格中,显示全部按钮事件
+     */
+    $('body').on('click', 'button[name="cellMore"]', function () {
+
+        var id = $(this).attr('data');
+        var html = Common.cellMoreData[id];
+
+        //页面层
+        layer.open({
+            type: 1,
+            shadeClose:true,
+            skin: 'layui-layer-rim', //加上边框
+            area: ['700px', '500px'], //宽高
+            content: html
+        });
+    });
+});

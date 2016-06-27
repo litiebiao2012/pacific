@@ -5,6 +5,8 @@
 <!-- Morris Charts CSS -->
 <link href="/resources/sbamin/css/plugins/morris.css" rel="stylesheet" type="text/css">
 
+<link href="/resources/common.css" rel="stylesheet" type="text/css">
+
 <!-- Custom Fonts -->
 <link href="/resources/sbamin/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 <!-- /#wrapper -->
@@ -20,6 +22,9 @@
 
 <!-- jQuery -->
 <script src="/resources/sbamin/js/jquery.js"></script>
+<script src="/resources/layer/layer.js"></script>
+
+<script src="/resources/dateformat/dateFormat.js"></script>
 <script src="/resources/common.js"></script>
 
 <!-- Bootstrap Core JavaScript -->
