@@ -84,7 +84,9 @@ public class ElasticSearchHelper {
 
         SearchHits searchHits = response.getHits();
 
-        logger.info("searchHist result : {}",FastJson.toJson(searchHits));
+        if (logger.isDebugEnabled()) {
+            logger.debug("searchHist result : {}",FastJson.toJson(searchHits));
+        }
 
         List<LoggerResult> loggerResultList = new LinkedList<LoggerResult>();
 
