@@ -5,6 +5,7 @@ import com.pacific.domain.query.Pagination;
 import com.pacific.service.ApplicationService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -48,4 +49,12 @@ public class ApplicationController {
     public AjaxResult saveApplication() {
         return null;
     }
+
+    @RequestMapping(value = "/edit.htm", method = RequestMethod.GET)
+    public ModelAndView edit() {
+        ModelAndView mv = new ModelAndView("application/applicationEdit");
+
+        return mv;
+    }
 }
+
