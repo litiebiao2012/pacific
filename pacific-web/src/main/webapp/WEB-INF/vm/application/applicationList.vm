@@ -48,6 +48,12 @@
 </div>
 <!-- /.row -->
 <script type="text/javascript">
+
+    columns = [];
+    $.get('url', function (data) {
+
+    })
+
     $(document).ready(function () {
 
         table = $('#table').DataTable({

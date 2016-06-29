@@ -81,7 +81,9 @@ public class JsonCommonRender {
         } else {
             result =  JSON.toJSONString(obj,mapping,getFeatures());
         }
-        logger.info("响应seq : {} ,响应内容 : {}",RequestContext.getSeq(),result);
+        if (logger.isDebugEnabled()) {
+            logger.debug("响应seq : {} ,响应内容 : {}",RequestContext.getSeq(),result);
+        }
         return result;
     }
 
