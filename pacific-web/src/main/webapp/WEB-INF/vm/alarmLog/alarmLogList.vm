@@ -1,60 +1,130 @@
-<form role="form">
-    <div class="form-group col-xs-3 col-md-3">
-        <label for="exampleInputName2">查询类型</label>
-        <select class="form-control" id="exampleInputName2" >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-        </select>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 应用列表</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form class="form-inline" id="searchForm" onsubmit="return false;">
+                            <div class="form-group">
+                                <label for="userName">用户名称</label>
+                                <input type="input" class="form-control" name="userName" id="userName" placeholder="用户名称">
+                            </div>
+                            <button type="submit" id="searchButton" class="btn btn-default">查找</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>用户名</th>
+                                <th>应用编码</th>
+                                <th>应用名称</th>
+                                <th>通知时间</th>
+                                <th>通知方式</th>
+                                <th>异常内容</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            #*<div class="text-right">
+                <a href="#">查看详情 <i class="fa fa-arrow-circle-right"></i></a>
+            </div>*#
+            </div>
+        </div>
     </div>
-    <div class="form-group col-xs-3 col-md-3">
-        <label>查询内容</label>
-        <input class="form-control" placeholder="请输入查询条件">
-    </div>
-    <button type="submit" class="btn btn-default">查询</button>
-</form>
-<table id="alarmLogTable">
-</table>
+</div>
+<!-- /.row -->
+<script type="text/javascript">
+    $(document).ready(function () {
 
-<script>
-    $(document).ready(function(){
+        table = $('#table').DataTable({
+            language: Common.language,
+            serverSide: true,
+            searching: false,
+            lengthChange: false,
+            autoWidth: false,
+            ajax: function (data, callback, settings) {
+                var orderLength = data.order.length;
+                var sortProperty = orderLength == 0 ? '' : settings.aoColumns[data.order[0].column].sort || data.columns[data.order[0].column].data;
+                var sortDirection = orderLength == 0 ? '' : data.order[0].dir;
+                $.ajax({
+                    type: "post",
+                    url: '/alarmLog/alarmLogList.json?' + $('#searchForm').serialize(),
+                    dataType: "json",
+                    data: {
+                        'pageSize': data.length,
+                        'currentPage': data.start / data.length + 1,
+                        'property': sortProperty,
+                        'direction': sortDirection,
+                    },
+                    success: function result(res) {
+                        var data = res.data;
+                        callback({
+                            recordsTotal: data.totalCount,
+                            recordsFiltered: data.totalCount,
+                            data: data.data
+                        });
+                    },
+                    error: function () {
+                        console.log('请求失败')
+                    }
+                })
+            },
 
-        var dataSet;
-        $.ajax({
-            type : 'POST',
-            url : '/user/userList.json',
-            dataType : 'json',
-            success : function(data){
-                if (data.status == 'OK') {
-                    dataSet = data.data;
+            columnDefs: [
+                {
+                    defaultContent: '',
+                    targets: '_all'
+                }],
+            order: [],
+            columns: [
+                {
+                    data: 'userName'
+                },
+                {
+                    data: 'applicationCode',
+                },
+                {
+                    data: 'applicationName',
+                },
+                {
+                    data: 'sendTime',
+                },
+                {
+                    data: 'channelCode'
+                },
+                {
+                    data: 'logMessage'
+                },
+                {
+                    render: function () {
+                        return "<button class='btn btn-primary'>查看日志详情</button>";
+                    }
                 }
-            }
+            ]
         });
 
-        $('#alarmLogTable').bootstrapTable({
-            columns: [{
-                field: 'id',
-                title: 'id'
-            }, {
-                field: 'userName',
-                title: '用户名'
-            }, {
-                field: 'applicationName',
-                title: '应用名'
-            }, {
-                field: 'message',
-                title: '通知内容'
-            }, {
-                field: 'sendTime',
-                title: '通知时间'
-            }, {
-                field: 'channelText',
-                title: '通知方式'
-            }],
-            data : dataSet
 
+        $('#table tbody').on('click', 'button', function () {
+            var data = table.row($(this).parents('tr')).data();
+            console.log(data);
+            alert(data.id + " 的应用名:" + data.applicationName);
         });
-    })
+
+
+        $('#searchButton').click(function () {
+            table.ajax.reload();
+        });
+
+    });
+
 </script>

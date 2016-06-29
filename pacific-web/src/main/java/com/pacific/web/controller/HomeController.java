@@ -101,6 +101,16 @@ public class HomeController {
         return ajaxResult;
     }
 
+
+    @ResponseBody
+    @RequestMapping(value = "/queryAllAppErrorLogDayHourReport.json")
+    public AjaxResult queryAllAppErrorLogDayHourReport() {
+        AjaxResult ajaxResult = new AjaxResult();
+        AllAppErrorLogSevenDayReportDto allAppErrorLogSevenDayReportDto = alarmLogService.queryAllAppErrorLogSevenDayReport();
+        ajaxResult.setData(allAppErrorLogSevenDayReportDto);
+        return ajaxResult;
+    }
+
     @ResponseBody
     @RequestMapping(value = "/queryAllAppErrorLogReport.json")
     public AjaxResult queryAllAppErrorLogReport() {

@@ -2,12 +2,10 @@ package com.pacific.service.impl;
 
 import com.pacific.common.utils.CollectionUtil;
 import com.pacific.common.utils.DateUtil;
-import com.pacific.domain.dto.AlarmLogDto;
-import com.pacific.domain.dto.AllAppErrorLogReportDto;
-import com.pacific.domain.dto.AllAppErrorLogSevenDayReportDto;
-import com.pacific.domain.dto.AppErrorLogSeries;
+import com.pacific.domain.dto.*;
 import com.pacific.domain.entity.Application;
 import com.pacific.domain.query.AlarmLogQuery;
+import com.pacific.domain.query.Pagination;
 import com.pacific.domain.search.query.LoggerQuery;
 import com.pacific.mapper.AlarmLogMapper;
 import com.pacific.service.AlarmLogService;
@@ -44,6 +42,14 @@ public class AlarmLogServiceImpl implements AlarmLogService {
     public List<AlarmLogDto> queryDayAlarmLog(AlarmLogQuery alarmLogQuery) {
         Assert.notNull(alarmLogQuery);
         return alarmLogMapper.queryAlarmLog(alarmLogQuery);
+    }
+
+
+    public Pagination<AlarmLogDto> queryAllAlarmLogByPage(AlarmLogQuery alarmLogQuery) {
+        Assert.notNull(alarmLogQuery);
+        List<AlarmLogDto> alarmLogDtoList = alarmLogMapper.queryAlarmLog(alarmLogQuery);
+        long total = alarmLogMapper.queryTotalAlarmLog(alarmLogQuery);
+        return new Pagination<AlarmLogDto>(alarmLogQuery,alarmLogDtoList,(int)total);
     }
 
 
@@ -130,6 +136,12 @@ public class AlarmLogServiceImpl implements AlarmLogService {
             allAppErrorLogSevenDayReportDto.setSeries(appErrorLogSeriesList);
         }
         return allAppErrorLogSevenDayReportDto;
+    }
+
+
+    public AllAppErrorLogDayHourReportDto queryAllAppErrorLogDayHourReport() {
+
+        return null;
     }
 
 
