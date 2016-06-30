@@ -10,8 +10,8 @@
                     <div class="col-lg-12">
                         <form class="form-inline" id="searchForm" onsubmit="return false;">
                             <div class="form-group">
-                                <label for="userName">用户名称</label>
-                                <input type="input" class="form-control" name="userName" id="userName" placeholder="用户名称">
+                                <label for="userName">用户关键字</label>
+                                <input type="input" class="form-control" name="keyWords" id="keyWords" placeholder="用户名/手机/邮箱">
                             </div>
                             <button type="submit" id="searchButton" class="btn btn-default">查找</button>
                         </form>

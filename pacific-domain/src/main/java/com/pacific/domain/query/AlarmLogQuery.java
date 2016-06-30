@@ -8,6 +8,7 @@ import java.util.Date;
 public class AlarmLogQuery extends BaseQuery {
     private Date beginDate;
     private Date endDate;
+    private String keyWords;
 
     public Date getBeginDate() {
         return beginDate;
@@ -23,5 +24,13 @@ public class AlarmLogQuery extends BaseQuery {
 
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
+    }
+
+    public String getKeyWords() {
+        return keyWords;
+    }
+
+    public void setKeyWords(String keyWords) {
+        this.keyWords = keyWords;
     }
 }

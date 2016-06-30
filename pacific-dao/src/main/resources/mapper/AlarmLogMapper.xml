@@ -151,14 +151,29 @@
 
   <select id="queryTotalAlarmLog" resultType="java.lang.Long">
     select
-       count(1)
-    from t_alarm_log
+      count(1)
+    from t_alarm_log al
+    left join t_application a
+    on
+    al.application_code = a.application_code
+    left join  t_user u
+    on
+    al.user_id = u.id
+    left join
+    t_error_log_record elr
+    on
+    al.error_log_id = elr.id
     where 1 = 1
     <if test="beginDate != null">
-      <![CDATA[ and create_time >=  #{beginDate,jdbcType=TIMESTAMP}]]>
+      <![CDATA[ and al.create_time >=  #{beginDate,jdbcType=TIMESTAMP}]]>
     </if>
     <if test="endDate != null">
-      <![CDATA[ and create_time <  #{endDate,jdbcType=TIMESTAMP}]]>
+      <![CDATA[ and al.create_time <  #{endDate,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="keyWords != null">
+      and (u.user_name like  CONCAT('%',#{keyWords},'%')
+      or u.phone like CONCAT('%',#{keyWords},'%')
+      or u.email like CONCAT('%',#{keyWords},'%'))
     </if>
   </select>
 
@@ -195,6 +210,11 @@
     </if>
     <if test="endDate != null">
       <![CDATA[ and al.create_time <  #{endDate,jdbcType=TIMESTAMP}]]>
+    </if>
+    <if test="keyWords != null">
+      and (u.user_name like  CONCAT('%',#{keyWords},'%')
+              or u.phone like CONCAT('%',#{keyWords},'%')
+             or u.email like CONCAT('%',#{keyWords},'%'))
     </if>
     order by al.create_time desc
     <include refid="Page.footer"/>

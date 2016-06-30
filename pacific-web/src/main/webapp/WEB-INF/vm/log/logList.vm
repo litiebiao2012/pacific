@@ -155,7 +155,8 @@
                 {
                     orderable: false,
                     width: '20%',
-                    data: 'stackTrace'
+                    data: 'stackTrace',
+                    render: Common.cellMore
                 },
                 {
                     orderable: false,
