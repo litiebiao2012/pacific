@@ -24,6 +24,7 @@ public class PacificWebTool {
         uriDescriptionMapping.put("/application/list.htm","应用列表");
         uriDescriptionMapping.put("/log/list.htm","日志列表");
         uriDescriptionMapping.put("/alarmLog/list.htm","告警记录");
+        uriDescriptionMapping.put("/application/edit.htm","应用添加");
     }
 
     public String getDescriptionByUri() {

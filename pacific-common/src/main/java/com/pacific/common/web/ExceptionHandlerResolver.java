@@ -36,10 +36,12 @@ public class ExceptionHandlerResolver extends SimpleMappingExceptionResolver {
                 ajaxResult = new AjaxResult(AjaxResult.STATUS_ERROR, ex.getMessage(), null);
             }
             try {
-                PrintWriter printWriter = response.getWriter();
-                printWriter.write(JsonCommonRender.getJsonResult(ajaxResult));
-                printWriter.flush();
-                printWriter.close();
+                if (!response.isCommitted()) {
+                    PrintWriter printWriter = response.getWriter();
+                    printWriter.write(JsonCommonRender.getJsonResult(ajaxResult));
+                    printWriter.flush();
+                    printWriter.close();
+                }
             } catch (Exception e) {
                 logger.error("resolveException eror !", e);
             } finally {

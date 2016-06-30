@@ -15,6 +15,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
@@ -24,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.Assert;
 
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.ParseException;
@@ -122,12 +124,9 @@ public class ElasticSearchHelper {
         return loggerResultList;
     }
 
-    public IndexResponse createIndexResponse(String indexName, String type, String jsondata){
-        IndexResponse response = client.prepareIndex(indexName, type)
-                .setSource(jsondata)
-                .execute()
-                .actionGet();
-        return response;
+    public void createIndexResponse(String indexName){
+        getClient().admin().indices().prepareCreate(indexName).execute()
+                    .actionGet();
     }
 
     public Long queryTotalLog(String applicationCode,LoggerQuery loggerQuery) {

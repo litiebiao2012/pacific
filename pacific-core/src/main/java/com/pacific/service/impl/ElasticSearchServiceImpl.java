@@ -6,6 +6,7 @@ import com.pacific.common.utils.GetUTCTimeUtil;
 import com.pacific.common.utils.NamedThreadFactory;
 import com.pacific.domain.entity.Application;
 import com.pacific.domain.entity.ErrorLogRecord;
+import com.pacific.domain.enums.StateEnums;
 import com.pacific.domain.search.query.LoggerQuery;
 import com.pacific.domain.search.result.LoggerResult;
 import com.pacific.service.*;
@@ -61,7 +62,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
      * 读取elasticsearch error级别数据,并存入数据库
      */
     public void loadElasticSearchErrorLog() {
-        List<Application> applicationList = applicationService.queryAllApplication();
+        List<Application> applicationList = applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
         if (CollectionUtil.isNotEmpty(applicationList)) {
             for (Application application : applicationList) {
                 String applicationCode = application.getApplicationCode();

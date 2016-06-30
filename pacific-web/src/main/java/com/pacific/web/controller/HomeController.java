@@ -8,6 +8,7 @@ import com.pacific.domain.dto.AlarmLogDto;
 import com.pacific.domain.dto.AllAppErrorLogReportDto;
 import com.pacific.domain.dto.AllAppErrorLogSevenDayReportDto;
 import com.pacific.domain.entity.Application;
+import com.pacific.domain.enums.StateEnums;
 import com.pacific.domain.query.AlarmLogQuery;
 import com.pacific.domain.search.query.LoggerQuery;
 import com.pacific.service.AlarmLogService;
@@ -45,7 +46,7 @@ public class HomeController {
 
     @RequestMapping("/home.htm")
     public ModelAndView home() {
-        List<Application> applicationList = applicationService.queryAllApplication();
+        List<Application> applicationList = applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
         int appCount = 0;
         long dayAllLogTotal = 0;
         long dayErrorLogTotal = 0;

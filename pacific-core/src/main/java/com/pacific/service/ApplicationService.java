@@ -1,6 +1,9 @@
 package com.pacific.service;
 
+import com.pacific.domain.dto.ApplicationDto;
 import com.pacific.domain.entity.Application;
+import com.pacific.domain.query.ApplicationQuery;
+import com.pacific.domain.query.Pagination;
 
 import java.util.List;
 
@@ -9,8 +12,12 @@ import java.util.List;
  */
 public interface ApplicationService {
 
-    public List<Application> queryAllApplication();
+    public List<Application> queryApplicationByState(String state);
 
-    public Integer getTotalApplication();
+
+    public Pagination<ApplicationDto> queryAllApplicationByPage(ApplicationQuery applicationQuery);
+
+
+    public void saveApplication(Application application);
 
 }

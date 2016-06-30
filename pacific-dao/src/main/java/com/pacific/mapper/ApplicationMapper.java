@@ -1,6 +1,8 @@
 package com.pacific.mapper;
 
+import com.pacific.domain.dto.ApplicationDto;
 import com.pacific.domain.entity.Application;
+import com.pacific.domain.query.ApplicationQuery;
 
 import java.util.List;
 
@@ -19,5 +21,9 @@ public interface ApplicationMapper {
 
     List<Application> queryAllApplicationByState(String state);
 
-    int queryTotalApplication();
+    List<ApplicationDto> queryAllApplicationByParam(ApplicationQuery applicationQuery);
+
+    int queryTotalApplication(ApplicationQuery applicationQuery);
+
+    Application selectByApplicationCode(String applicationCode);
 }

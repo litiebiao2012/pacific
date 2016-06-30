@@ -9,6 +9,9 @@
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
   </resultMap>
+
+  <resultMap id="BaseDetailResultMap" type="com.pacific.domain.dto.ApplicationDto" extends="BaseResultMap" >
+  </resultMap>
   <sql id="Base_Column_List" >
     id, application_code, application_name, state, create_time, update_time
   </sql>
@@ -111,11 +114,25 @@
     where state = #{state,jdbcType=VARCHAR}
   </select>
 
+
+  <select id="queryAllApplicationByParam" resultMap="BaseDetailResultMap" >
+    select
+     *
+    from t_application
+    <include refid="Page.footer"/>
+  </select>
+
   <select id="queryTotalApplication" resultType="java.lang.Integer">
     select
       count(1)
     from t_application
-    where state = 'available'
   </select>
+  
 
+  <select id="selectByApplicationCode" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from t_application
+    where application_code = #{applicationCode,jdbcType=BIGINT}
+  </select>
 </mapper>

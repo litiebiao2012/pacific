@@ -1,7 +1,15 @@
 <div class="collapse navbar-collapse navbar-ex1-collapse">
     <ul class="nav navbar-nav side-nav">
-        <li class="active">
-            <a href="/application/list.htm"><i class="fa fa-fw fa-dashboard"></i> 应用管理</a>
+        <li>
+            <a href="javascript:;" data-toggle="collapse" data-target="#application"><i class="fa fa-fw fa-wrench"></i> 应用管理 <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="application" class="collapse">
+                <li>
+                    <a href="/application/list.htm">应用列表</a>
+                </li>
+                <li>
+                    <a href="/application/edit.htm">应用添加</a>
+                </li>
+            </ul>
         </li>
         <li>
             <a href="/alarmLog/list.htm"><i class="fa fa-fw fa-edit"></i> 告警记录</a>

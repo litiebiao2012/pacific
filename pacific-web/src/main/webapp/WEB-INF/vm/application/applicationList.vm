@@ -6,21 +6,21 @@
                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 应用列表</h3>
             </div>
             <div class="panel-body">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <form class="form-inline" id="searchForm" onsubmit="return false;">
-                            <div class="form-group">
-                                <label for="applicationName">应用名称</label>
-                                <input type="text" class="form-control" name="applicationName" id="applicationName" placeholder="应用名称">
-                            </div>
-                            <div class="form-group">
-                                <label for="applicationCode">应用编码</label>
-                                <input type="email" class="form-control" name="applicationCode" id="applicationCode" placeholder="应用编码">
-                            </div>
-                            <button type="submit" id="searchButton" class="btn btn-default">查找</button>
-                        </form>
-                    </div>
-                </div>
+##                <div class="row">
+##                    <div class="col-lg-12">
+##                        <form class="form-inline" id="searchForm" onsubmit="return false;">
+##                            <div class="form-group">
+##                                <label for="applicationName">应用名称</label>
+##                                <input type="text" class="form-control" name="applicationName" id="applicationName" placeholder="应用名称">
+##                            </div>
+##                            <div class="form-group">
+##                                <label for="applicationCode">应用编码</label>
+##                                <input type="email" class="form-control" name="applicationCode" id="applicationCode" placeholder="应用编码">
+##                            </div>
+##                            <button type="submit" id="searchButton" class="btn btn-default">查找</button>
+##                        </form>
+##                    </div>
+##                </div>
                 <div class="row">
                     <div class="col-lg-12">
                         <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
@@ -107,8 +107,8 @@
                     data: 'applicationName',
                 },
                 {
-                    data: 'state',
-                    sort: 'state',
+                    data: 'stateText',
+                    sort: 'stateText',
                 },
                 {
                     data: 'createTime',
@@ -129,10 +129,8 @@
 
         $('#table tbody').on('click', 'button', function () {
             var data = table.row($(this).parents('tr')).data();
-            console.log(data);
-            alert(data.id + " 的应用名:" + data.applicationName);
+            window.location.href = '/application/edit.htm?id=' + data.id;
         });
-
 
         $('#searchButton').click(function () {
             table.ajax.reload();

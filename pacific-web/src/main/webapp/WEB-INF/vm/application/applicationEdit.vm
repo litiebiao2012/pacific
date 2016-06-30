@@ -7,29 +7,32 @@
             </div>
             <div class="panel-body">
                 <form onsubmit="return false;">
+                    #if($application.id)
+                        <input type="hidden" name="id" value="$!application.id"/>
+                    #end
                     <div class="form-group">
-                        <label for="applicationCode">应用名称</label>
-                        <input type="text" name="applicationCode" class="form-control" id="applicationCode" placeholder="应用名称">
+                        <label for="applicationName">应用名称</label>
+                        <input type="text" name="applicationName" class="form-control" id="applicationName" #if($application.applicationName) value = "$!application.applicationName" #end placeholder="应用名称">
                     </div>
                     <div class="form-group">
-                        <label for="applicationName">应用编码</label>
-                        <input type="text" class="form-control" name="applicationName" id="applicationName" placeholder="应用编码">
+                        <label for="applicationCode">应用编码</label>
+                        <input type="text" class="form-control" name="applicationCode" id="applicationCode" #if($application.applicationCode) value = "$!application.applicationCode" readonly="true" #end  placeholder="应用编码">
                     </div>
-                    <div class="form-group">
-                        <label for="state">状态</label>
-                        <select id="state" class="form-control">
-                            <option>正常</option>
-                            <option>隐藏</option>
-                        </select>
+                    #if($application.id)
+                        <div class="form-group">
+                            <label for="state">状态</label>
+                            <select id="state" name="state" class="form-control">
+                                <option #if($application.state == 'available')
+                                selected="selected" #end value="available">可用</option>
+                                <option #if($application.state == 'disables')
+                                        selected="selected"#end value="disables">不可用</option>
+                            </select>
+                        </div>
+                    #end
+                    <div class="form-group text-warning" id="errorMsg">
                     </div>
 
-                    <div class="form-group text-warning">
-
-                            错误
-                    </div>
-
-
-                    <button type="submit" id="submit" class="btn btn-default">提交</button>
+                    <button type="submit" id="submit" class="btn btn-primary">提交</button>
                 </form>
             </div>
         </div>
@@ -38,10 +41,13 @@
 <!-- /.row -->
 <script type="text/javascript">
     $(document).ready(function () {
-
         $('#submit').click(function () {
-            $.post('url', $('form').serialize(), function (res) {
-                console.log(res);
+            $.post('/application/saveApplication.json', $('form').serialize(), function (res) {
+                if (res.status == 'OK') {
+                    window.location.href = '/application/list.htm';
+                } else {
+                    $('#errorMsg').text(res.message);
+                }
             });
 
         });

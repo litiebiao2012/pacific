@@ -4,6 +4,7 @@ import com.pacific.common.utils.CollectionUtil;
 import com.pacific.common.utils.DateUtil;
 import com.pacific.domain.dto.*;
 import com.pacific.domain.entity.Application;
+import com.pacific.domain.enums.StateEnums;
 import com.pacific.domain.query.AlarmLogQuery;
 import com.pacific.domain.query.Pagination;
 import com.pacific.domain.search.query.LoggerQuery;
@@ -57,7 +58,7 @@ public class AlarmLogServiceImpl implements AlarmLogService {
 
         AllAppErrorLogSevenDayReportDto allAppErrorLogSevenDayReportDto = new AllAppErrorLogSevenDayReportDto();
 
-        List<Application> applicationList = applicationService.queryAllApplication();
+        List<Application> applicationList = applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
         if (CollectionUtil.isNotEmpty(applicationList)) {
             Map<String,String> titleMap = new HashMap<String,String>();
             titleMap.put("text","最近7日错误日志汇总统计");
@@ -148,7 +149,7 @@ public class AlarmLogServiceImpl implements AlarmLogService {
     public AllAppErrorLogReportDto queryAllAppErrorLogReport() {
 
         AllAppErrorLogReportDto allAppErrorLogReportDto = new AllAppErrorLogReportDto();
-        List<Application> applicationList = applicationService.queryAllApplication();
+        List<Application> applicationList = applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
         if (CollectionUtil.isNotEmpty(applicationList)) {
             Map<String,String> titleMap = new HashMap<String,String>();
             titleMap.put("text","错误日志总数汇总");
