@@ -56,46 +56,9 @@
 
     $(document).ready(function () {
 
-        table = $('#table').DataTable({
-            language: Common.language,
-            serverSide: true,
-            searching: false,
-            lengthChange: false,
-            autoWidth: false,
-            ajax: function (data, callback, settings) {
-                var orderLength = data.order.length;
-                var sortProperty = orderLength == 0 ? '' : settings.aoColumns[data.order[0].column].sort || data.columns[data.order[0].column].data;
-                var sortDirection = orderLength == 0 ? '' : data.order[0].dir;
-                $.ajax({
-                    type: "post",
-                    url: '/application/list.json?' + $('#searchForm').serialize(),
-                    dataType: "json",
-                    data: {
-                        'pageSize': data.length,
-                        'currentPage': data.start / data.length + 1,
-                        'property': sortProperty,
-                        'direction': sortDirection,
-                    },
-                    success: function result(res) {
-                        var data = res.data;
-                        callback({
-                            recordsTotal: data.totalCount,
-                            recordsFiltered: data.totalCount,
-                            data: data.data
-                        });
-                    },
-                    error: function () {
-                        console.log('请求失败')
-                    }
-                })
-            },
-
-            columnDefs: [
-                {
-                    defaultContent: '',
-                    targets: '_all'
-                }],
-            order: [],
+        table = dataTable({
+            selector:'#table',
+            url: '/application/list.json?' + $('#searchForm').serialize(),
             columns: [
                 {
                     data: 'id',
@@ -124,15 +87,17 @@
                     }
                 }
             ]
-        });
 
+        });
 
         $('#table tbody').on('click', 'button', function () {
             var data = table.row($(this).parents('tr')).data();
             window.location.href = '/application/edit.htm?id=' + data.id;
         });
 
+
         $('#searchButton').click(function () {
+
             table.ajax.reload();
         });
 

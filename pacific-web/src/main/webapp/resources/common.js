@@ -121,7 +121,7 @@ Common = {
 
     },
 
-    dateFormatter : function (data) {
+    dateFormatter: function (data) {
         if (data == undefined) {
             return '';
         }
@@ -150,10 +150,64 @@ $(function () {
         //页面层
         layer.open({
             type: 1,
-            shadeClose:true,
+            shadeClose: true,
             skin: 'layui-layer-rim', //加上边框
             area: ['700px', '500px'], //宽高
             content: html
         });
     });
 });
+
+
+function dataTable(opt) {
+    return $(opt.selector).DataTable({
+        language: Common.language,
+        serverSide: true,
+        searching: false,
+        lengthChange: false,
+        autoWidth: false,
+        ajax: function (data, callback, settings) {
+            loading = layer.load(2, {
+                shade: [0.1, '#000']
+            });
+
+            var orderLength = data.order.length;
+            var sortProperty = orderLength == 0 ? '' : settings.aoColumns[data.order[0].column].sort || data.columns[data.order[0].column].data;
+            var sortDirection = orderLength == 0 ? '' : data.order[0].dir;
+            $.ajax({
+                type: "post",
+                url: opt.url,
+                dataType: "json",
+                data: $.extend(opt.data, {
+                    'pageSize': data.length,
+                    'currentPage': data.start / data.length + 1,
+                    'property': sortProperty,
+                    'direction': sortDirection,
+                }),
+                success: function (res) {
+                    var data = res.data;
+                    callback({
+                        recordsTotal: data.totalCount,
+                        recordsFiltered: data.totalCount,
+                        data: data.data
+                    });
+                },
+                error: function () {
+                    console.log('请求失败')
+                },
+                complete: function () {
+                    layer.close(loading);
+                }
+            })
+        },
+
+        columnDefs: [
+            {
+                defaultContent: '',
+                targets: '_all'
+            }],
+        order: [],
+        columns: opt.columns
+    });
+
+}
