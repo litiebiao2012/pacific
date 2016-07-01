@@ -189,7 +189,7 @@ public class AlarmServiceImpl implements AlarmService {
                 mailHelper.sendMail(applicationUserConfigDto.getEmail(),message);
             }
             if (channelDto.getChannelCode().equals(ChannelCodeEnums.BEARY_CHAT.getCode())) {
-                bearyChatHelper.sendMessage(applicationUserConfigDto.getEmail(),message);
+                bearyChatHelper.sendMessage(applicationUserConfigDto.getEmail(),applicationUserConfigDto.getApplicationName(),message);
             }
         }
     }

@@ -2,6 +2,7 @@ package com.pacific.common.helper;
 
 import com.pacific.common.http.HttpClientUtil4;
 import com.pacific.common.json.FastJson;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.*;
 
@@ -18,7 +19,7 @@ public class BearyChatHelper {
     private String attUrl;
 
 
-    public void sendMessage(String email,String message) {
+    public void sendMessage(String email,String applicationName,String message) {
         Map<String,String> headerMap = new HashMap<String,String>();
         headerMap.put("Content-type","application/json");
 
@@ -26,6 +27,10 @@ public class BearyChatHelper {
         bearyChatRequest.setText(message);
         bearyChatRequest.setUser(email);
         bearyChatRequest.setMarkdown(true);
+        if (StringUtils.isNotEmpty(applicationName)) {
+            this.notification = applicationName + "出现异常,请及时处理!";
+        }
+
         bearyChatRequest.setNotification(notification);
         List<Map<String,Object>> mapList = new LinkedList<Map<String,Object>>();
         Map<String,Object> attMap = new HashMap<String,Object>();
