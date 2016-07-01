@@ -41,7 +41,7 @@
                                     <div class="form-group">
                                         <label for="message" class="col-md-4 control-label">开始时间</label>
                                         <div class="col-md-8">
-                                            <input type="input" class="form-control" name="beginDate" id="beginDate" placeholder="开始时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                            <input type="text" class="form-control" name="beginDate" id="beginDate" placeholder="开始时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
                                         </div>
                                     </div>
                                 </div>
@@ -49,7 +49,7 @@
                                     <div class="form-group ">
                                         <label for="message" class="col-md-4 control-label">结束时间</label>
                                         <div class="col-md-8">
-                                            <input type="input" class="form-control" name="endDate" id="endDate" placeholder="结束时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                            <input type="text" class="form-control" name="endDate" id="endDate" placeholder="结束时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
                                         </div>
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
                                     <div class="form-group ">
                                         <label for="message" class="col-md-4 control-label">日志消息</label>
                                         <div class="col-md-8">
-                                            <input type="input" class="form-control" name="message" id="message" placeholder="日志关键字">
+                                            <input type="text" class="form-control" name="message" id="message" placeholder="日志关键字">
                                         </div>
                                     </div>
                                 </div>
@@ -109,7 +109,8 @@
 
         table = dataTable({
             selector:'#table',
-            url: '/log/list.json?' + $('#searchForm').serialize(),
+            url: '/log/list.json',
+            form:'#searchForm',
             columns: [
                 {
                     width: '10%',

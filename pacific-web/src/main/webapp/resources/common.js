@@ -178,7 +178,7 @@ function dataTable(opt) {
                 type: "post",
                 url: opt.url,
                 dataType: "json",
-                data: $.extend(opt.data, {
+                data: $.extend($(opt.form).serializeObject(), {
                     'pageSize': data.length,
                     'currentPage': data.start / data.length + 1,
                     'property': sortProperty,
@@ -211,3 +211,20 @@ function dataTable(opt) {
     });
 
 }
+
+
+$.fn.serializeObject = function() {
+    var o = {};
+    var a = this.serializeArray();
+    $.each(a, function() {
+        if (o[this.name] !== undefined) {
+            if (!o[this.name].push) {
+                o[this.name] = [o[this.name]];
+            }
+            o[this.name].push(this.value || '');
+        } else {
+            o[this.name] = this.value || '';
+        }
+    });
+    return o;
+};
