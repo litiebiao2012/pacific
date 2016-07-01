@@ -38,10 +38,28 @@
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="message" class="col-md-4 control-label">开始时间</label>
+                                        <div class="col-md-8">
+                                            <input type="input" class="form-control" name="beginDate" id="beginDate" placeholder="开始时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group ">
+                                        <label for="message" class="col-md-4 control-label">结束时间</label>
+                                        <div class="col-md-8">
+                                            <input type="input" class="form-control" name="endDate" id="endDate" placeholder="结束时间" onclick="laydate({istime: true, format: 'YYYY-MM-DD hh:mm:ss'})">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
                                     <div class="form-group ">
                                         <label for="message" class="col-md-4 control-label">日志消息</label>
                                         <div class="col-md-8">
-                                            <input type="email" class="form-control" name="message" id="message" placeholder="应用编码">
+                                            <input type="input" class="form-control" name="message" id="message" placeholder="日志关键字">
                                         </div>
                                     </div>
                                 </div>
@@ -73,7 +91,6 @@
                                 <th>机器</th>
                                 <th>文件</th>
                                 <th>线程</th>
-                                <th>操作</th>
                             </tr>
                             </thead>
                             <tbody></tbody>
@@ -86,6 +103,7 @@
     </div>
 </div>
 <!-- /.row -->
+<script src="/resources/laydate/laydate.js"></script>
 <script type="text/javascript">
     $(document).ready(function () {
 
@@ -135,14 +153,16 @@
                     orderable: false,
                     width: '8%',
                     data: 'threadName'
-                },
-                {
-                    orderable: false,
-                    width: '8%',
-                    render: function () {
-                        return "<button class='btn btn-primary'>查看</button>";
-                    }
                 }
+//
+//                },
+//                {
+//                    orderable: false,
+//                    width: '8%',
+//                    render: function () {
+//                        return "<button class='btn btn-primary'>查看</button>";
+//                    }
+//                }
             ]
         });
 
