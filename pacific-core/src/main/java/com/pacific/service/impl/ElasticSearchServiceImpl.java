@@ -93,7 +93,7 @@ public class ElasticSearchServiceImpl implements ElasticSearchService {
      * @param returnList
      */
     private void queryLoggerResult(LoggerQuery loggerQuery,List<LoggerResult> returnList,int index) {
-        List<LoggerResult> loggerResultList = elasticSearchHelper.searchNewErrorLog(loggerQuery);
+        List<LoggerResult> loggerResultList = elasticSearchHelper.searchLog(loggerQuery);
         if (CollectionUtil.isEmpty(loggerResultList)) return;
 
         Collections.sort(loggerResultList, new Comparator<LoggerResult>() {

@@ -15,6 +15,7 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
+import org.elasticsearch.common.xcontent.XContentBuilder;
 import org.elasticsearch.common.xcontent.XContentFactory;
 import org.elasticsearch.index.query.BoolQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
@@ -67,7 +68,7 @@ public class ElasticSearchHelper {
         return client;
     }
 
-    public List<LoggerResult> searchNewErrorLog(LoggerQuery loggerQuery) {
+    public List<LoggerResult> searchLog(LoggerQuery loggerQuery) {
         Assert.notNull(loggerQuery);
         logger.info("searchNewErrorLog param : {}", FastJson.toJson(loggerQuery));
 

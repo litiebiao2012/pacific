@@ -45,7 +45,7 @@ public class LogController {
         loggerQuery.setType(Constants.DEFAULT_ELASTIC_SEARCH_LOG_TYPE);
 
 
-        List<LoggerResult> list = elasticSearchHelper.searchNewErrorLog(loggerQuery);
+        List<LoggerResult> list = elasticSearchHelper.searchLog(loggerQuery);
         Long total = elasticSearchHelper.queryTotalLog(loggerQuery.getIndex(),loggerQuery);
         Pagination<LoggerResult> loggerResultPagination = new Pagination<LoggerResult>(loggerQuery,list,total.intValue());
         ajaxResult.setData(loggerResultPagination);
