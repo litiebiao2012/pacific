@@ -6,7 +6,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
     </button>
-    <a class="navbar-brand" href="/home.htm">Pacific分布式日志监控平台</a>
+    <a class="navbar-brand" href="/home.htm">Pacific监控平台</a>
 </div>
 <!-- Top Menu Items -->
 <ul class="nav navbar-right top-nav">
