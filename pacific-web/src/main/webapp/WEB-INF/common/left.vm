@@ -46,7 +46,7 @@
                     <a href="/user/userList.htm">用户列表</a>
                 </li>
                 <li>
-                    <a href="#">用户添加</a>
+                    <a href="/user/editUser.htm">用户添加</a>
                 </li>
             </ul>
         </li>

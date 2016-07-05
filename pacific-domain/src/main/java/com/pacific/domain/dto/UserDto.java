@@ -112,7 +112,7 @@ public class UserDto {
     }
 
     public String getRoleTypeText() {
-        return RoleTypeEnums.fromCode(this.roleType).getCode();
+        return RoleTypeEnums.fromCode(this.roleType).getText();
     }
 
     public void setRoleTypeText(String roleTypeText) {

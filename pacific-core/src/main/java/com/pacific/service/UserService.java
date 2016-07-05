@@ -16,4 +16,5 @@ public interface UserService {
 
     public Pagination<UserDto> queryAllUserPage(UserQuery userQuery);
 
+    public void saveUser(User user);
 }

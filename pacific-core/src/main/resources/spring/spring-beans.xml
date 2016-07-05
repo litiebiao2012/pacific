@@ -7,6 +7,7 @@
     <bean id="errorLogRecordService" class="com.pacific.service.impl.ErrorLogRecordServiceImpl"></bean>
     <bean id="userService" class="com.pacific.service.impl.UserServiceImpl"/>
     <bean id="alarmLogService" class="com.pacific.service.impl.AlarmLogServiceImpl"/>
+    <bean id="applicationUserConfigService" class="com.pacific.service.impl.ApplicationUserConfigServiceImpl"></bean>
 
 
     <bean id="elasticSearchHelper" class="com.pacific.service.ElasticSearchHelper">

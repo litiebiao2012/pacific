@@ -28,14 +28,17 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.pacific.domain.entity.User">
-    insert into t_user (id, user_name, password, 
+    insert into t_user (user_name, password,
       phone, email, wechat_open_id, 
       create_time, update_time, role_type, 
       state)
-    values (#{id,jdbcType=BIGINT}, #{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+    values (#{userName,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
       #{phone,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{wechatOpenId,jdbcType=VARCHAR}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{roleType,jdbcType=VARCHAR}, 
       #{state,jdbcType=VARCHAR})
+    <selectKey resultType="java.lang.Long"  keyProperty="id" >
+      SELECT last_insert_id() as signId ;
+    </selectKey>
   </insert>
   <insert id="insertSelective" parameterType="com.pacific.domain.entity.User">
     insert into t_user
