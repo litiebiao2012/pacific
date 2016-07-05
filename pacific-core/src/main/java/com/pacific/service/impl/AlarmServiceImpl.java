@@ -155,7 +155,6 @@ public class AlarmServiceImpl implements AlarmService {
         context.put("applicationName",applicationUserConfigDto.getApplicationName());
         context.put("errorMsg",errorLogRecord.getLogMessage());
         context.put("logCreateTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(errorLogRecord.getElasticsearchLogCreateTime()));
-        context.put("errorLogDetailUrl", Constants.PACIFIC_ERROR_LOG_DETAIL_URL + errorLogRecord.getId());
         context.put("logStackTrace",errorLogRecord.getLogStackTrace());
         context.put("host",errorLogRecord.getLogHostName());
         context.put("errorLogType",errorLogRecord.getErrorLogType());
