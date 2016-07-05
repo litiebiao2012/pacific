@@ -155,7 +155,7 @@ public class ElasticSearchHelper {
         if(StringUtils.isNotEmpty(loggerQuery.getLevel())) boolQueryBuilder.must(QueryBuilders.matchQuery("level",loggerQuery.getLevel()));
 
         if (StringUtils.isNotEmpty(loggerQuery.getMessage())) {
-            boolQueryBuilder.must(QueryBuilders.moreLikeThisQuery("message").addLikeText(loggerQuery.getMessage()));
+            boolQueryBuilder.must(QueryBuilders.matchQuery("message",loggerQuery.getMessage()));
         }
 
         if (loggerQuery.getBeginDate() != null) {

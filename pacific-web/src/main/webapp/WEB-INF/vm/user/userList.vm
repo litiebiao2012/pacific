@@ -1,63 +1,86 @@
-<form role="form">
-    <div class="form-group col-xs-3 col-md-3">
-        <label for="exampleInputName2">查询类型</label>
-        <select class="form-control" id="exampleInputName2" >
-            <option>1</option>
-            <option>2</option>
-            <option>3</option>
-            <option>4</option>
-            <option>5</option>
-        </select>
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> 用户列表</h3>
+            </div>
+            <div class="panel-body">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <table id="table" class="table table-striped table-bordered" cellspacing="0" width="100%">
+                            <thead>
+                            <tr>
+                                <th>id</th>
+                                <th>用户名</th>
+                                <th>手机</th>
+                                <th>邮箱</th>
+                                <th>状态</th>
+                                <th>创建时间</th>
+                                <th>角色类型</th>
+                            </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group col-xs-3 col-md-3">
-        <label>查询内容</label>
-        <input class="form-control" placeholder="请输入查询条件">
-    </div>
-    <button type="submit" class="btn btn-default">查询</button>
-</form>
-<table id="userTable">
-</table>
+</div>
+<!-- /.row -->
+<script type="text/javascript">
 
-<script>
-    $(document).ready(function(){
+    columns = [];
+    $.get('url', function (data) {
 
-        var dataSet;
-        $.ajax({
-            type : 'POST',
-            url : '/user/userList.json',
-            dataType : 'json',
-            success : function(data){
-                if (data.status == 'OK') {
-                    dataSet = data.data;
-                }
-            }
-        });
-
-        $('#userTable').bootstrapTable({
-            columns: [{
-                field: 'id',
-                title: '用户id'
-            }, {
-                field: 'userName',
-                title: '用户名'
-            }, {
-                field: 'phone',
-                title: '手机号'
-            }, {
-                field: 'email',
-                title: '邮箱'
-            }, {
-                field: 'createTime',
-                title: '创建时间'
-            }, {
-                field: 'state',
-                title: '状态'
-            }, {
-                field: 'operate',
-                title: '操作'
-            }],
-            data : dataSet
-
-        });
     })
+
+    $(document).ready(function () {
+
+        table = dataTable({
+            selector:'#table',
+            url: '/user/userList.json?' + $('#searchForm').serialize(),
+            columns: [
+                {
+                    data: 'id',
+                },
+                {
+                    data: 'userName',
+                },
+                {
+                    data: 'phone',
+                },
+                {
+                    data: 'email',
+                    sort: 'email',
+                },
+                {
+                    data: 'stateText',
+                    sort: 'stateText',
+                },
+                {
+                    data: 'createTime',
+                    sort: 'createTime',
+                },
+                {
+                    data: 'roleTypeText',
+                    sort: 'roleTypeText',
+                }
+            ]
+
+        });
+
+        $('#table tbody').on('click', 'button', function () {
+            var data = table.row($(this).parents('tr')).data();
+            window.location.href = '/user/edit.htm?id=' + data.id;
+        });
+
+
+        $('#searchButton').click(function () {
+            table.ajax.reload();
+        });
+
+    });
+
 </script>

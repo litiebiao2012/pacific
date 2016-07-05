@@ -1,5 +1,8 @@
 package com.pacific.domain.dto;
 
+import com.pacific.domain.enums.RoleTypeEnums;
+import com.pacific.domain.enums.StateEnums;
+
 import java.util.Date;
 
 /**
@@ -23,6 +26,10 @@ public class UserDto {
     private String roleType;
 
     private String state;
+
+    private String stateText;
+
+    private String roleTypeText;
 
     public Long getId() {
         return id;
@@ -94,5 +101,21 @@ public class UserDto {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getStateText() {
+        return StateEnums.fromCode(this.state).getText();
+    }
+
+    public void setStateText(String stateText) {
+        this.stateText = stateText;
+    }
+
+    public String getRoleTypeText() {
+        return RoleTypeEnums.fromCode(this.roleType).getCode();
+    }
+
+    public void setRoleTypeText(String roleTypeText) {
+        this.roleTypeText = roleTypeText;
     }
 }
