@@ -4,6 +4,7 @@ import com.pacific.common.exception.PacificException;
 import com.pacific.common.json.FastJson;
 import com.pacific.common.utils.CollectionUtil;
 import com.pacific.common.utils.SensitiveDataUtil;
+import com.pacific.domain.dto.ChannelDto;
 import com.pacific.domain.dto.UserDto;
 import com.pacific.domain.entity.Application;
 import com.pacific.domain.entity.ApplicationUserConfig;
@@ -59,6 +60,11 @@ public class UserServiceImpl implements UserService {
         return userMapper.queryUserByAccount(type,account);
     }
 
+
+    public User queryUserById(Long id) {
+       return userMapper.selectByPrimaryKey(id);
+    }
+
     @Override
     public Pagination<UserDto> queryAllUserPage(UserQuery userQuery) {
         Assert.notNull(userQuery);
@@ -102,7 +108,7 @@ public class UserServiceImpl implements UserService {
                     appUserConfig.setCreateTime(new Date());
                     appUserConfig.setApplicationCode(app.getApplicationCode());
                     appUserConfig.setIsMonitorAllErrorLog("y");
-                    appUserConfig.setChannelConfig(FastJson.toJson(ApplicationUserConfigServiceImpl.channelDtoList));
+                    appUserConfig.setChannelConfig(FastJson.toJson(ChannelDto.getDefaultChannelList()));
 
                     appUserConfigList.add(appUserConfig);
                 }
@@ -111,5 +117,26 @@ public class UserServiceImpl implements UserService {
         } else {
             userMapper.updateByPrimaryKeySelective(user);
         }
+    }
+
+
+    public void updatePass(Long userId,String oldPass,String newPass) {
+        Assert.notNull(userId);
+        Assert.notNull(oldPass);
+        Assert.notNull(newPass);
+
+        User user = userMapper.selectByPrimaryKey(userId);
+        if (user != null) {
+            String password = user.getPassword();
+            if (!password.equals(oldPass)) PacificException.throwEx("老密码错误!");
+
+            user = new User();
+            user.setId(userId);
+            user.setUpdateTime(new Date());
+            user.setPassword(newPass);
+
+            userMapper.updateByPrimaryKeySelective(user);
+        }
+
     }
 }

@@ -14,15 +14,6 @@ import java.util.List;
  */
 public class ApplicationUserConfigServiceImpl  implements ApplicationUserConfigService {
 
-    public static List<ChannelDto> channelDtoList = new ArrayList<ChannelDto>();
-
-    static {
-        ChannelDto channelDto = new ChannelDto();
-        channelDto.setChannelCode("bearyChat");
-        channelDto.setChannelName("bearyChat报警");
-        channelDto.setIsOpen("y");
-        channelDtoList.add(channelDto);
-    }
 
     @Resource
     private ApplicationUserConfigMapper applicationUserConfigMapper;

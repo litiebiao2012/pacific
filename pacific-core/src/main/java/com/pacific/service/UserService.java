@@ -14,7 +14,11 @@ public interface UserService {
 
     public User queryUserByAccount(String account);
 
+    public User queryUserById(Long id);
+
     public Pagination<UserDto> queryAllUserPage(UserQuery userQuery);
 
     public void saveUser(User user);
+
+    public void updatePass(Long userId,String oldPass,String newPass);
 }

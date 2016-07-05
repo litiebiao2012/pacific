@@ -145,4 +145,22 @@ public class UserController extends BaseController {
         ajaxResult.setData(userDtoPagination);
         return ajaxResult;
     }
+
+    @RequestMapping(value = "/userUpdatePass.htm",method = RequestMethod.GET)
+    public ModelAndView toUserUpdatePass() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("id",getXUser().getUid());
+        modelAndView.setViewName("user/userUpdatePass");
+        return modelAndView;
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/updatePass.json",method = RequestMethod.POST)
+    public AjaxResult updatePass(String oldPass,String newPass) {
+        AjaxResult ajaxResult = new AjaxResult();
+        userService.updatePass(getXUser().getUid(),oldPass,newPass);
+        return ajaxResult;
+    }
+
 }
+

@@ -179,8 +179,14 @@
     select
      count(1)
     from t_user
+
   </select>
 
-
+  <select id="queryAllUserList" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_user
+      where state = 'available'
+  </select>
 
 </mapper>
