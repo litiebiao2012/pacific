@@ -61,7 +61,7 @@ public class AlarmLogServiceImpl implements AlarmLogService {
         List<Application> applicationList = applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
         if (CollectionUtil.isNotEmpty(applicationList)) {
             Map<String,String> titleMap = new HashMap<String,String>();
-            titleMap.put("text","最近7日错误日志汇总统计");
+            titleMap.put("text","");
             allAppErrorLogSevenDayReportDto.setTitle(titleMap);
 
             Map<String,String> tooltipMap = new HashMap<String,String>();

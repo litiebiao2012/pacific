@@ -147,7 +147,17 @@ public class AlarmServiceImpl implements AlarmService {
         alarmLog.setErrorLogId(errorLogRecord.getId());
         alarmLogMapper.insertSelective(alarmLog);
 
-        alarmToAppUser(channelDto,message,applicationUserConfigDto);
+        //TODO bearychat由于是广播通知,所以只做一次报警
+        if(channelDto.getChannelCode().equals(ChannelCodeEnums.BEARY_CHAT.getCode())) {
+            int total = alarmLogMapper.queryTotalByParam(errorLogRecord.getId(),channelDto.getChannelCode());
+            if (total == 0) {
+                alarmToAppUser(channelDto,message,applicationUserConfigDto);
+            }
+        } else {
+            alarmToAppUser(channelDto,message,applicationUserConfigDto);
+        }
+
+
     }
     private String getMessage(AlarmTemplate alarmTemplate,ApplicationUserConfigDto applicationUserConfigDto,ErrorLogRecord errorLogRecord) {
         String templateText = alarmTemplate.getTemplateText();

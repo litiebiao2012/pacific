@@ -219,6 +219,15 @@
     order by al.create_time desc
     <include refid="Page.footer"/>
   </select>
+  
+  <select id="queryTotalByParam">
+    select
+    <include refid="Base_Column_List" />
+    from t_alarm_log
+    where error_log_id = #{errorLogId,jdbcType=BIGINT}
+      and
+       channel_code = #{channelCode,jdbcType=VARCHAR}
+  </select>
 
 
 
