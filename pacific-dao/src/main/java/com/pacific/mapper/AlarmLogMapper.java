@@ -4,6 +4,7 @@ import com.pacific.domain.dto.AlarmLogDto;
 import com.pacific.domain.entity.AlarmLog;
 import com.pacific.domain.query.AlarmLogQuery;
 import com.pacific.domain.search.query.LoggerQuery;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -24,6 +25,6 @@ public interface AlarmLogMapper {
 
     List<AlarmLogDto> queryAlarmLog(AlarmLogQuery alarmLogQuery);
 
-    int queryTotalByParam(Long errorLogId,String channelCode);
+    int queryTotalByParam(@Param("errorLogId") Long errorLogId, @Param("channelCode") String channelCode);
 
 }
