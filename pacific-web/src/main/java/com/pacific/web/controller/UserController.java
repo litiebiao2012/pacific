@@ -13,6 +13,7 @@ import com.pacific.domain.query.Pagination;
 import com.pacific.domain.query.UserQuery;
 import com.pacific.mapper.UserMapper;
 import com.pacific.service.UserService;
+import com.sun.org.apache.xpath.internal.operations.Mod;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
@@ -65,6 +67,13 @@ public class UserController extends BaseController {
         return ajaxResult;
     }
 
+    @RequestMapping(value = "/loginOut.htm",method = RequestMethod.GET)
+    public ModelAndView loginOut() {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/login.htm");
+        return modelAndView;
+    }
+
     @RequestMapping(value = "/userList.htm",method = RequestMethod.GET)
     public String toUserList() {
         return "user/userList";
@@ -88,7 +97,7 @@ public class UserController extends BaseController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/saveUser.htm")
+    @RequestMapping(value = "/saveUser.json")
     public AjaxResult saveUser(User user) {
         ModelAndView modelAndView = new ModelAndView();
 
@@ -124,8 +133,11 @@ public class UserController extends BaseController {
         user.setPassword("123456");
         user.setRoleType(RoleTypeEnums.PERSONAL.getCode());
         user.setUpdateTime(new Date());
-        user.setCreateTime(new Date());
-        user.setState(StateEnums.AVAILABLE.getCode());
+        if (user.getId() == null) {
+            user.setCreateTime(new Date());
+            user.setState(StateEnums.AVAILABLE.getCode());
+        }
+
         user.setUserName(userName);
         user.setPhone(phone);
         user.setEmail(email);
@@ -159,6 +171,7 @@ public class UserController extends BaseController {
     public AjaxResult updatePass(String oldPass,String newPass) {
         AjaxResult ajaxResult = new AjaxResult();
         userService.updatePass(getXUser().getUid(),oldPass,newPass);
+        ajaxResult.setMessage("修改成功!");
         return ajaxResult;
     }
 

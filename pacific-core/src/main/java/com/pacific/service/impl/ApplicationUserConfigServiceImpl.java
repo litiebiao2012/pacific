@@ -19,5 +19,6 @@ public class ApplicationUserConfigServiceImpl  implements ApplicationUserConfigS
     private ApplicationUserConfigMapper applicationUserConfigMapper;
 
     public void saveApplicationUserConfig(List<ApplicationUserConfig> applicationUserConfigList) {
+        applicationUserConfigMapper.batchSaveApplicationUserConfig(applicationUserConfigList);
     }
 }

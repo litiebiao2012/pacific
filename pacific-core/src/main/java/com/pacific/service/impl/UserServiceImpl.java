@@ -121,9 +121,9 @@ public class UserServiceImpl implements UserService {
 
 
     public void updatePass(Long userId,String oldPass,String newPass) {
-        Assert.notNull(userId);
-        Assert.notNull(oldPass);
-        Assert.notNull(newPass);
+        Assert.notNull(userId,"id不能为空!");
+        Assert.notNull(oldPass,"旧密码不能为空!");
+        Assert.notNull(newPass,"新密码不能为空!");
 
         User user = userMapper.selectByPrimaryKey(userId);
         if (user != null) {
