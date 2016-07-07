@@ -208,7 +208,6 @@ public class AlarmLogServiceImpl implements AlarmLogService {
     }
 
     private List<Date> buildSevenDayDateList() {
-        DateUtil.yesterday();
         List<Date> dateList = new LinkedList<Date>();
         dateList.add(new Date());
         for (int i = -1; i >=-6; i--) {
