@@ -10,6 +10,7 @@ public class LoggerQuery extends ElasticSearchBaseQuery{
     private Date beginDate;
     private Date endDate;
     private String message;
+    private String elasticSearchLogId;
 
     public String getLevel() {
         return level;
@@ -41,5 +42,13 @@ public class LoggerQuery extends ElasticSearchBaseQuery{
 
     public void setMessage(String message) {
         this.message = message;
+    }
+
+    public String getElasticSearchLogId() {
+        return elasticSearchLogId;
+    }
+
+    public void setElasticSearchLogId(String elasticSearchLogId) {
+        this.elasticSearchLogId = elasticSearchLogId;
     }
 }

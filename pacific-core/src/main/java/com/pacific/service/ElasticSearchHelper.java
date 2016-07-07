@@ -165,6 +165,10 @@ public class ElasticSearchHelper {
         if (loggerQuery.getEndDate() != null) {
             boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").lt(loggerQuery.getEndDate()));
         }
+
+        if (StringUtils.isNotEmpty(loggerQuery.getElasticSearchLogId())) {
+            boolQueryBuilder.mustNot(QueryBuilders.termQuery("_id",loggerQuery.getElasticSearchLogId()));
+        }
         return boolQueryBuilder;
     }
 
