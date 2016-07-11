@@ -46,6 +46,9 @@ public class HomeController {
 
     @RequestMapping("/home.htm")
     public ModelAndView home() {
+
+        logger.info("home begin!");
+
         List<Application> applicationList = applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
         int appCount = 0;
         long dayAllLogTotal = 0;

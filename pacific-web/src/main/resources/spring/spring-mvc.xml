@@ -81,6 +81,12 @@
         <property name="maxUploadSize" value="10000000"/>
     </bean>
 
+    <bean id="jmonitor-interceptor" class="com.shining3d.monitor.plugin.spring.JMonitorMethodInterceptor" />
+    <aop:config>
+        <aop:pointcut id="jmonitor-pointcut" expression="execution(* com.pacific.service.*Service.*(..)) "/>
+        <aop:advisor advice-ref="jmonitor-interceptor" pointcut-ref="jmonitor-pointcut" />
+    </aop:config>
+
     <bean class="com.pacific.common.web.ExceptionHandlerResolver"/>
     <bean class="com.pacific.common.spring.SpringContext"/>
     <bean class="com.pacific.web.XUserServiceImpl"/>

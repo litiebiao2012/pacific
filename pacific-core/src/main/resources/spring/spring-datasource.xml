@@ -14,6 +14,7 @@
     </bean>
 
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+        <property name="name" value="pacificDatasource"/>
         <property name="url" value="${pacific.jdbc.url}" />
         <property name="username" value="${pacific.jdbc.username}" />
         <property name="password" value="${pacific.jdbc.password}" />

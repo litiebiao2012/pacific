@@ -211,7 +211,7 @@ public class HttpClientUtil4 {
         InputStream in = null;
         try {
             if (body != null && httpRequset instanceof HttpRequestBase) {
-                setRequsetBody(httpRequset, headerMap, body);
+                setRequestBody(httpRequset, headerMap, body);
             }
             httpResponse = httpClient.execute(httpRequset);
             hcBuilder.setHttpResponse(httpResponse);
@@ -238,7 +238,7 @@ public class HttpClientUtil4 {
     }
 
     @SuppressWarnings("unchecked")
-    private static void setRequsetBody(HttpRequestBase httpRequset, Map<String, String> headerMap, Object body) {
+    private static void setRequestBody(HttpRequestBase httpRequset, Map<String, String> headerMap, Object body) {
         HttpPost httpPost = (HttpPost) httpRequset;
         if (headerMap != null && headerMap.get(request_format) != null && headerMap.get(request_format).equals("post")
                 && body instanceof Map) {

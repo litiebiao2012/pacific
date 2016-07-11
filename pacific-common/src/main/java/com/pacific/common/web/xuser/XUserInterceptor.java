@@ -1,5 +1,6 @@
 package com.pacific.common.web.xuser;
 
+import com.shining3d.monitor.plugin.web.WebUrlDataCalHelper;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
@@ -10,6 +11,8 @@ public class XUserInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+
+        WebUrlDataCalHelper.handleBefore(request.getRequestURL().toString());
         XUserSession.initXUserSession();
         return true;
     }
@@ -20,6 +23,7 @@ public class XUserInterceptor extends HandlerInterceptorAdapter {
 
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
+        WebUrlDataCalHelper.handleAfter();
 
     }
 
