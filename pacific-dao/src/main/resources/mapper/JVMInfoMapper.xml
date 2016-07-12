@@ -292,4 +292,84 @@
       total_compilation_time = #{totalCompilationTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="selectByParam" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from t_jvm_info
+    where client_ip = #{clientIp,jdbcType=VARCHAR} and
+    application_code = #{applicationCode,jdbcType=VARCHAR}
+  </select>
+
+
+  <update id="updateByParam" parameterType="com.pacific.domain.entity.JVMInfo" >
+    update t_jvm_info
+    <set >
+      <if test="applicationCode != null" >
+        application_code = #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        client_ip = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hostName != null" >
+        host_name = #{hostName,jdbcType=VARCHAR},
+      </if>
+      <if test="jvmStartTime != null" >
+        jvm_start_time = #{jvmStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="inputArguments != null" >
+        input_arguments = #{inputArguments,jdbcType=VARCHAR},
+      </if>
+      <if test="arch != null" >
+        arch = #{arch,jdbcType=VARCHAR},
+      </if>
+      <if test="availableProcessors != null" >
+        available_processors = #{availableProcessors,jdbcType=INTEGER},
+      </if>
+      <if test="osName != null" >
+        os_name = #{osName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileEncode != null" >
+        file_encode = #{fileEncode,jdbcType=VARCHAR},
+      </if>
+      <if test="jvm != null" >
+        jvm = #{jvm,jdbcType=VARCHAR},
+      </if>
+      <if test="javaVersion != null" >
+        java_version = #{javaVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="javaSpecificationVersion != null" >
+        java_specification_version = #{javaSpecificationVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="javaHome != null" >
+        java_home = #{javaHome,jdbcType=VARCHAR},
+      </if>
+      <if test="javaLibraryPath != null" >
+        java_library_path = #{javaLibraryPath,jdbcType=VARCHAR},
+      </if>
+      <if test="loadedClassCount != null" >
+        loaded_class_count = #{loadedClassCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalLoadedClassCount != null" >
+        total_loaded_class_count = #{totalLoadedClassCount,jdbcType=BIGINT},
+      </if>
+      <if test="unloadedClassCount != null" >
+        unloaded_class_count = #{unloadedClassCount,jdbcType=BIGINT},
+      </if>
+      <if test="totalCompilationTime != null" >
+        total_compilation_time = #{totalCompilationTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where client_ip = #{clientIp,jdbcType=VARCHAR} and
+    application_code = #{applicationCode,jdbcType=VARCHAR}
+  </update>
 </mapper>

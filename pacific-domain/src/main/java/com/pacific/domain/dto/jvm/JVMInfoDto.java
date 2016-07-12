@@ -5,7 +5,7 @@ import java.util.Date;
 /**
  * Created by Fe on 16/7/11.
  */
-public class JVMInfoDto {
+public class JVMInfoDto extends BaseDto {
 
     private Date startTime;
 
