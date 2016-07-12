@@ -48,4 +48,12 @@ public class JVMThreadDto extends BaseDto {
     public void setDeadLockedThreadCount(int deadLockedThreadCount) {
         this.deadLockedThreadCount = deadLockedThreadCount;
     }
+
+    public BigDecimal getProcessCpuTimeRate() {
+        return processCpuTimeRate;
+    }
+
+    public void setProcessCpuTimeRate(BigDecimal processCpuTimeRate) {
+        this.processCpuTimeRate = processCpuTimeRate;
+    }
 }

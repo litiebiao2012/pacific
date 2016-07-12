@@ -5,10 +5,16 @@ import com.pacific.domain.dto.jvm.JVMGcDto;
 import com.pacific.domain.dto.jvm.JVMInfoDto;
 import com.pacific.domain.dto.jvm.JVMMemoryDto;
 import com.pacific.domain.dto.jvm.JVMThreadDto;
+import com.pacific.service.JVMGcService;
+import com.pacific.service.JVMInfoService;
+import com.pacific.service.JVMMemoryService;
+import com.pacific.service.JVMThreadService;
 import org.elasticsearch.monitor.jvm.JvmInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.annotation.Resource;
 
 /**
  * Created by Fe on 16/7/8.
@@ -17,28 +23,42 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequestMapping("/jvm")
 public class JvmController {
 
+    @Resource
+    private JVMGcService jvmGcService;
+    @Resource
+    private JVMMemoryService jvmMemoryService;
+    @Resource
+    private JVMThreadService jvmThreadService;
+    @Resource
+    private JVMInfoService jvmInfoService;
+
+
     @ResponseBody
     @RequestMapping("/memory.json")
     private AjaxResult memory(JVMMemoryDto jvmMemoryDto) {
-        return null;
+        jvmMemoryService.saveJVMMemory(jvmMemoryDto);
+        return new AjaxResult();
     }
 
     @ResponseBody
     @RequestMapping("/gc.json")
     private AjaxResult gc(JVMGcDto jvmGcDto) {
-        return null;
+        jvmGcService.saveJVMGc(jvmGcDto);
+        return new AjaxResult();
     }
 
     @ResponseBody
     @RequestMapping("/thread.json")
     private AjaxResult thread(JVMThreadDto jvmThreadDto) {
-        return null;
+        jvmThreadService.saveJVMThread(jvmThreadDto);
+        return new AjaxResult();
     }
 
 
     @ResponseBody
     @RequestMapping("/info.json")
     private AjaxResult info(JVMInfoDto jvmInfoDto) {
-        return null;
+        jvmInfoService.saveJVMInfo(jvmInfoDto);
+        return new AjaxResult();
     }
 }

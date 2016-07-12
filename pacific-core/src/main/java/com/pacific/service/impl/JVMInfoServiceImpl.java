@@ -34,10 +34,22 @@ public class JVMInfoServiceImpl implements JVMInfoService {
                 jvmInfo.setApplicationCode(jvmInfoDto.getAppCode());
                 jvmInfo.setCreateTime(new Date());
                 jvmInfo.setUpdateTime(new Date());
+
+                jvmInfo.setHostName(jvmInfoDto.getHostname());
+                jvmInfo.setJvmStartTime(jvmInfoDto.getStartTime());
+                jvmInfo.setPid(jvmInfoDto.getpID());
+                jvmInfo.setOsName(jvmInfoDto.getoSName());
+                jvmInfo.setJvm(jvmInfoDto.getjVM());
                 jvmInfoMapper.insertSelective(jvmInfo);
             } else {
                 BeanUtils.copyProperties(ji,jvmInfoDto);
-                jvmInfoMapper.updateByPrimaryKeySelective(jvmInfo);
+                ji.setHostName(jvmInfoDto.getHostname());
+                ji.setJvmStartTime(jvmInfoDto.getStartTime());
+                ji.setPid(jvmInfoDto.getpID());
+                ji.setOsName(jvmInfoDto.getoSName());
+                ji.setJvm(jvmInfoDto.getjVM());
+                ji.setUpdateTime(new Date());
+                jvmInfoMapper.updateByPrimaryKeySelective(ji);
             }
         } catch (Exception e) {
             logger.error("saveJVMMemory error!, e : {}",e);

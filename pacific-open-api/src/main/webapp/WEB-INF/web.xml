@@ -46,6 +46,20 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+
+    <filter>
+        <filter-name>requestContext</filter-name>
+        <filter-class>com.pacific.common.web.RequestContextFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>requestContext</filter-name>
+        <url-pattern>*.htm</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>requestContext</filter-name>
+        <url-pattern>*.json</url-pattern>
+    </filter-mapping>
+
     <servlet>
         <servlet-name>dispatcherServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -55,6 +69,10 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+
+
+
+
 
     <!-- ajax -->
     <servlet-mapping>

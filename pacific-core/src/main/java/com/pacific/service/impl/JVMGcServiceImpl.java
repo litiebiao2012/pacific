@@ -25,7 +25,11 @@ public class JVMGcServiceImpl implements JVMGcService {
     public void saveJVMGc(JVMGcDto jvmGcDto) {
         JVMGc jvmGc = new JVMGc();
         try {
-            BeanUtils.copyProperties(jvmGc,jvmGcDto);
+            jvmGc.setYoungGcCollectionCount(jvmGcDto.getYoungGCCollectionCount());
+            jvmGc.setYoungGcCollectionTime(jvmGcDto.getYoungGCCollectionTime());
+            jvmGc.setFullGcCollectionCount(jvmGcDto.getFullGCCollectionCount());
+            jvmGc.setFullGcCollectionTime(jvmGcDto.getFullGCCollectionTime());
+            jvmGc.setClientIp(jvmGcDto.getClientIp());
             jvmGc.setApplicationCode(jvmGcDto.getAppCode());
             jvmGc.setCreateTime(new Date());
             jvmGc.setUpdateTime(new Date());

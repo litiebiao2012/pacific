@@ -1,6 +1,7 @@
 package com.pacific.domain.entity;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 public class JVMThread implements Serializable {
@@ -22,7 +23,7 @@ public class JVMThread implements Serializable {
 
     private Integer deadLockedThreadCount;
 
-    private Long processCpuTimeRate;
+    private BigDecimal processCpuTimeRate;
 
     private static final long serialVersionUID = 1L;
 
@@ -98,11 +99,11 @@ public class JVMThread implements Serializable {
         this.deadLockedThreadCount = deadLockedThreadCount;
     }
 
-    public Long getProcessCpuTimeRate() {
+    public BigDecimal getProcessCpuTimeRate() {
         return processCpuTimeRate;
     }
 
-    public void setProcessCpuTimeRate(Long processCpuTimeRate) {
+    public void setProcessCpuTimeRate(BigDecimal processCpuTimeRate) {
         this.processCpuTimeRate = processCpuTimeRate;
     }
 }
