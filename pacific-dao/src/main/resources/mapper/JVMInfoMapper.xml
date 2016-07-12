@@ -1,0 +1,295 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pacific.mapper.JVMInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pacific.domain.entity.JVMInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
+    <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="host_name" property="hostName" jdbcType="VARCHAR" />
+    <result column="jvm_start_time" property="jvmStartTime" jdbcType="TIMESTAMP" />
+    <result column="pid" property="pid" jdbcType="VARCHAR" />
+    <result column="input_arguments" property="inputArguments" jdbcType="VARCHAR" />
+    <result column="arch" property="arch" jdbcType="VARCHAR" />
+    <result column="available_processors" property="availableProcessors" jdbcType="INTEGER" />
+    <result column="os_name" property="osName" jdbcType="VARCHAR" />
+    <result column="file_encode" property="fileEncode" jdbcType="VARCHAR" />
+    <result column="jvm" property="jvm" jdbcType="VARCHAR" />
+    <result column="java_version" property="javaVersion" jdbcType="VARCHAR" />
+    <result column="java_specification_version" property="javaSpecificationVersion" jdbcType="VARCHAR" />
+    <result column="java_home" property="javaHome" jdbcType="VARCHAR" />
+    <result column="java_library_path" property="javaLibraryPath" jdbcType="VARCHAR" />
+    <result column="loaded_class_count" property="loadedClassCount" jdbcType="INTEGER" />
+    <result column="total_loaded_class_count" property="totalLoadedClassCount" jdbcType="BIGINT" />
+    <result column="unloaded_class_count" property="unloadedClassCount" jdbcType="BIGINT" />
+    <result column="total_compilation_time" property="totalCompilationTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, application_code, client_ip, create_time, update_time, host_name, jvm_start_time, 
+    pid, input_arguments, arch, available_processors, os_name, file_encode, jvm, java_version, 
+    java_specification_version, java_home, java_library_path, loaded_class_count, total_loaded_class_count, 
+    unloaded_class_count, total_compilation_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_jvm_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_jvm_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pacific.domain.entity.JVMInfo" >
+    insert into t_jvm_info (id, application_code, client_ip, 
+      create_time, update_time, host_name, 
+      jvm_start_time, pid, input_arguments, 
+      arch, available_processors, os_name, 
+      file_encode, jvm, java_version, 
+      java_specification_version, java_home, java_library_path, 
+      loaded_class_count, total_loaded_class_count, 
+      unloaded_class_count, total_compilation_time)
+    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{hostName,jdbcType=VARCHAR}, 
+      #{jvmStartTime,jdbcType=TIMESTAMP}, #{pid,jdbcType=VARCHAR}, #{inputArguments,jdbcType=VARCHAR}, 
+      #{arch,jdbcType=VARCHAR}, #{availableProcessors,jdbcType=INTEGER}, #{osName,jdbcType=VARCHAR}, 
+      #{fileEncode,jdbcType=VARCHAR}, #{jvm,jdbcType=VARCHAR}, #{javaVersion,jdbcType=VARCHAR}, 
+      #{javaSpecificationVersion,jdbcType=VARCHAR}, #{javaHome,jdbcType=VARCHAR}, #{javaLibraryPath,jdbcType=VARCHAR}, 
+      #{loadedClassCount,jdbcType=INTEGER}, #{totalLoadedClassCount,jdbcType=BIGINT}, 
+      #{unloadedClassCount,jdbcType=BIGINT}, #{totalCompilationTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pacific.domain.entity.JVMInfo" >
+    insert into t_jvm_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="applicationCode != null" >
+        application_code,
+      </if>
+      <if test="clientIp != null" >
+        client_ip,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="hostName != null" >
+        host_name,
+      </if>
+      <if test="jvmStartTime != null" >
+        jvm_start_time,
+      </if>
+      <if test="pid != null" >
+        pid,
+      </if>
+      <if test="inputArguments != null" >
+        input_arguments,
+      </if>
+      <if test="arch != null" >
+        arch,
+      </if>
+      <if test="availableProcessors != null" >
+        available_processors,
+      </if>
+      <if test="osName != null" >
+        os_name,
+      </if>
+      <if test="fileEncode != null" >
+        file_encode,
+      </if>
+      <if test="jvm != null" >
+        jvm,
+      </if>
+      <if test="javaVersion != null" >
+        java_version,
+      </if>
+      <if test="javaSpecificationVersion != null" >
+        java_specification_version,
+      </if>
+      <if test="javaHome != null" >
+        java_home,
+      </if>
+      <if test="javaLibraryPath != null" >
+        java_library_path,
+      </if>
+      <if test="loadedClassCount != null" >
+        loaded_class_count,
+      </if>
+      <if test="totalLoadedClassCount != null" >
+        total_loaded_class_count,
+      </if>
+      <if test="unloadedClassCount != null" >
+        unloaded_class_count,
+      </if>
+      <if test="totalCompilationTime != null" >
+        total_compilation_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="applicationCode != null" >
+        #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hostName != null" >
+        #{hostName,jdbcType=VARCHAR},
+      </if>
+      <if test="jvmStartTime != null" >
+        #{jvmStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pid != null" >
+        #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="inputArguments != null" >
+        #{inputArguments,jdbcType=VARCHAR},
+      </if>
+      <if test="arch != null" >
+        #{arch,jdbcType=VARCHAR},
+      </if>
+      <if test="availableProcessors != null" >
+        #{availableProcessors,jdbcType=INTEGER},
+      </if>
+      <if test="osName != null" >
+        #{osName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileEncode != null" >
+        #{fileEncode,jdbcType=VARCHAR},
+      </if>
+      <if test="jvm != null" >
+        #{jvm,jdbcType=VARCHAR},
+      </if>
+      <if test="javaVersion != null" >
+        #{javaVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="javaSpecificationVersion != null" >
+        #{javaSpecificationVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="javaHome != null" >
+        #{javaHome,jdbcType=VARCHAR},
+      </if>
+      <if test="javaLibraryPath != null" >
+        #{javaLibraryPath,jdbcType=VARCHAR},
+      </if>
+      <if test="loadedClassCount != null" >
+        #{loadedClassCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalLoadedClassCount != null" >
+        #{totalLoadedClassCount,jdbcType=BIGINT},
+      </if>
+      <if test="unloadedClassCount != null" >
+        #{unloadedClassCount,jdbcType=BIGINT},
+      </if>
+      <if test="totalCompilationTime != null" >
+        #{totalCompilationTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pacific.domain.entity.JVMInfo" >
+    update t_jvm_info
+    <set >
+      <if test="applicationCode != null" >
+        application_code = #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        client_ip = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="hostName != null" >
+        host_name = #{hostName,jdbcType=VARCHAR},
+      </if>
+      <if test="jvmStartTime != null" >
+        jvm_start_time = #{jvmStartTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pid != null" >
+        pid = #{pid,jdbcType=VARCHAR},
+      </if>
+      <if test="inputArguments != null" >
+        input_arguments = #{inputArguments,jdbcType=VARCHAR},
+      </if>
+      <if test="arch != null" >
+        arch = #{arch,jdbcType=VARCHAR},
+      </if>
+      <if test="availableProcessors != null" >
+        available_processors = #{availableProcessors,jdbcType=INTEGER},
+      </if>
+      <if test="osName != null" >
+        os_name = #{osName,jdbcType=VARCHAR},
+      </if>
+      <if test="fileEncode != null" >
+        file_encode = #{fileEncode,jdbcType=VARCHAR},
+      </if>
+      <if test="jvm != null" >
+        jvm = #{jvm,jdbcType=VARCHAR},
+      </if>
+      <if test="javaVersion != null" >
+        java_version = #{javaVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="javaSpecificationVersion != null" >
+        java_specification_version = #{javaSpecificationVersion,jdbcType=VARCHAR},
+      </if>
+      <if test="javaHome != null" >
+        java_home = #{javaHome,jdbcType=VARCHAR},
+      </if>
+      <if test="javaLibraryPath != null" >
+        java_library_path = #{javaLibraryPath,jdbcType=VARCHAR},
+      </if>
+      <if test="loadedClassCount != null" >
+        loaded_class_count = #{loadedClassCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalLoadedClassCount != null" >
+        total_loaded_class_count = #{totalLoadedClassCount,jdbcType=BIGINT},
+      </if>
+      <if test="unloadedClassCount != null" >
+        unloaded_class_count = #{unloadedClassCount,jdbcType=BIGINT},
+      </if>
+      <if test="totalCompilationTime != null" >
+        total_compilation_time = #{totalCompilationTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pacific.domain.entity.JVMInfo" >
+    update t_jvm_info
+    set application_code = #{applicationCode,jdbcType=VARCHAR},
+      client_ip = #{clientIp,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      host_name = #{hostName,jdbcType=VARCHAR},
+      jvm_start_time = #{jvmStartTime,jdbcType=TIMESTAMP},
+      pid = #{pid,jdbcType=VARCHAR},
+      input_arguments = #{inputArguments,jdbcType=VARCHAR},
+      arch = #{arch,jdbcType=VARCHAR},
+      available_processors = #{availableProcessors,jdbcType=INTEGER},
+      os_name = #{osName,jdbcType=VARCHAR},
+      file_encode = #{fileEncode,jdbcType=VARCHAR},
+      jvm = #{jvm,jdbcType=VARCHAR},
+      java_version = #{javaVersion,jdbcType=VARCHAR},
+      java_specification_version = #{javaSpecificationVersion,jdbcType=VARCHAR},
+      java_home = #{javaHome,jdbcType=VARCHAR},
+      java_library_path = #{javaLibraryPath,jdbcType=VARCHAR},
+      loaded_class_count = #{loadedClassCount,jdbcType=INTEGER},
+      total_loaded_class_count = #{totalLoadedClassCount,jdbcType=BIGINT},
+      unloaded_class_count = #{unloadedClassCount,jdbcType=BIGINT},
+      total_compilation_time = #{totalCompilationTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

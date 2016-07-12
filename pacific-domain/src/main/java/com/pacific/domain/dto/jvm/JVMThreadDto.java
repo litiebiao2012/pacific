@@ -1,5 +1,7 @@
 package com.pacific.domain.dto.jvm;
 
+import java.math.BigDecimal;
+
 /**
  * Created by Fe on 16/7/11.
  */
@@ -12,6 +14,8 @@ public class JVMThreadDto extends BaseDto {
     private long totalStartedThreadCount;
 
     private int deadLockedThreadCount;
+
+    private BigDecimal processCpuTimeRate;
 
     public int getDaemonThreadCount() {
         return daemonThreadCount;

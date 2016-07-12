@@ -9,11 +9,13 @@ public class JVMInfoDto {
 
     private Date startTime;
 
-    private String jvm;
+    private String hostname;
+
+    private String jVM;
 
     private String javaVersion;
 
-    private String pid;
+    private String pID;
 
     private String inputArguments;
 
@@ -21,9 +23,9 @@ public class JVMInfoDto {
 
     private String arch;
 
-    private String osName;
+    private String oSName;
 
-    private String osVersion;
+    private String oSVersion;
 
     private String javaSpecificationVersion;
 
@@ -49,28 +51,12 @@ public class JVMInfoDto {
         this.startTime = startTime;
     }
 
-    public String getJvm() {
-        return jvm;
-    }
-
-    public void setJvm(String jvm) {
-        this.jvm = jvm;
-    }
-
     public String getJavaVersion() {
         return javaVersion;
     }
 
     public void setJavaVersion(String javaVersion) {
         this.javaVersion = javaVersion;
-    }
-
-    public String getPid() {
-        return pid;
-    }
-
-    public void setPid(String pid) {
-        this.pid = pid;
     }
 
     public String getInputArguments() {
@@ -95,22 +81,6 @@ public class JVMInfoDto {
 
     public void setArch(String arch) {
         this.arch = arch;
-    }
-
-    public String getOsName() {
-        return osName;
-    }
-
-    public void setOsName(String osName) {
-        this.osName = osName;
-    }
-
-    public String getOsVersion() {
-        return osVersion;
-    }
-
-    public void setOsVersion(String osVersion) {
-        this.osVersion = osVersion;
     }
 
     public String getJavaSpecificationVersion() {
@@ -175,5 +145,46 @@ public class JVMInfoDto {
 
     public void setTotalCompilationTime(long totalCompilationTime) {
         this.totalCompilationTime = totalCompilationTime;
+    }
+
+
+    public String getjVM() {
+        return jVM;
+    }
+
+    public void setjVM(String jVM) {
+        this.jVM = jVM;
+    }
+
+    public String getpID() {
+        return pID;
+    }
+
+    public void setpID(String pID) {
+        this.pID = pID;
+    }
+
+    public String getoSName() {
+        return oSName;
+    }
+
+    public void setoSName(String oSName) {
+        this.oSName = oSName;
+    }
+
+    public String getoSVersion() {
+        return oSVersion;
+    }
+
+    public void setoSVersion(String oSVersion) {
+        this.oSVersion = oSVersion;
+    }
+
+    public String getHostname() {
+        return hostname;
+    }
+
+    public void setHostname(String hostname) {
+        this.hostname = hostname;
     }
 }

@@ -1,34 +1,36 @@
 package com.pacific.domain.dto.jvm;
 
+import java.util.Date;
+
 /**
  * Created by Fe on 16/7/11.
  */
 public class BaseDto {
-    private String appName;
-    private String clientId;
-    private long timeStamp;
+    private String appCode;
+    private String clientIp;
+    private Date createTime;
 
-    public String getAppName() {
-        return appName;
+    public String getClientIp() {
+        return clientIp;
     }
 
-    public void setAppName(String appName) {
-        this.appName = appName;
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
     }
 
-    public String getClientId() {
-        return clientId;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 
-    public long getTimeStamp() {
-        return timeStamp;
+    public String getAppCode() {
+        return appCode;
     }
 
-    public void setTimeStamp(long timeStamp) {
-        this.timeStamp = timeStamp;
+    public void setAppCode(String appCode) {
+        this.appCode = appCode;
     }
 }

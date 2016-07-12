@@ -19,5 +19,13 @@
             <groupId>com.pacific</groupId>
             <artifactId>pacific-common</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.pacific</groupId>
+            <artifactId>pacific-domain</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.pacific</groupId>
+            <artifactId>pacific-core</artifactId>
+        </dependency>
     </dependencies>
 </project>

@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pacific.mapper.JVMMemoryMapper" >
+  <resultMap id="BaseResultMap" type="com.pacific.domain.entity.JVMMemory" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
+    <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="heap_memory_init" property="heapMemoryInit" jdbcType="BIGINT" />
+    <result column="heap_memory_max" property="heapMemoryMax" jdbcType="BIGINT" />
+    <result column="heap_memory_used" property="heapMemoryUsed" jdbcType="BIGINT" />
+    <result column="non_heap_memory_init" property="nonHeapMemoryInit" jdbcType="BIGINT" />
+    <result column="non_heap_memory_max" property="nonHeapMemoryMax" jdbcType="BIGINT" />
+    <result column="non_heap_memory_used" property="nonHeapMemoryUsed" jdbcType="BIGINT" />
+    <result column="perm_gen_max" property="permGenMax" jdbcType="BIGINT" />
+    <result column="perm_gen_used" property="permGenUsed" jdbcType="BIGINT" />
+    <result column="old_gen_max" property="oldGenMax" jdbcType="BIGINT" />
+    <result column="old_gen_used" property="oldGenUsed" jdbcType="BIGINT" />
+    <result column="eden_space_max" property="edenSpaceMax" jdbcType="BIGINT" />
+    <result column="eden_space_used" property="edenSpaceUsed" jdbcType="BIGINT" />
+    <result column="survivor_max" property="survivorMax" jdbcType="BIGINT" />
+    <result column="survivor_used" property="survivorUsed" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, application_code, client_ip, create_time, update_time, heap_memory_init, heap_memory_max, 
+    heap_memory_used, non_heap_memory_init, non_heap_memory_max, non_heap_memory_used, 
+    perm_gen_max, perm_gen_used, old_gen_max, old_gen_used, eden_space_max, eden_space_used, 
+    survivor_max, survivor_used
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_jvm_memory
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_jvm_memory
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pacific.domain.entity.JVMMemory" >
+    insert into t_jvm_memory (id, application_code, client_ip, 
+      create_time, update_time, heap_memory_init, 
+      heap_memory_max, heap_memory_used, non_heap_memory_init, 
+      non_heap_memory_max, non_heap_memory_used, perm_gen_max, 
+      perm_gen_used, old_gen_max, old_gen_used, 
+      eden_space_max, eden_space_used, survivor_max, 
+      survivor_used)
+    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{heapMemoryInit,jdbcType=BIGINT}, 
+      #{heapMemoryMax,jdbcType=BIGINT}, #{heapMemoryUsed,jdbcType=BIGINT}, #{nonHeapMemoryInit,jdbcType=BIGINT}, 
+      #{nonHeapMemoryMax,jdbcType=BIGINT}, #{nonHeapMemoryUsed,jdbcType=BIGINT}, #{permGenMax,jdbcType=BIGINT}, 
+      #{permGenUsed,jdbcType=BIGINT}, #{oldGenMax,jdbcType=BIGINT}, #{oldGenUsed,jdbcType=BIGINT}, 
+      #{edenSpaceMax,jdbcType=BIGINT}, #{edenSpaceUsed,jdbcType=BIGINT}, #{survivorMax,jdbcType=BIGINT}, 
+      #{survivorUsed,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pacific.domain.entity.JVMMemory" >
+    insert into t_jvm_memory
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="applicationCode != null" >
+        application_code,
+      </if>
+      <if test="clientIp != null" >
+        client_ip,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="heapMemoryInit != null" >
+        heap_memory_init,
+      </if>
+      <if test="heapMemoryMax != null" >
+        heap_memory_max,
+      </if>
+      <if test="heapMemoryUsed != null" >
+        heap_memory_used,
+      </if>
+      <if test="nonHeapMemoryInit != null" >
+        non_heap_memory_init,
+      </if>
+      <if test="nonHeapMemoryMax != null" >
+        non_heap_memory_max,
+      </if>
+      <if test="nonHeapMemoryUsed != null" >
+        non_heap_memory_used,
+      </if>
+      <if test="permGenMax != null" >
+        perm_gen_max,
+      </if>
+      <if test="permGenUsed != null" >
+        perm_gen_used,
+      </if>
+      <if test="oldGenMax != null" >
+        old_gen_max,
+      </if>
+      <if test="oldGenUsed != null" >
+        old_gen_used,
+      </if>
+      <if test="edenSpaceMax != null" >
+        eden_space_max,
+      </if>
+      <if test="edenSpaceUsed != null" >
+        eden_space_used,
+      </if>
+      <if test="survivorMax != null" >
+        survivor_max,
+      </if>
+      <if test="survivorUsed != null" >
+        survivor_used,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="applicationCode != null" >
+        #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="heapMemoryInit != null" >
+        #{heapMemoryInit,jdbcType=BIGINT},
+      </if>
+      <if test="heapMemoryMax != null" >
+        #{heapMemoryMax,jdbcType=BIGINT},
+      </if>
+      <if test="heapMemoryUsed != null" >
+        #{heapMemoryUsed,jdbcType=BIGINT},
+      </if>
+      <if test="nonHeapMemoryInit != null" >
+        #{nonHeapMemoryInit,jdbcType=BIGINT},
+      </if>
+      <if test="nonHeapMemoryMax != null" >
+        #{nonHeapMemoryMax,jdbcType=BIGINT},
+      </if>
+      <if test="nonHeapMemoryUsed != null" >
+        #{nonHeapMemoryUsed,jdbcType=BIGINT},
+      </if>
+      <if test="permGenMax != null" >
+        #{permGenMax,jdbcType=BIGINT},
+      </if>
+      <if test="permGenUsed != null" >
+        #{permGenUsed,jdbcType=BIGINT},
+      </if>
+      <if test="oldGenMax != null" >
+        #{oldGenMax,jdbcType=BIGINT},
+      </if>
+      <if test="oldGenUsed != null" >
+        #{oldGenUsed,jdbcType=BIGINT},
+      </if>
+      <if test="edenSpaceMax != null" >
+        #{edenSpaceMax,jdbcType=BIGINT},
+      </if>
+      <if test="edenSpaceUsed != null" >
+        #{edenSpaceUsed,jdbcType=BIGINT},
+      </if>
+      <if test="survivorMax != null" >
+        #{survivorMax,jdbcType=BIGINT},
+      </if>
+      <if test="survivorUsed != null" >
+        #{survivorUsed,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pacific.domain.entity.JVMMemory" >
+    update t_jvm_memory
+    <set >
+      <if test="applicationCode != null" >
+        application_code = #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        client_ip = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="heapMemoryInit != null" >
+        heap_memory_init = #{heapMemoryInit,jdbcType=BIGINT},
+      </if>
+      <if test="heapMemoryMax != null" >
+        heap_memory_max = #{heapMemoryMax,jdbcType=BIGINT},
+      </if>
+      <if test="heapMemoryUsed != null" >
+        heap_memory_used = #{heapMemoryUsed,jdbcType=BIGINT},
+      </if>
+      <if test="nonHeapMemoryInit != null" >
+        non_heap_memory_init = #{nonHeapMemoryInit,jdbcType=BIGINT},
+      </if>
+      <if test="nonHeapMemoryMax != null" >
+        non_heap_memory_max = #{nonHeapMemoryMax,jdbcType=BIGINT},
+      </if>
+      <if test="nonHeapMemoryUsed != null" >
+        non_heap_memory_used = #{nonHeapMemoryUsed,jdbcType=BIGINT},
+      </if>
+      <if test="permGenMax != null" >
+        perm_gen_max = #{permGenMax,jdbcType=BIGINT},
+      </if>
+      <if test="permGenUsed != null" >
+        perm_gen_used = #{permGenUsed,jdbcType=BIGINT},
+      </if>
+      <if test="oldGenMax != null" >
+        old_gen_max = #{oldGenMax,jdbcType=BIGINT},
+      </if>
+      <if test="oldGenUsed != null" >
+        old_gen_used = #{oldGenUsed,jdbcType=BIGINT},
+      </if>
+      <if test="edenSpaceMax != null" >
+        eden_space_max = #{edenSpaceMax,jdbcType=BIGINT},
+      </if>
+      <if test="edenSpaceUsed != null" >
+        eden_space_used = #{edenSpaceUsed,jdbcType=BIGINT},
+      </if>
+      <if test="survivorMax != null" >
+        survivor_max = #{survivorMax,jdbcType=BIGINT},
+      </if>
+      <if test="survivorUsed != null" >
+        survivor_used = #{survivorUsed,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pacific.domain.entity.JVMMemory" >
+    update t_jvm_memory
+    set application_code = #{applicationCode,jdbcType=VARCHAR},
+      client_ip = #{clientIp,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      heap_memory_init = #{heapMemoryInit,jdbcType=BIGINT},
+      heap_memory_max = #{heapMemoryMax,jdbcType=BIGINT},
+      heap_memory_used = #{heapMemoryUsed,jdbcType=BIGINT},
+      non_heap_memory_init = #{nonHeapMemoryInit,jdbcType=BIGINT},
+      non_heap_memory_max = #{nonHeapMemoryMax,jdbcType=BIGINT},
+      non_heap_memory_used = #{nonHeapMemoryUsed,jdbcType=BIGINT},
+      perm_gen_max = #{permGenMax,jdbcType=BIGINT},
+      perm_gen_used = #{permGenUsed,jdbcType=BIGINT},
+      old_gen_max = #{oldGenMax,jdbcType=BIGINT},
+      old_gen_used = #{oldGenUsed,jdbcType=BIGINT},
+      eden_space_max = #{edenSpaceMax,jdbcType=BIGINT},
+      eden_space_used = #{edenSpaceUsed,jdbcType=BIGINT},
+      survivor_max = #{survivorMax,jdbcType=BIGINT},
+      survivor_used = #{survivorUsed,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
