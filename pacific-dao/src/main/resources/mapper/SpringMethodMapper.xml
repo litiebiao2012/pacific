@@ -15,8 +15,8 @@
     <result column="nano_total" property="nanoTotal" jdbcType="BIGINT" />
     <result column="nano_max" property="nanoMax" jdbcType="BIGINT" />
     <result column="error_time" property="errorTime" jdbcType="TIMESTAMP" />
-    <result column="error_msg" property="errorMsg" jdbcType="VARCHAR" />
-    <result column="error_stack_trace" property="errorStackTrace" jdbcType="VARCHAR" />
+    <result column="error_msg" property="errorMsg" jdbcType="LONGVARCHAR" />
+    <result column="error_stack_trace" property="errorStackTrace" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
     id, application_code, client_ip, create_time, update_time, class_name, method, count, 
@@ -209,4 +209,24 @@
       error_stack_trace = #{errorStackTrace,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <insert id="batchSaveSpringMethod" parameterType="com.pacific.domain.entity.SpringMethod" >
+    insert into t_spring_method (application_code, client_ip,
+    create_time, update_time, class_name,
+    method, count, concurrent_max,
+    is_error, nano_total, nano_max,
+    error_time, error_msg, error_stack_trace
+    )
+    values
+    <foreach collection="list" item="item" index="index"
+             separator=",">
+      (#{item.applicationCode,jdbcType=VARCHAR}, #{item.clientIp,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.className,jdbcType=VARCHAR},
+      #{item.method,jdbcType=VARCHAR}, #{item.count,jdbcType=BIGINT}, #{item.concurrentMax,jdbcType=BIGINT},
+      #{item.isError,jdbcType=VARCHAR}, #{item.nanoTotal,jdbcType=BIGINT}, #{item.nanoMax,jdbcType=BIGINT},
+      #{item.errorTime,jdbcType=TIMESTAMP}, #{item.errorMsg,jdbcType=VARCHAR}, #{item.errorStackTrace,jdbcType=VARCHAR}
+      )
+    </foreach>
+  </insert>
 </mapper>

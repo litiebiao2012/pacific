@@ -2,6 +2,8 @@ package com.pacific.mapper;
 
 import com.pacific.domain.entity.SpringMethod;
 
+import java.util.List;
+
 public interface SpringMethodMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -14,4 +16,6 @@ public interface SpringMethodMapper {
     int updateByPrimaryKeySelective(SpringMethod record);
 
     int updateByPrimaryKey(SpringMethod record);
+
+    int batchSaveSpringMethod(List<SpringMethod> springMethodList);
 }
