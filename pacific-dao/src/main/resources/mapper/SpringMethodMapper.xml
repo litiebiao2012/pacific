@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pacific.mapper.SpringMethodMapper" >
+  <resultMap id="BaseResultMap" type="com.pacific.domain.entity.SpringMethod" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
+    <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="BIGINT" />
+    <result column="concurrent_max" property="concurrentMax" jdbcType="BIGINT" />
+    <result column="is_error" property="isError" jdbcType="VARCHAR" />
+    <result column="nano_total" property="nanoTotal" jdbcType="BIGINT" />
+    <result column="nano_max" property="nanoMax" jdbcType="BIGINT" />
+    <result column="error_time" property="errorTime" jdbcType="TIMESTAMP" />
+    <result column="error_msg" property="errorMsg" jdbcType="VARCHAR" />
+    <result column="error_stack_trace" property="errorStackTrace" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, application_code, client_ip, create_time, update_time, class_name, method, count, 
+    concurrent_max, is_error, nano_total, nano_max, error_time, error_msg, error_stack_trace
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_spring_method
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_spring_method
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pacific.domain.entity.SpringMethod" >
+    insert into t_spring_method (id, application_code, client_ip, 
+      create_time, update_time, class_name, 
+      method, count, concurrent_max, 
+      is_error, nano_total, nano_max, 
+      error_time, error_msg, error_stack_trace
+      )
+    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{className,jdbcType=VARCHAR}, 
+      #{method,jdbcType=VARCHAR}, #{count,jdbcType=BIGINT}, #{concurrentMax,jdbcType=BIGINT}, 
+      #{isError,jdbcType=VARCHAR}, #{nanoTotal,jdbcType=BIGINT}, #{nanoMax,jdbcType=BIGINT}, 
+      #{errorTime,jdbcType=TIMESTAMP}, #{errorMsg,jdbcType=VARCHAR}, #{errorStackTrace,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.pacific.domain.entity.SpringMethod" >
+    insert into t_spring_method
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="applicationCode != null" >
+        application_code,
+      </if>
+      <if test="clientIp != null" >
+        client_ip,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="method != null" >
+        method,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="concurrentMax != null" >
+        concurrent_max,
+      </if>
+      <if test="isError != null" >
+        is_error,
+      </if>
+      <if test="nanoTotal != null" >
+        nano_total,
+      </if>
+      <if test="nanoMax != null" >
+        nano_max,
+      </if>
+      <if test="errorTime != null" >
+        error_time,
+      </if>
+      <if test="errorMsg != null" >
+        error_msg,
+      </if>
+      <if test="errorStackTrace != null" >
+        error_stack_trace,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="applicationCode != null" >
+        #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=BIGINT},
+      </if>
+      <if test="concurrentMax != null" >
+        #{concurrentMax,jdbcType=BIGINT},
+      </if>
+      <if test="isError != null" >
+        #{isError,jdbcType=VARCHAR},
+      </if>
+      <if test="nanoTotal != null" >
+        #{nanoTotal,jdbcType=BIGINT},
+      </if>
+      <if test="nanoMax != null" >
+        #{nanoMax,jdbcType=BIGINT},
+      </if>
+      <if test="errorTime != null" >
+        #{errorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="errorStackTrace != null" >
+        #{errorStackTrace,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pacific.domain.entity.SpringMethod" >
+    update t_spring_method
+    <set >
+      <if test="applicationCode != null" >
+        application_code = #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        client_ip = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="className != null" >
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="method != null" >
+        method = #{method,jdbcType=VARCHAR},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=BIGINT},
+      </if>
+      <if test="concurrentMax != null" >
+        concurrent_max = #{concurrentMax,jdbcType=BIGINT},
+      </if>
+      <if test="isError != null" >
+        is_error = #{isError,jdbcType=VARCHAR},
+      </if>
+      <if test="nanoTotal != null" >
+        nano_total = #{nanoTotal,jdbcType=BIGINT},
+      </if>
+      <if test="nanoMax != null" >
+        nano_max = #{nanoMax,jdbcType=BIGINT},
+      </if>
+      <if test="errorTime != null" >
+        error_time = #{errorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="errorMsg != null" >
+        error_msg = #{errorMsg,jdbcType=VARCHAR},
+      </if>
+      <if test="errorStackTrace != null" >
+        error_stack_trace = #{errorStackTrace,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pacific.domain.entity.SpringMethod" >
+    update t_spring_method
+    set application_code = #{applicationCode,jdbcType=VARCHAR},
+      client_ip = #{clientIp,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      class_name = #{className,jdbcType=VARCHAR},
+      method = #{method,jdbcType=VARCHAR},
+      count = #{count,jdbcType=BIGINT},
+      concurrent_max = #{concurrentMax,jdbcType=BIGINT},
+      is_error = #{isError,jdbcType=VARCHAR},
+      nano_total = #{nanoTotal,jdbcType=BIGINT},
+      nano_max = #{nanoMax,jdbcType=BIGINT},
+      error_time = #{errorTime,jdbcType=TIMESTAMP},
+      error_msg = #{errorMsg,jdbcType=VARCHAR},
+      error_stack_trace = #{errorStackTrace,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
