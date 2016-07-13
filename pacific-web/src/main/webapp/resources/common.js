@@ -160,13 +160,28 @@ $(function () {
 
 
 function dataTable(opt) {
-    return $(opt.selector).DataTable({
+    var _opt = {
         language: Common.language,
-        serverSide: true,
         searching: false,
         lengthChange: false,
         autoWidth: false,
-        ajax: function (data, callback, settings) {
+
+        columnDefs: [
+            {
+                defaultContent: '',
+                targets: '_all'
+            }],
+        order: [],
+        columns: opt.columns
+    };
+
+    if (opt.data != undefined) {
+        _opt.data = opt.data;
+    }
+
+    if (opt.url != undefined) {
+        _opt.serverSide = true;
+        _opt.ajax = function (data, callback, settings) {
             loading = layer.load(2, {
                 shade: [0.1, '#000']
             });
@@ -199,24 +214,17 @@ function dataTable(opt) {
                     layer.close(loading);
                 }
             })
-        },
-
-        columnDefs: [
-            {
-                defaultContent: '',
-                targets: '_all'
-            }],
-        order: [],
-        columns: opt.columns
-    });
+        }
+    }
+    return $(opt.selector).DataTable(_opt);
 
 }
 
 
-$.fn.serializeObject = function() {
+$.fn.serializeObject = function () {
     var o = {};
     var a = this.serializeArray();
-    $.each(a, function() {
+    $.each(a, function () {
         if (o[this.name] !== undefined) {
             if (!o[this.name].push) {
                 o[this.name] = [o[this.name]];

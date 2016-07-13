@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="sbamin/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!-- Custom CSS -->
+    <link href="sbamin/css/sb-admin.css" rel="stylesheet" type="text/css">
+    <!-- Morris Charts CSS -->
+    <link href="sbamin/css/plugins/morris.css" rel="stylesheet" type="text/css">
+
+    <link href="common.css" rel="stylesheet" type="text/css">
+
+    <!-- Custom Fonts -->
+    <link href="sbamin/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!-- /#wrapper -->
+
+
+    <link href="datatables/css/dataTables.bootstrap.min.css" rel="stylesheet" type="text/css">
+
+    <!-- jQuery -->
+    <script src="sbamin/js/jquery.js"></script>
+    <script src="layer/layer.js"></script>
+
+    <script src="dateformat/dateFormat.js"></script>
+    <script src="common.js"></script>
+
+    <!-- Bootstrap Core JavaScript -->
+    <script src="sbamin/js/bootstrap.min.js"></script>
+
+    <!-- Morris Charts JavaScript -->
+    <script src="sbamin/js/plugins/morris/raphael.min.js"></script>
+    <script src="ehcharts/echarts.min.js"></script>
+
+
+    <script type="text/javascript" src="datatables/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="datatables/js/dataTables.bootstrap.min.js"></script>
+</head>
+<body>
+<div id="">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        <!--head-->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/home.htm">Pacific分布式日志监控平台</a>
+        </div>
+        <!-- Top Menu Items -->
+        <ul class="nav navbar-right top-nav">
+            <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
+                    西门吹雪 <b class="caret"></b></a>
+                <ul class="dropdown-menu">
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-user"></i> 个人中心</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-envelope"></i> 密码修改</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-gear"></i> 我的监控配置</a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a href="#"><i class="fa fa-fw fa-power-off"></i> 退出</a>
+                    </li>
+                </ul>
+            </li>
+        </ul>
+
+        <!--head-->
+
+
+        <!--left-->
+       <!-- <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav side-nav">
+                <li>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#application"><i
+                            class="fa fa-fw fa-wrench"></i>
+                        应用管理 <i class="fa fa-fw fa-caret-down"></i></a>
+                    <ul id="application" class="collapse">
+                        <li>
+                            <a href="/application/list.htm">应用列表</a>
+                        </li>
+                        <li>
+                            <a href="/application/edit.htm">应用添加</a>
+                        </li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="/alarmLog/list.htm"><i class="fa fa-fw fa-edit"></i> 告警记录</a>
+                </li>
+                <li>
+                    <a href="/log/list.htm"><i class="fa fa-fw fa-edit"></i> 日志查询</a>
+                </li>
+                <li>
+                    <a href="javascript:;" data-toggle="collapse" data-target="#user"><i
+                            class="fa fa-fw fa-arrows-v"></i> 用户管理
+                        <i class="fa fa-fw fa-caret-down"></i></a>
+                    <ul id="user" class="collapse">
+                        <li>
+                            <a href="/user/userList.htm">用户列表</a>
+                        </li>
+                        <li>
+                            <a href="#">用户添加</a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>-->
+        <!--left-->
+    </nav>
+
+    <!--content-->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">
+                        <!--$pacificWebTool.getDescriptionByUri()-->
+                        告警列表
+                    </h1>
+                    <ol class="breadcrumb">
+                        <li>
+                            <i class="fa fa-dashboard"></i> <a href="/home.htm">首页</a>
+                        </li>
+                        <li class="active">
+                            <i class="fa fa-table"></i> 告警列表<!--$pacificWebTool.getDescriptionByUri()-->
+                        </li>
+                    </ol>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form class="" id="searchForm" onsubmit="return false;">
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="" class="col-md-1 text-left">机器列表:</label>
+                                        <span class="label label-default">all</span>
+                                        <span class="label label-info">hz-pangu-01</span>
+                                        <span class="label label-info">hz-pangu-02</span>
+                                        <span class="label label-info">hz-pangu-03</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="" class="col-md-1 text-left">时间间隔:</label>
+                                        <span class="label label-default">15min</span>
+                                        <span class="label label-info">30min</span>
+                                        <span class="label label-info">1h</span>
+                                        <span class="label label-info">3h</span>
+                                        <span class="label label-info">1d</span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group">
+                                        <label for="" class="col-md-1 text-left">类型:</label>
+                                        <a class="label label-default">JVM</a>
+                                        <a class="label label-info">概述</a>
+                                        <a class="label label-info">URL</a>
+                                        <a class="label label-info">异常</a>
+                                        <a class="label label-info">Spring</a>
+                                        <a class="label label-info">DataSource</a>
+                                        <a class="label label-info">SQL</a>
+                                        <a class="label label-info">IP统计</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <table id="table" class="table table-bordered" cellspacing="0"
+                                   width="100%">
+                                <thead>
+                                <tr>
+                                    <td>URL</td>
+                                    <td>访问次数</td>
+                                    <td>最大并发</td>
+                                    <td>最大耗时</td>
+                                    <td>错误数</td>
+                                    <td>操作</td>
+                                </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!-- /.row -->
+            <script src="/resources/laydate/laydate.js"></script>
+            <script type="text/javascript">
+                $(document).ready(function () {
+
+                    table = dataTable({
+                        selector: '#table',
+//                        url: '/log/list.json',
+                        data: [
+                            {
+                                url: '/common/upload.json',
+                                times: 1000,
+                                maxConcurrent: 10,
+                                maxTime: 50,
+                                error: 2
+                            },
+                            {
+                                url: '/common/upload.json',
+                                times: 1000,
+                                maxConcurrent: 10,
+                                maxTime: 50,
+                                error: 2
+                            }
+                        ],
+                        form: '#searchForm',
+                        columns: [
+                            {
+                                orderable: false,
+                                width: '30%',
+                                data: 'url'
+                            },
+                            {
+                                orderable: false,
+                                width: '15%',
+                                data: 'times'
+                            },
+                            {
+                                orderable: false,
+                                width: '15%',
+                                data: 'maxConcurrent'
+                            },
+                            {
+                                orderable: false,
+                                width: '15%',
+                                data: 'maxTime'
+                            },
+                            {
+                                orderable: false,
+                                width: '15%',
+                                data: 'error'
+                            },
+                            {
+                                orderable: false,
+                                width: '8%',
+                                render: function () {
+                                    return "<button class='btn btn-primary' name='detail'>详情</button>";
+                                }
+                            }
+                        ]
+                    });
+
+
+                    $('#searchButton').click(function () {
+                        table.ajax.reload();
+                    });
+
+                });
+
+            </script>
+
+        </div>
+    </div>
+    <!--content-->
+
+    <!-- Modal -->
+    <div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div id="error-chart" style="height:350px"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div  style="height:350px">
+                                        <table class="table">
+                                            <tr>
+                                                <td>
+                                                    2016-05-14 23:22:22
+                                                </td>
+                                                <td>
+                                                    sfowfewfefe
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    2016-05-14 23:22:22
+                                                </td>
+                                                <td>
+                                                    sfowfewfefe
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            $('body').on('click', 'table button', function () {
+
+                $('#detail').modal('show');
+            });
+
+            $('#detail').on('shown.bs.modal', function (e) {
+                console.log("init chart");
+                var errorChart = echarts.init(document.getElementById('error-chart'));
+
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: 'ECharts 入门示例'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data: ['销量']
+                    },
+                    xAxis: {
+                        data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '销量',
+                        type: 'bar',
+                        data: [5, 20, 36, 10, 10, 20]
+                    }]
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                errorChart.setOption(option);
+            })
+
+
+        });
+    </script>
+</div>
+</body>
+</html>
