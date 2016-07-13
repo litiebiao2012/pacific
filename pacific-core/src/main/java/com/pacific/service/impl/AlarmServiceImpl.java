@@ -92,6 +92,13 @@ public class AlarmServiceImpl implements AlarmService {
                                 processApplicationUserConfig(applicationUserConfigDto,errorLogRecord);
                             }
                         }
+
+                        //TODO 更新错误日志为已处理
+                        ErrorLogRecord updateErrorLogRecordParam = new ErrorLogRecord();
+                        updateErrorLogRecordParam.setId(errorLogRecord.getId());
+                        updateErrorLogRecordParam.setIsNotify("y");
+                        updateErrorLogRecordParam.setUpdateTime(new Date());
+                        errorLogRecordMapper.updateByPrimaryKeySelective(updateErrorLogRecordParam);
                     }
                 }
             }
@@ -119,20 +126,28 @@ public class AlarmServiceImpl implements AlarmService {
                 }
             }
         }
-
-        ErrorLogRecord updateErrorLogRecordParam = new ErrorLogRecord();
-        updateErrorLogRecordParam.setId(errorLogRecord.getId());
-        updateErrorLogRecordParam.setIsNotify("y");
-        updateErrorLogRecordParam.setUpdateTime(new Date());
-        errorLogRecordMapper.updateByPrimaryKeySelective(updateErrorLogRecordParam);
     }
 
     private void saveAlarmLog(ChannelDto channelDto,ApplicationUserConfigDto applicationUserConfigDto,
                               ErrorLogRecord errorLogRecord) {
 
+
+
+
         AlarmTemplate alarmTemplate = alarmTemplateMapper.selectByChannelCode(channelDto.getChannelCode());
 
         if (alarmTemplate == null) PacificException.throwEx("alarmTemplate has not init!");
+        String message = getMessage(alarmTemplate,applicationUserConfigDto,errorLogRecord);
+
+        if(channelDto.getChannelCode().equals(ChannelCodeEnums.BEARY_CHAT.getCode())) {
+            //TODO bearychat由于是广播通知,所以只做一次报警
+            int total = alarmLogMapper.queryTotalByParam(errorLogRecord.getId(),channelDto.getChannelCode());
+            if (total == 0) {
+                alarmToAppUser(channelDto,message,applicationUserConfigDto);
+            }
+        } else {
+            alarmToAppUser(channelDto,message,applicationUserConfigDto);
+        }
 
         AlarmLog alarmLog = new AlarmLog();
         alarmLog.setCreateTime(new Date());
@@ -140,14 +155,13 @@ public class AlarmServiceImpl implements AlarmService {
         alarmLog.setApplicationCode(applicationUserConfigDto.getApplicationCode());
         alarmLog.setChannelCode(channelDto.getChannelCode());
 
-        String message = getMessage(alarmTemplate,applicationUserConfigDto,errorLogRecord);
         alarmLog.setMessage(message);
         alarmLog.setSendTime(new Date());
         alarmLog.setUpdateTime(new Date());
         alarmLog.setErrorLogId(errorLogRecord.getId());
         alarmLogMapper.insertSelective(alarmLog);
 
-        alarmToAppUser(channelDto,message,applicationUserConfigDto);
+
     }
     private String getMessage(AlarmTemplate alarmTemplate,ApplicationUserConfigDto applicationUserConfigDto,ErrorLogRecord errorLogRecord) {
         String templateText = alarmTemplate.getTemplateText();
@@ -155,7 +169,6 @@ public class AlarmServiceImpl implements AlarmService {
         context.put("applicationName",applicationUserConfigDto.getApplicationName());
         context.put("errorMsg",errorLogRecord.getLogMessage());
         context.put("logCreateTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(errorLogRecord.getElasticsearchLogCreateTime()));
-        context.put("errorLogDetailUrl", Constants.PACIFIC_ERROR_LOG_DETAIL_URL + errorLogRecord.getId());
         context.put("logStackTrace",errorLogRecord.getLogStackTrace());
         context.put("host",errorLogRecord.getLogHostName());
         context.put("errorLogType",errorLogRecord.getErrorLogType());

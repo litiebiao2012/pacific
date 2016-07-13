@@ -181,4 +181,23 @@
        auc.state = 'available'
   </select>
 
+  <insert id="batchSaveApplicationUserConfig" parameterType="com.pacific.domain.entity.ApplicationUserConfig">
+    insert into t_application_user_config (create_time, update_time,
+    channel_config, is_monitor_all_error_log, monitor_error_log_keywords,
+    application_code, user_id,state)
+    values
+    <foreach collection="list" item="item" index="index"
+             separator=",">
+      (#{item.createTime,jdbcType=TIMESTAMP},
+      #{item.updateTime,jdbcType=TIMESTAMP},
+      #{item.channelConfig,jdbcType=VARCHAR},
+      #{item.isMonitorAllErrorLog,jdbcType=CHAR},
+      #{item.monitorErrorLogKeywords,jdbcType=VARCHAR},
+      #{item.applicationCode,jdbcType=VARCHAR},
+      #{item.userId,jdbcType=BIGINT},
+      #{item.state,jdbcType=VARCHAR})
+    </foreach>
+
+  </insert>
+
 </mapper>

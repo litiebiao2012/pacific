@@ -1,5 +1,8 @@
 package com.pacific.domain.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Fe on 16/6/7.
  */
@@ -14,6 +17,16 @@ public class ChannelDto {
 //    private int notifyCount;
 //    /** 延时时间间隔(每隔多长时间通知一次) 单位s , 300s ,  **/
 //    private int delay;
+
+    public static List<ChannelDto> channelDtoList = new ArrayList<ChannelDto>();
+
+    static {
+        ChannelDto channelDto = new ChannelDto();
+        channelDto.setChannelCode("bearyChat");
+        channelDto.setChannelName("bearyChat报警");
+        channelDto.setIsOpen("y");
+        channelDtoList.add(channelDto);
+    }
 
     public String getChannelCode() {
         return channelCode;
@@ -37,5 +50,9 @@ public class ChannelDto {
 
     public void setIsOpen(String isOpen) {
         this.isOpen = isOpen;
+    }
+
+    public static List<ChannelDto> getDefaultChannelList() {
+        return channelDtoList;
     }
 }

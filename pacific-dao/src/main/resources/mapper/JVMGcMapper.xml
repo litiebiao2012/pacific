@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pacific.mapper.JVMGcMapper" >
+  <resultMap id="BaseResultMap" type="com.pacific.domain.entity.JVMGc" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
+    <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="young_gc_collection_count" property="youngGcCollectionCount" jdbcType="BIGINT" />
+    <result column="young_gc_collection_time" property="youngGcCollectionTime" jdbcType="BIGINT" />
+    <result column="full_gc_collection_count" property="fullGcCollectionCount" jdbcType="BIGINT" />
+    <result column="full_gc_collection_time" property="fullGcCollectionTime" jdbcType="BIGINT" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, application_code, client_ip, create_time, update_time, young_gc_collection_count, 
+    young_gc_collection_time, full_gc_collection_count, full_gc_collection_time
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_jvm_gc
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_jvm_gc
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pacific.domain.entity.JVMGc" >
+    insert into t_jvm_gc (id, application_code, client_ip, 
+      create_time, update_time, young_gc_collection_count, 
+      young_gc_collection_time, full_gc_collection_count, 
+      full_gc_collection_time)
+    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{youngGcCollectionCount,jdbcType=BIGINT}, 
+      #{youngGcCollectionTime,jdbcType=BIGINT}, #{fullGcCollectionCount,jdbcType=BIGINT}, 
+      #{fullGcCollectionTime,jdbcType=BIGINT})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pacific.domain.entity.JVMGc" >
+    insert into t_jvm_gc
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="applicationCode != null" >
+        application_code,
+      </if>
+      <if test="clientIp != null" >
+        client_ip,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="youngGcCollectionCount != null" >
+        young_gc_collection_count,
+      </if>
+      <if test="youngGcCollectionTime != null" >
+        young_gc_collection_time,
+      </if>
+      <if test="fullGcCollectionCount != null" >
+        full_gc_collection_count,
+      </if>
+      <if test="fullGcCollectionTime != null" >
+        full_gc_collection_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="applicationCode != null" >
+        #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="youngGcCollectionCount != null" >
+        #{youngGcCollectionCount,jdbcType=BIGINT},
+      </if>
+      <if test="youngGcCollectionTime != null" >
+        #{youngGcCollectionTime,jdbcType=BIGINT},
+      </if>
+      <if test="fullGcCollectionCount != null" >
+        #{fullGcCollectionCount,jdbcType=BIGINT},
+      </if>
+      <if test="fullGcCollectionTime != null" >
+        #{fullGcCollectionTime,jdbcType=BIGINT},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pacific.domain.entity.JVMGc" >
+    update t_jvm_gc
+    <set >
+      <if test="applicationCode != null" >
+        application_code = #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        client_ip = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="youngGcCollectionCount != null" >
+        young_gc_collection_count = #{youngGcCollectionCount,jdbcType=BIGINT},
+      </if>
+      <if test="youngGcCollectionTime != null" >
+        young_gc_collection_time = #{youngGcCollectionTime,jdbcType=BIGINT},
+      </if>
+      <if test="fullGcCollectionCount != null" >
+        full_gc_collection_count = #{fullGcCollectionCount,jdbcType=BIGINT},
+      </if>
+      <if test="fullGcCollectionTime != null" >
+        full_gc_collection_time = #{fullGcCollectionTime,jdbcType=BIGINT},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pacific.domain.entity.JVMGc" >
+    update t_jvm_gc
+    set application_code = #{applicationCode,jdbcType=VARCHAR},
+      client_ip = #{clientIp,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      young_gc_collection_count = #{youngGcCollectionCount,jdbcType=BIGINT},
+      young_gc_collection_time = #{youngGcCollectionTime,jdbcType=BIGINT},
+      full_gc_collection_count = #{fullGcCollectionCount,jdbcType=BIGINT},
+      full_gc_collection_time = #{fullGcCollectionTime,jdbcType=BIGINT}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

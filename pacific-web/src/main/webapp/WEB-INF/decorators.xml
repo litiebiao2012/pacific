@@ -6,6 +6,7 @@
         <pattern>/images/*</pattern>
         <pattern>/assets/*</pattern>
         <pattern>/source/*</pattern>
+        <pattern>/monitor/*</pattern>
         <pattern>/index.jsp</pattern>
         <pattern>/login*</pattern>
         <pattern>*.html</pattern>

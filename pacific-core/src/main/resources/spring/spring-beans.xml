@@ -7,6 +7,12 @@
     <bean id="errorLogRecordService" class="com.pacific.service.impl.ErrorLogRecordServiceImpl"></bean>
     <bean id="userService" class="com.pacific.service.impl.UserServiceImpl"/>
     <bean id="alarmLogService" class="com.pacific.service.impl.AlarmLogServiceImpl"/>
+    <bean id="applicationUserConfigService" class="com.pacific.service.impl.ApplicationUserConfigServiceImpl"></bean>
+    <bean id="jvmGcService" class="com.pacific.service.impl.JVMGcServiceImpl"></bean>
+    <bean id="jvmInfoService" class="com.pacific.service.impl.JVMInfoServiceImpl"></bean>
+    <bean id="jvmMemoryService" class="com.pacific.service.impl.JVMMemoryServiceImpl"></bean>
+    <bean id="jvmThreadService" class="com.pacific.service.impl.JVMThreadServiceImpl"></bean>
+    <bean id="springMethodService" class="com.pacific.service.impl.SpringMethodServiceImpl"></bean>
 
 
     <bean id="elasticSearchHelper" class="com.pacific.service.ElasticSearchHelper">

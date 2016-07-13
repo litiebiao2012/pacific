@@ -61,7 +61,7 @@ public class AlarmLogServiceImpl implements AlarmLogService {
         List<Application> applicationList = applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
         if (CollectionUtil.isNotEmpty(applicationList)) {
             Map<String,String> titleMap = new HashMap<String,String>();
-            titleMap.put("text","最近7日错误日志汇总统计");
+            titleMap.put("text","");
             allAppErrorLogSevenDayReportDto.setTitle(titleMap);
 
             Map<String,String> tooltipMap = new HashMap<String,String>();
@@ -208,7 +208,6 @@ public class AlarmLogServiceImpl implements AlarmLogService {
     }
 
     private List<Date> buildSevenDayDateList() {
-        DateUtil.yesterday();
         List<Date> dateList = new LinkedList<Date>();
         dateList.add(new Date());
         for (int i = -1; i >=-6; i--) {

@@ -1,0 +1,41 @@
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="glyphicon glyphicon-pencil"></i> 密码修改</h3>
+            </div>
+            <div class="panel-body">
+                <form onsubmit="return false;">
+                    #if($user.id)
+                        <input type="hidden" name="id" value="$!user.id"/>
+                    #end
+                    <div class="form-group">
+                        <label for="oldPass">旧密码</label>
+                        <input type="text" class="form-control" name="oldPass" id="oldPass"  placeholder="旧密码">
+                    </div>
+                    <div class="form-group">
+                        <label for="newPass">新密码</label>
+                        <input type="text" class="form-control" name="newPass" id="newPass" placeholder="新密码">
+                    </div>
+                    <div class="form-group text-warning" id="errorMsg">
+                    </div>
+
+                    <button type="submit" id="submit" class="btn btn-primary">提交</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#submit').click(function () {
+            $.post('/user/updatePass.json', $('form').serialize(), function (res) {
+                $('#errorMsg').text(res.message);
+            });
+
+        });
+    });
+
+</script>

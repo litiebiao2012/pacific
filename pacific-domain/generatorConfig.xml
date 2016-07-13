@@ -48,11 +48,11 @@
                 <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
         <!--</table>-->
 
-        <table tableName="t_alarm_log"
-               domainObjectName="AlarmLog" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" selectByExampleQueryId="false">
-        </table>
+        <!--<table tableName="t_alarm_log"-->
+               <!--domainObjectName="AlarmLog" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <!--</table>-->
 
         <!--<table tableName="t_alarm_template"-->
                <!--domainObjectName="AlarmTemplate" enableCountByExample="false"-->
@@ -72,5 +72,35 @@
                <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
         <!--</table>-->
 
+        <!--<table tableName="t_jvm_gc"-->
+               <!--domainObjectName="JVMGc" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <!--</table>-->
+
+        <!--<table tableName="t_jvm_info"-->
+               <!--domainObjectName="JVMInfo" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <!--</table>-->
+
+        <!--<table tableName="t_jvm_memory"-->
+               <!--domainObjectName="JVMMemory" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <!--</table>-->
+
+        <!--<table tableName="t_jvm_thread"-->
+               <!--domainObjectName="JVMThread" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <!--</table>-->
+
+
+        <table tableName="t_spring_method"
+               domainObjectName="SpringMethod" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
     </context>
 </generatorConfiguration>

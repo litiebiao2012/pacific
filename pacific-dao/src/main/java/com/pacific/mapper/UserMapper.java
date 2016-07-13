@@ -23,5 +23,7 @@ public interface UserMapper {
 
     List<User> queryUserListPageByParam(UserQuery userQuery);
 
+    List<User> queryAllUserList();
+
     Integer queryUserListCount(UserQuery userQuery);
 }

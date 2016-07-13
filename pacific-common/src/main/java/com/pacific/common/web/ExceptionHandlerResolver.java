@@ -5,6 +5,9 @@ import com.pacific.common.exception.PacificException;
 import com.pacific.common.http.HttpUtils;
 import com.pacific.common.web.result.AjaxResult;
 import com.pacific.common.web.xuser.XUserSessionManager;
+import com.shining3d.monitor.plugin.web.WebUrlDataCalHelper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.servlet.ModelAndView;
@@ -18,14 +21,13 @@ import java.io.PrintWriter;
  * Created by Administrator on 2016/1/27.
  */
 public class ExceptionHandlerResolver extends SimpleMappingExceptionResolver {
-    public static final Logger logger = LoggerFactory.getLogger(ExceptionHandlerResolver.class);
+    protected final Log logger = LogFactory.getLog(ExceptionHandlerResolver.class);
 
     @Override
     public ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        logger.info(HttpUtils.requestMessage(request));
+        WebUrlDataCalHelper.handleException(true,ex.getMessage());
         if (ex != null) {
-            logger.error("seq : {" + RequestContext.getSeq() + "} , pacific runtime exception, e : {}",ex);
-
+//            logger.error("seq : {" + RequestContext.getSeq() + "} , pacific runtime exception, e : {}",ex);
             AjaxResult ajaxResult = null;
             if (ex instanceof PacificException) {
                 PacificException pacificException = (PacificException) ex;

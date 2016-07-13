@@ -29,8 +29,6 @@ public class Constants {
 
     public static String SESSION_STORE_TYPE = resourceBundle.getString("sessionStoreType");
 
-    public static String PACIFIC_ERROR_LOG_DETAIL_URL = resourceBundle.getString("pacific.error.log.detail.url");
-
     public static final Integer  ALARM_ERROR_LOG_SCHEDULE_DELAY = Integer.parseInt(resourceBundle.getString("alarmErrorLogScheduleDelay"));
 
     public static final Integer  LOAD_ELASTIC_SEARCH_ERROR_LOG_DELAY = Integer.parseInt(resourceBundle.getString("loadElasticsearchErrorLogDelay"));

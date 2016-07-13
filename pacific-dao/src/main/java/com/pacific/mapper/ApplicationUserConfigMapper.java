@@ -21,4 +21,6 @@ public interface ApplicationUserConfigMapper {
     List<ApplicationUserConfig> queryApplicationUserConfigByCode(String applicationCode);
 
     List<ApplicationUserConfigDto> queryAllApplicationUserConfigByCode();
+
+    void batchSaveApplicationUserConfig(List<ApplicationUserConfig> applicationUserConfigList);
 }

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pacific.mapper.JVMThreadMapper" >
+  <resultMap id="BaseResultMap" type="com.pacific.domain.entity.JVMThread" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
+    <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="daemon_thread_count" property="daemonThreadCount" jdbcType="INTEGER" />
+    <result column="thread_count" property="threadCount" jdbcType="INTEGER" />
+    <result column="total_started_thread_count" property="totalStartedThreadCount" jdbcType="BIGINT" />
+    <result column="dead_locked_thread_count" property="deadLockedThreadCount" jdbcType="INTEGER" />
+    <result column="process_cpu_time_rate" property="processCpuTimeRate" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, application_code, client_ip, create_time, update_time, daemon_thread_count, thread_count, 
+    total_started_thread_count, dead_locked_thread_count, process_cpu_time_rate
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_jvm_thread
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_jvm_thread
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pacific.domain.entity.JVMThread" >
+    insert into t_jvm_thread (id, application_code, client_ip, 
+      create_time, update_time, daemon_thread_count, 
+      thread_count, total_started_thread_count, dead_locked_thread_count, 
+      process_cpu_time_rate)
+    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{daemonThreadCount,jdbcType=INTEGER}, 
+      #{threadCount,jdbcType=INTEGER}, #{totalStartedThreadCount,jdbcType=BIGINT}, #{deadLockedThreadCount,jdbcType=INTEGER}, 
+      #{processCpuTimeRate,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pacific.domain.entity.JVMThread" >
+    insert into t_jvm_thread
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="applicationCode != null" >
+        application_code,
+      </if>
+      <if test="clientIp != null" >
+        client_ip,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="daemonThreadCount != null" >
+        daemon_thread_count,
+      </if>
+      <if test="threadCount != null" >
+        thread_count,
+      </if>
+      <if test="totalStartedThreadCount != null" >
+        total_started_thread_count,
+      </if>
+      <if test="deadLockedThreadCount != null" >
+        dead_locked_thread_count,
+      </if>
+      <if test="processCpuTimeRate != null" >
+        process_cpu_time_rate,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="applicationCode != null" >
+        #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="daemonThreadCount != null" >
+        #{daemonThreadCount,jdbcType=INTEGER},
+      </if>
+      <if test="threadCount != null" >
+        #{threadCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalStartedThreadCount != null" >
+        #{totalStartedThreadCount,jdbcType=BIGINT},
+      </if>
+      <if test="deadLockedThreadCount != null" >
+        #{deadLockedThreadCount,jdbcType=INTEGER},
+      </if>
+      <if test="processCpuTimeRate != null" >
+        #{processCpuTimeRate,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pacific.domain.entity.JVMThread" >
+    update t_jvm_thread
+    <set >
+      <if test="applicationCode != null" >
+        application_code = #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        client_ip = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="daemonThreadCount != null" >
+        daemon_thread_count = #{daemonThreadCount,jdbcType=INTEGER},
+      </if>
+      <if test="threadCount != null" >
+        thread_count = #{threadCount,jdbcType=INTEGER},
+      </if>
+      <if test="totalStartedThreadCount != null" >
+        total_started_thread_count = #{totalStartedThreadCount,jdbcType=BIGINT},
+      </if>
+      <if test="deadLockedThreadCount != null" >
+        dead_locked_thread_count = #{deadLockedThreadCount,jdbcType=INTEGER},
+      </if>
+      <if test="processCpuTimeRate != null" >
+        process_cpu_time_rate = #{processCpuTimeRate,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pacific.domain.entity.JVMThread" >
+    update t_jvm_thread
+    set application_code = #{applicationCode,jdbcType=VARCHAR},
+      client_ip = #{clientIp,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      daemon_thread_count = #{daemonThreadCount,jdbcType=INTEGER},
+      thread_count = #{threadCount,jdbcType=INTEGER},
+      total_started_thread_count = #{totalStartedThreadCount,jdbcType=BIGINT},
+      dead_locked_thread_count = #{deadLockedThreadCount,jdbcType=INTEGER},
+      process_cpu_time_rate = #{processCpuTimeRate,jdbcType=DECIMAL}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

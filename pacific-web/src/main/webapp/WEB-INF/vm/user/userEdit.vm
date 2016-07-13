@@ -1,0 +1,60 @@
+<!-- /.row -->
+<div class="row">
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="glyphicon glyphicon-pencil"></i> 用户编辑</h3>
+            </div>
+            <div class="panel-body">
+                <form onsubmit="return false;">
+                    #if($user.id)
+                        <input type="hidden" name="id" value="$!user.id"/>
+                    #end
+                    <div class="form-group">
+                        <label for="applicationName">用户名</label>
+                        <input type="text" name="userName" class="form-control" id="userName" #if($user.userName) value = "$!user.userName" #end placeholder="用户名">
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">手机</label>
+                        <input type="text" class="form-control" name="phone" id="phone" #if($user.phone) value = "$!user.phone" #end  placeholder="手机">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">邮箱</label>
+                        <input type="text" class="form-control" name="email" id="email" #if($user.email) value = "$!user.email" #end  placeholder="邮箱">
+                    </div>
+                    #if($user.id)
+                        <div class="form-group">
+                            <label for="state">状态</label>
+                            <select id="state" name="state" class="form-control">
+                                <option #if($user.state == 'available')
+                                        selected="selected" #end value="available">可用</option>
+                                <option #if($user.state == 'disables')
+                                        selected="selected"#end value="disables">不可用</option>
+                            </select>
+                        </div>
+                    #end
+                    <div class="form-group text-warning" id="errorMsg">
+                    </div>
+
+                    <button type="submit" id="submit" class="btn btn-primary">提交</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- /.row -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#submit').click(function () {
+            $.post('/user/saveUser.json', $('form').serialize(), function (res) {
+                if (res.status == 'OK') {
+                    window.location.href = '/user/userList.htm';
+                } else {
+                    $('#errorMsg').text(res.message);
+                }
+            });
+
+        });
+    });
+
+</script>

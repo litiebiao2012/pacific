@@ -11,6 +11,6 @@ public class StringTrimmerEditorRegistrar implements PropertyEditorRegistrar {
 
     @Override
     public void registerCustomEditors(PropertyEditorRegistry registry) {
-        registry.registerCustomEditor(String.class, new StringTrimmerEditor(" \t\r\n\f", false));
+        registry.registerCustomEditor(String.class, new StringTrimmerEditor(null, false));
     }
 }

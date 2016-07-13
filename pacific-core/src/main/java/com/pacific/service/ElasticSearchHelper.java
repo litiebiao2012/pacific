@@ -155,7 +155,7 @@ public class ElasticSearchHelper {
         if(StringUtils.isNotEmpty(loggerQuery.getLevel())) boolQueryBuilder.must(QueryBuilders.matchQuery("level",loggerQuery.getLevel()));
 
         if (StringUtils.isNotEmpty(loggerQuery.getMessage())) {
-            boolQueryBuilder.must(QueryBuilders.moreLikeThisQuery("message").addLikeText(loggerQuery.getMessage()));
+            boolQueryBuilder.must(QueryBuilders.matchQuery("message",loggerQuery.getMessage()));
         }
 
         if (loggerQuery.getBeginDate() != null) {
@@ -164,6 +164,10 @@ public class ElasticSearchHelper {
 
         if (loggerQuery.getEndDate() != null) {
             boolQueryBuilder.must(QueryBuilders.rangeQuery("@timestamp").lt(loggerQuery.getEndDate()));
+        }
+
+        if (StringUtils.isNotEmpty(loggerQuery.getElasticSearchLogId())) {
+            boolQueryBuilder.mustNot(QueryBuilders.termQuery("_id",loggerQuery.getElasticSearchLogId()));
         }
         return boolQueryBuilder;
     }

@@ -1,10 +1,16 @@
 package com.pacific.web.tool;
 
+import com.pacific.common.spring.SpringContext;
 import com.pacific.common.web.RequestContext;
 import com.pacific.common.web.xuser.XUser;
 import com.pacific.common.web.xuser.XUserSessionManager;
+import com.pacific.domain.entity.User;
 import com.pacific.domain.enums.ChannelCodeEnums;
+import com.pacific.domain.enums.RoleTypeEnums;
+import com.pacific.mapper.UserMapper;
+import com.pacific.service.UserService;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.context.annotation.Role;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -16,15 +22,32 @@ import java.util.Map;
  */
 public class PacificWebTool {
 
-    public static final Map<String,String> uriDescriptionMapping = new HashMap<String,String>();
+    public static final Map<String, String> uriDescriptionMapping = new HashMap<String, String>();
 
     static {
-        uriDescriptionMapping.put("/home.htm","大盘");
-        uriDescriptionMapping.put("/user/userList.htm","用户列表");
-        uriDescriptionMapping.put("/application/list.htm","应用列表");
-        uriDescriptionMapping.put("/log/list.htm","日志列表");
-        uriDescriptionMapping.put("/alarmLog/list.htm","告警记录");
-        uriDescriptionMapping.put("/application/edit.htm","应用添加");
+        uriDescriptionMapping.put("/home.htm", "日志大盘");
+        uriDescriptionMapping.put("/user/userList.htm", "用户列表");
+        uriDescriptionMapping.put("/application/list.htm", "应用列表");
+        uriDescriptionMapping.put("/log/list.htm", "日志列表");
+        uriDescriptionMapping.put("/alarmLog/list.htm", "告警记录");
+        uriDescriptionMapping.put("/application/edit.htm", "应用添加");
+        uriDescriptionMapping.put("/user/editUser.htm", "用户编辑");
+        uriDescriptionMapping.put("/user/userUpdatePass.htm", "密码修改");
+    }
+
+    public boolean hasPermission() {
+        boolean flag = false;
+        Long uid = XUserSessionManager.getCurrent().getXUser().getUid();
+        if (uid != null) {
+            UserService userService = SpringContext.getBean(UserService.class);
+            User user = userService.queryUserById(uid);
+            if (user != null) {
+                if (RoleTypeEnums.fromCode(user.getRoleType()).getCode().equals(RoleTypeEnums.ADMIN.getCode())) {
+                    flag = true;
+                }
+            }
+        }
+        return flag;
     }
 
     public String getDescriptionByUri() {
@@ -35,7 +58,7 @@ public class PacificWebTool {
     public String getLoginUserName() {
         String userName = null;
         if (XUserSessionManager.getCurrent() != null) {
-           XUser xUser = XUserSessionManager.getCurrent().getXUser();
+            XUser xUser = XUserSessionManager.getCurrent().getXUser();
             if (xUser != null) {
                 userName = xUser.getUserName();
             }
@@ -52,7 +75,7 @@ public class PacificWebTool {
         StringBuffer numSb = new StringBuffer();
         if (num > 99999) {
             String str = num + "";
-            return numSb.append(str.substring(0,5)).append("万").toString();
+            return numSb.append(str.substring(0, 5)).append("万").toString();
         } else {
             return num + "";
         }
@@ -64,11 +87,11 @@ public class PacificWebTool {
     }
 
     public String getChannelText(String channelCode) {
-       String text = "";
-       ChannelCodeEnums channelCodeEnums = ChannelCodeEnums.fromCode(channelCode);
-       if (channelCodeEnums != null) {
-           text = channelCodeEnums.getText();
-       }
+        String text = "";
+        ChannelCodeEnums channelCodeEnums = ChannelCodeEnums.fromCode(channelCode);
+        if (channelCodeEnums != null) {
+            text = channelCodeEnums.getText();
+        }
         return text;
     }
 }
