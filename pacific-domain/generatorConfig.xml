@@ -97,10 +97,17 @@
         <!--</table>-->
 
 
-        <table tableName="t_spring_method"
-               domainObjectName="SpringMethod" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false"
-               enableSelectByExample="false" selectByExampleQueryId="false">
-        </table>
+        <!--<table tableName="t_spring_method"-->
+               <!--domainObjectName="SpringMethod" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <!--</table>-->
+
+
+        <!--<table tableName="t_machine"-->
+               <!--domainObjectName="Machine" enableCountByExample="false"-->
+               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
+               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
+        <!--</table>-->
     </context>
 </generatorConfiguration>

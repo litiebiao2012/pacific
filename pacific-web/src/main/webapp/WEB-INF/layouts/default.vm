@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>pacific分布式日志监控平台</title>
+    <title>pacific监控平台</title>
     #parse("/WEB-INF/common/common.vm")
 </head>
 <body>
@@ -25,21 +25,7 @@
     </nav>
     <div id="page-wrapper">
         <div class="container-fluid">
-            <div class="row">
-                <div class="col-lg-12">
-                    <h1 class="page-header">
-                        $pacificWebTool.getDescriptionByUri()
-                    </h1>
-                    <ol class="breadcrumb">
-                        <li>
-                            <i class="fa fa-dashboard"></i>  <a href="/home.htm">首页</a>
-                        </li>
-                        <li class="active">
-                            <i class="fa fa-table"></i> $pacificWebTool.getDescriptionByUri()
-                        </li>
-                    </ol>
-                </div>
-            </div>
+            #parse("/WEB-INF/common/crumb.vm")
             $body
         </div>
     </div>

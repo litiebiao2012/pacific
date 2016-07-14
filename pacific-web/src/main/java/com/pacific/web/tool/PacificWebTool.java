@@ -4,10 +4,13 @@ import com.pacific.common.spring.SpringContext;
 import com.pacific.common.web.RequestContext;
 import com.pacific.common.web.xuser.XUser;
 import com.pacific.common.web.xuser.XUserSessionManager;
+import com.pacific.domain.entity.Application;
 import com.pacific.domain.entity.User;
 import com.pacific.domain.enums.ChannelCodeEnums;
 import com.pacific.domain.enums.RoleTypeEnums;
+import com.pacific.domain.enums.StateEnums;
 import com.pacific.mapper.UserMapper;
+import com.pacific.service.ApplicationService;
 import com.pacific.service.UserService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.context.annotation.Role;
@@ -15,6 +18,7 @@ import org.springframework.context.annotation.Role;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -33,6 +37,7 @@ public class PacificWebTool {
         uriDescriptionMapping.put("/application/edit.htm", "应用添加");
         uriDescriptionMapping.put("/user/editUser.htm", "用户编辑");
         uriDescriptionMapping.put("/user/userUpdatePass.htm", "密码修改");
+        uriDescriptionMapping.put("/jvm/jvmDetail.htm", "应用监控");
     }
 
     public boolean hasPermission() {
@@ -93,5 +98,10 @@ public class PacificWebTool {
             text = channelCodeEnums.getText();
         }
         return text;
+    }
+
+    public List<Application> queryAllApplication(){
+        ApplicationService applicationService = SpringContext.getBean(ApplicationService.class);
+        return applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
     }
 }

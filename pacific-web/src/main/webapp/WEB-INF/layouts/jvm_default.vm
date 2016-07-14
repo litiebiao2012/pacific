@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>pacific监控平台</title>
+    #parse("/WEB-INF/common/common.vm")
+</head>
+<body>
+<div>
+    <!-- Navigation -->
+    <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+        #parse("/WEB-INF/common/header.vm")
+    </nav>
+
+    <!--content-->
+    <div id="page-wrapper">
+        <div class="container-fluid">
+            #parse("/WEB-INF/common/crumb.vm")
+            $body
+        </div>
+    </div>
+    <!--content-->
+    <!-- Modal -->
+    <div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                            aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div id="error-chart" style="height:350px"></div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="col-md-6">
+                            <div class="panel panel-default">
+                                <div class="panel-body">
+                                    <div  style="height:350px">
+                                        <table class="table">
+                                            <tr>
+                                                <td>
+                                                    2016-05-14 23:22:22
+                                                </td>
+                                                <td>
+                                                    sfowfewfefe
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    2016-05-14 23:22:22
+                                                </td>
+                                                <td>
+                                                    sfowfewfefe
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/resources/laydate/laydate.js"></script>
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            table = dataTable({
+                selector: '#jvmTable',
+//                        url: '/log/list.json',
+                data: [
+                    {
+                        url: '/common/upload.json',
+                        times: 1000,
+                        maxConcurrent: 10,
+                        maxTime: 50,
+                        error: 2
+                    },
+                    {
+                        url: '/common/upload.json',
+                        times: 1000,
+                        maxConcurrent: 10,
+                        maxTime: 50,
+                        error: 2
+                    }
+                ],
+                form: '#searchForm',
+                columns: [
+                    {
+                        orderable: false,
+                        width: '30%',
+                        data: 'url'
+                    },
+                    {
+                        orderable: false,
+                        width: '15%',
+                        data: 'times'
+                    },
+                    {
+                        orderable: false,
+                        width: '15%',
+                        data: 'maxConcurrent'
+                    },
+                    {
+                        orderable: false,
+                        width: '15%',
+                        data: 'maxTime'
+                    },
+                    {
+                        orderable: false,
+                        width: '15%',
+                        data: 'error'
+                    },
+                    {
+                        orderable: false,
+                        width: '8%',
+                        render: function () {
+                            return "<button class='btn btn-primary' name='detail'>详情</button>";
+                        }
+                    }
+                ]
+            });
+
+
+            $('#searchButton').click(function () {
+                table.ajax.reload();
+            });
+
+
+
+
+
+
+            $('body').on('click', 'table button', function () {
+
+                $('#detail').modal('show');
+            });
+
+            $('#detail').on('shown.bs.modal', function (e) {
+                console.log("init chart");
+                var errorChart = echarts.init(document.getElementById('error-chart'));
+
+                // 指定图表的配置项和数据
+                var option = {
+                    title: {
+                        text: 'ECharts 入门示例'
+                    },
+                    tooltip: {},
+                    legend: {
+                        data: ['销量']
+                    },
+                    xAxis: {
+                        data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
+                    },
+                    yAxis: {},
+                    series: [{
+                        name: '销量',
+                        type: 'bar',
+                        data: [5, 20, 36, 10, 10, 20]
+                    }]
+                };
+
+                // 使用刚指定的配置项和数据显示图表。
+                errorChart.setOption(option);
+            })
+
+
+        });
+    </script>
+</div>
+</body>
+</html>

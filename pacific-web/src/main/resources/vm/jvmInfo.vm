@@ -1,0 +1,41 @@
+<div class="col-lg-12">
+    <div id="table_wrapper" class="dataTables_wrapper form-inline dt-bootstrap no-footer">
+        <div class="row">
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6"></div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <table id="jvmTable" class="table table-bordered dataTable no-footer" cellspacing="0" width="100%" role="grid" aria-describedby="table_info">
+                    <thead>
+                    <tr role="row">
+                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="URL" style="width: 30%;">URL</td>
+                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="访问次数" style="width: 15%;">访问次数</td>
+                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="最大并发" style="width: 15%;">最大并发</td>
+                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="最大耗时" style="width: 15%;">最大耗时</td>
+                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="错误数" style="width: 15%;">错误数</td>
+                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="操作" style="width: 8%;">操作</td></tr>
+                    </thead>
+                    <tbody>
+                    <tr role="row" class="odd">
+                        <td>/common/upload.json</td>
+                        <td>1000</td>
+                        <td>10</td>
+                        <td>50</td>
+                        <td>2</td>
+                        <td><button class="btn btn-primary" name="detail">详情</button></td>
+                    </tr>
+                    <tr role="row" class="even">
+                        <td>/common/upload.json</td>
+                        <td>1000</td>
+                        <td>10</td>
+                        <td>50</td>
+                        <td>2</td>
+                        <td><button class="btn btn-primary" name="detail">详情</button></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>

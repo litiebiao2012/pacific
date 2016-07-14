@@ -18,4 +18,8 @@
         <pattern>/*</pattern>
     </decorator>
 
+    <decorator name="jvm" page="jvm_default.vm">
+        <pattern>/jvm/*</pattern>
+    </decorator>
+
 </decorators>

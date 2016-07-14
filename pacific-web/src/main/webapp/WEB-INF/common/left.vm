@@ -52,5 +52,18 @@
                 </ul>
             </li>
         #end
+        #foreach($item in $pacificWebTool.queryAllApplication())
+
+        #end
+        <li>
+            <a href="javascript:;" data-toggle="collapse" data-target="#jvmMonitor"><i class="fa fa-fw fa-arrows-v"></i> 应用监控 <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="jvmMonitor" class="collapse">
+                #foreach($item in $pacificWebTool.queryAllApplication())
+                    <li>
+                        <a href="/jvm/jvmDetail.htm?applicationCode=$item.applicationCode">$item.applicationName</a>
+                    </li>
+                #end
+            </ul>
+        </li>
     </ul>
 </div>
