@@ -52,7 +52,4 @@ public class JVMController {
         Map<String,Object> reportMap = new HashMap<String,Object>();
         return ajaxResult;
     }
-
-
-
 }

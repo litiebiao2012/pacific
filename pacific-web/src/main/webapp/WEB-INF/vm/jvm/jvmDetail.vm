@@ -16,7 +16,7 @@
                     <div class="row">
                         <div class="form-group" id="timeInternal">
                             <label for="" class="col-md-1 text-left">时间间隔:</label>
-                            <a class="label label-default" data-value="fifteenMinutes">15分钟</a>
+                            <a class="label label-default" data-value="tenMinutes">10分钟</a>
                             <a class="label label-info" data-value="thirtyMinutes">30分钟</a>
                             <a class="label label-info" data-value="oneHour">1小时</a>
                             <a class="label label-info" data-value="threeHour">3小时</a>
@@ -46,7 +46,7 @@
 <script src="/resources/ehcharts/echarts.min.js"></script>
 <script type="application/javascript">
     var clientIp =  'all';
-    var timeInternal = 'fifteenMinutes'
+    var timeInternal = 'ten'
     var type = 'jvmReport';
     var applicationCode = $('#applicationCode').val();
 
@@ -81,35 +81,83 @@
             success : function(data){
                 if (data.status == 'OK') {
                     $('#resultView').html(data.data);
-                      var headReport = echarts.init(document.getElementById('headReport'));
-                      var nonHeadReport = echarts.init(document.getElementById('nonHeadReport'));
-                      var threadReport = echarts.init(document.getElementById('threadReport'));
-                      var cpuReport = echarts.init(document.getElementById('cpuReport'));
-                      var memoryReport = echarts.init(document.getElementById('memoryReport'));
-                      var gcCountReport = echarts.init(document.getElementById('gcCountReport'));
-                      var gcTimeReport = echarts.init(document.getElementById('gcTimeReport'));
-                      $.ajax({
-                          type : 'POST',
-                          url : '/jvm/report.json',
-                          data : {'timeInternal' : timeInternal,'clientIp' : clientIp, 'applicationCode' : applicationCode},
-                          dataType : 'json',
-                          success : function(data){
-                              if (data.status == 'OK') {
-                                  headReport.setOption(data.data.headReport);
-                                  nonHeadReport.setOption(data.data.nonHeadReport);
-                                  threadReport.setOption(data.data.threadReport);
-                                  cpuReport.setOption(data.data.cpuReport);
-                                  memoryReport.setOption(data.data.memoryReport);
-                                  gcCountReport.setOption(data.data.gcCountReport);
-                                  gcTimeReport.setOption(data.data.gcTimeReport);
-                              }
-                          }
-                      });
+
+                    if (type == 'jvmReport') {
+                        loadJVMReport();
+                    }
+
+                    if (type == 'jvmInfo') {
+                        loadJVMInfoDetail();
+                    }
+
+                    if (type == 'url') {
+                        loadUrlDetail();
+                    }
+
+                    if (type == 'springMethod') {
+                        loadSpringMethodDetail();
+                    }
+
+                    if (type == 'dataSource') {
+                        loadDatasourceDetail();
+                    }
+
+                    if (type == 'sql') {
+                        loadSqlDetail();
+                    }
+
                 } else {
 
                 }
             }
         });
+
+        function loadJVMReport() {
+            var headReport = echarts.init(document.getElementById('headReport'));
+            var nonHeadReport = echarts.init(document.getElementById('nonHeadReport'));
+            var threadReport = echarts.init(document.getElementById('threadReport'));
+            var cpuReport = echarts.init(document.getElementById('cpuReport'));
+            var memoryReport = echarts.init(document.getElementById('memoryReport'));
+            var gcCountReport = echarts.init(document.getElementById('gcCountReport'));
+            var gcTimeReport = echarts.init(document.getElementById('gcTimeReport'));
+            $.ajax({
+                type : 'POST',
+                url : '/jvm/report.json',
+                data : {'timeInternal' : timeInternal,'clientIp' : clientIp, 'applicationCode' : applicationCode},
+                dataType : 'json',
+                success : function(data){
+                    if (data.status == 'OK') {
+                        headReport.setOption(data.data.headReport);
+                        nonHeadReport.setOption(data.data.nonHeadReport);
+                        threadReport.setOption(data.data.threadReport);
+                        cpuReport.setOption(data.data.cpuReport);
+                        memoryReport.setOption(data.data.memoryReport);
+                        gcCountReport.setOption(data.data.gcCountReport);
+                        gcTimeReport.setOption(data.data.gcTimeReport);
+                    }
+                }
+            });
+        }
+
+        function loadJVMInfoDetail() {
+
+        }
+
+        function loadUrlDetail() {
+
+        }
+
+        function loadSpringMethodDetail() {
+
+        }
+
+        function loadDatasourceDetail() {
+
+        }
+
+        function loadSqlDetail() {
+
+        }
     }
 </script>
 

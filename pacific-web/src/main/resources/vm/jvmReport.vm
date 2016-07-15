@@ -68,26 +68,3 @@
         </div>
     </div>
 </div>
-<script>
-        var headReport = echarts.init(document.getElementById('headReport'));
-        var timeInternal = $('#hiddenTimeInternal').val();
-        $.ajax({
-            type : 'POST',
-            url : '/jvm/headReport.json',
-            data : {'timeInternal' : timeInternal},
-            dataType : 'json',
-            success : function(data){
-                if (data.status == 'OK') {
-                    headReport.setOption(data.data);
-                } else {
-                }
-            }
-        });
-
-        var nonHeadReport = echarts.init(document.getElementById('nonHeadReport'));
-        var threadReport = echarts.init(document.getElementById('threadReport'));
-        var cpuReport = echarts.init(document.getElementById('cpuReport'));
-        var memoryReport = echarts.init(document.getElementById('memoryReport'));
-        var gcCountReport = echarts.init(document.getElementById('gcCountReport'));
-        var gcTimeReport = echarts.init(document.getElementById('gcTimeReport'));
-</script>

@@ -569,6 +569,20 @@ public class DateUtil {
         c.set(Calendar.DATE, c.get(Calendar.DATE) + 1);
         return c.getTime();
     }
+
+
+    /**
+     * 获得指定日期前几分钟
+     * @param date
+     * @return
+     */
+    public static Date getBeforeMinutesDate(Date date,int minutes) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.MINUTE, c.get(Calendar.MINUTE) + minutes);
+        return c.getTime();
+    }
+
     /**
      * 转换date
      * @param date

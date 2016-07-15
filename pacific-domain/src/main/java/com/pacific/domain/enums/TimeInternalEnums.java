@@ -6,7 +6,7 @@ import org.apache.commons.lang3.StringUtils;
  * Created by Fe on 16/7/14.
  */
 public enum TimeInternalEnums {
-    FIFTEEN_MINUTES("fifteenMinutes","可用"),
+    TEN_MINUTES("tenMinutes","可用"),
     THIRTY_MINUTES("thirtyMinutes","可用"),
     ONE_HOUR("oneHour","可用"),
     THREE_HOUR("threeHour","可用"),

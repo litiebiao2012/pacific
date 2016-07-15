@@ -8,4 +8,5 @@ import com.pacific.domain.dto.jvm.JVMMemoryDto;
 public interface JVMMemoryService {
 
     public void saveJVMMemory(JVMMemoryDto jvmMemoryDto);
+
 }
