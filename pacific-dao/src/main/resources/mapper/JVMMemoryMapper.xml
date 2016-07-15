@@ -257,4 +257,21 @@
       survivor_used = #{survivorUsed,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="queryAllJVMMemoryByParam" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+     max(heap_memory_max) as heap_memory_max,
+     max(heap_memory_used) as heap_memory_used,
+     max(non_heap_memory_max) as non_heap_memory_max,
+     max(non_heap_memory_used) as non_heap_memory_used
+    from t_jvm_memory
+    where
+       application_code = #{applicationCode,jdbcType=VARCHAR}
+      <if test="clientIp != null">
+        and client_ip = #{clientIp,jdbcType=VARCHAR}
+      </if>
+        and  create_time > #{beginDate,jdbcType=TIMESTAMP}
+       <![CDATA[
+         and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+  </select>
 </mapper>

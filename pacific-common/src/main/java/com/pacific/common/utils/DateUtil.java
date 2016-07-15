@@ -579,7 +579,19 @@ public class DateUtil {
     public static Date getBeforeMinutesDate(Date date,int minutes) {
         Calendar c = Calendar.getInstance();
         c.setTime(date);
-        c.set(Calendar.MINUTE, c.get(Calendar.MINUTE) + minutes);
+        c.set(Calendar.MINUTE, c.get(Calendar.MINUTE) - minutes);
+        return c.getTime();
+    }
+
+    /**
+     * 获得指定日期前几个小时
+     * @param date
+     * @return
+     */
+    public static Date getBeforeHourDate(Date date,int hour) {
+        Calendar c = Calendar.getInstance();
+        c.setTime(date);
+        c.set(Calendar.HOUR_OF_DAY, c.get(Calendar.HOUR_OF_DAY) - hour);
         return c.getTime();
     }
 

@@ -24,6 +24,7 @@ public class JVMController {
     @Resource
     private MachineMapper machineMapper;
 
+
     @RequestMapping("/jvmDetail.htm")
     public ModelAndView jvmDetail(String applicationCode) {
         ModelAndView modelAndView = new ModelAndView();
