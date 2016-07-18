@@ -53,18 +53,14 @@ public class JVMMemoryServiceImpl implements JVMMemoryService{
         NonHeadMemoryDto nonHeadMemoryDto = new NonHeadMemoryDto();
         TimeRangeDto timeRangeDto = TimeInternalHelper.getTimeRangeByInternal(timeInternal);
         List<String> timeList = timeRangeDto.getFormatTimeList();
-        Map<String,Object> xAlias = new HashMap<String,Object>();
-        xAlias.put("type","category");
-        xAlias.put("boundaryGap",false);
-        xAlias.put("data",timeList);
-        headMemoryDto.setxAxis(xAlias);
-        nonHeadMemoryDto.setxAxis(xAlias);
+        headMemoryDto.setxAxis(buildXAxis(timeList));
+        nonHeadMemoryDto.setxAxis(buildXAxis(timeList));
 
-        Map<String,Object> yAlias = new HashMap<String,Object>();
-        yAlias.put("type","value");
-        headMemoryDto.setyAxis(yAlias);
-        nonHeadMemoryDto.setyAxis(yAlias);
+        headMemoryDto.setyAxis(buildYAxis());
+        nonHeadMemoryDto.setyAxis(buildYAxis());
 
+        headMemoryDto.setLegend(buildLegend());
+        nonHeadMemoryDto.setLegend(buildLegend());
 
         List<TimeRange> timeRangeList = timeRangeDto.getTimeRangeDtoList();
         List<Long> heapMemoryMaxList = new LinkedList<Long>();
@@ -74,24 +70,31 @@ public class JVMMemoryServiceImpl implements JVMMemoryService{
         for (TimeRange timeRange : timeRangeList) {
             JVMMemory jvmMemory = jvmMemoryMapper.queryAllJVMMemoryByParam(applicationCode,clientIp,timeRange.getBeginDate(),timeRange.getEndDate());
 
-            heapMemoryMaxList.add(jvmMemory.getHeapMemoryMax());
-            heapMemoryUsedList.add(jvmMemory.getHeapMemoryUsed());
-            nonHeapMemoryMaxList.add(jvmMemory.getNonHeapMemoryMax());
-            nonHeapMemoryUsedList.add(jvmMemory.getNonHeapMemoryUsed());
+            if (jvmMemory != null) {
+                heapMemoryMaxList.add(jvmMemory.getHeapMemoryMax());
+                heapMemoryUsedList.add(jvmMemory.getHeapMemoryUsed());
+                nonHeapMemoryMaxList.add(jvmMemory.getNonHeapMemoryMax());
+                nonHeapMemoryUsedList.add(jvmMemory.getNonHeapMemoryUsed());
+            } else {
+                heapMemoryMaxList.add(0l);
+                heapMemoryUsedList.add(0l);
+                nonHeapMemoryMaxList.add(0l);
+                nonHeapMemoryUsedList.add(0l);
+            }
         }
 
         List<Map<String,Object>> headMemorySeries = new LinkedList<Map<String,Object>>();
         Map<String,Object> headMaxMemoryMap = new HashMap<String,Object>();
         headMaxMemoryMap.put("name","max");
-        headMaxMemoryMap.put("type","'line'");
-        headMaxMemoryMap.put("stack","'总量'");
+        headMaxMemoryMap.put("type","line");
+        headMaxMemoryMap.put("stack","总量");
         headMaxMemoryMap.put("data",heapMemoryMaxList);
         headMemorySeries.add(headMaxMemoryMap);
 
         Map<String,Object> headUsedMemoryMap = new HashMap<String,Object>();
         headUsedMemoryMap.put("name","used");
-        headUsedMemoryMap.put("type","'line'");
-        headUsedMemoryMap.put("stack","'总量'");
+        headUsedMemoryMap.put("type","line");
+        headUsedMemoryMap.put("stack","总量");
         headUsedMemoryMap.put("data",heapMemoryUsedList);
         headMemorySeries.add(headUsedMemoryMap);
 
@@ -100,21 +103,44 @@ public class JVMMemoryServiceImpl implements JVMMemoryService{
         List<Map<String,Object>> nonHeadMemorySeries = new LinkedList<Map<String,Object>>();
         Map<String,Object> nonHeadMaxMemoryMap = new HashMap<String,Object>();
         nonHeadMaxMemoryMap.put("name","max");
-        nonHeadMaxMemoryMap.put("type","'line'");
-        nonHeadMaxMemoryMap.put("stack","'总量'");
+        nonHeadMaxMemoryMap.put("type","line");
+        nonHeadMaxMemoryMap.put("stack","总量");
         nonHeadMaxMemoryMap.put("data",nonHeapMemoryMaxList);
         nonHeadMemorySeries.add(nonHeadMaxMemoryMap);
 
         Map<String,Object> nonHeadUsedMemoryMap = new HashMap<String,Object>();
         nonHeadUsedMemoryMap.put("name","used");
-        nonHeadUsedMemoryMap.put("type","'line'");
-        nonHeadUsedMemoryMap.put("stack","'总量'");
+        nonHeadUsedMemoryMap.put("type","line");
+        nonHeadUsedMemoryMap.put("stack","总量");
         nonHeadUsedMemoryMap.put("data",nonHeapMemoryUsedList);
-        nonHeadMemorySeries.add(headUsedMemoryMap);
+        nonHeadMemorySeries.add(nonHeadUsedMemoryMap);
         nonHeadMemoryDto.setSeries(nonHeadMemorySeries);
 
         jvmMemoryReportDto.setHeadMemoryDto(headMemoryDto);
         jvmMemoryReportDto.setNonHeadMemoryDto(nonHeadMemoryDto);
         return jvmMemoryReportDto;
+    }
+
+    public Map<String,Object> buildXAxis(List<String> timeList) {
+        Map<String,Object> xAlias = new HashMap<String,Object>();
+        xAlias.put("type","category");
+        xAlias.put("boundaryGap",false);
+        xAlias.put("data",timeList);
+        return  xAlias;
+    }
+
+    public Map<String,Object> buildYAxis() {
+        Map<String,Object> yAlias = new HashMap<String,Object>();
+        yAlias.put("type","value");
+        return  yAlias;
+    }
+
+    public Map<String,Object> buildLegend() {
+        Map<String,Object> legendMap = new HashMap<String,Object>();
+        List<String> list = new LinkedList<String>();
+        list.add("max");
+        list.add("used");
+        legendMap.put("data",list);
+        return  legendMap;
     }
 }

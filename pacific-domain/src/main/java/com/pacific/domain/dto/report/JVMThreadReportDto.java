@@ -4,13 +4,21 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by Fe on 16/7/14.
+ * Created by Fe on 16/7/18.
  */
-public class HeadMemoryDto extends BaseReportDto {
+public class JVMThreadReportDto {
     private Map<String,Object> legend;
     private Map<String,Object> xAxis;
     private Map<String,Object> yAxis;
     private List<Map<String,Object>> series;
+
+    public Map<String, Object> getLegend() {
+        return legend;
+    }
+
+    public void setLegend(Map<String, Object> legend) {
+        this.legend = legend;
+    }
 
     public Map<String, Object> getxAxis() {
         return xAxis;
@@ -34,13 +42,5 @@ public class HeadMemoryDto extends BaseReportDto {
 
     public void setSeries(List<Map<String, Object>> series) {
         this.series = series;
-    }
-
-    public Map<String, Object> getLegend() {
-        return legend;
-    }
-
-    public void setLegend(Map<String, Object> legend) {
-        this.legend = legend;
     }
 }

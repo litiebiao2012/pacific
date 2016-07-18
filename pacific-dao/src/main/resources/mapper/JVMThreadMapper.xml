@@ -150,4 +150,21 @@
       process_cpu_time_rate = #{processCpuTimeRate,jdbcType=DECIMAL}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="queryAllJVMThreadByParam" resultMap="BaseResultMap">
+    select
+    max(thread_count) as threadCount,
+    max(daemon_thread_count) as daemonThreadCount,
+    max(dead_locked_thread_count) as deadLockedThreadCount,
+    max(process_cpu_time_rate) as processCpuTimeRate
+    from t_jvm_thread
+    where
+    application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="clientIp != null">
+      and client_ip = #{clientIp,jdbcType=VARCHAR}
+    </if>
+    and  create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[
+         and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+  </select>
 </mapper>

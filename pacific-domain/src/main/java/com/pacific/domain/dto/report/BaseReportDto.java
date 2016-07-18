@@ -16,11 +16,25 @@ public class BaseReportDto {
         }
     };
 
+    protected Map<String,Object> tooltip = new HashMap<String,Object>() {
+        {
+            put("trigger","axis");
+        }
+    };
+
     public Map<String, Object> getGrid() {
         return grid;
     }
 
     public void setGrid(Map<String, Object> grid) {
         this.grid = grid;
+    }
+
+    public Map<String, Object> getTooltip() {
+        return tooltip;
+    }
+
+    public void setTooltip(Map<String, Object> tooltip) {
+        this.tooltip = tooltip;
     }
 }

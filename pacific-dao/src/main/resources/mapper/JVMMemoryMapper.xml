@@ -258,7 +258,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
 
-  <select id="queryAllJVMMemoryByParam" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="queryAllJVMMemoryByParam" resultMap="BaseResultMap" >
     select
      max(heap_memory_max) as heap_memory_max,
      max(heap_memory_used) as heap_memory_used,

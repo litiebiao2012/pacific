@@ -7,6 +7,7 @@ import java.util.Map;
  * Created by Fe on 16/7/14.
  */
 public class NonHeadMemoryDto extends BaseReportDto {
+    private Map<String,Object> legend;
     private Map<String,Object> xAxis;
     private Map<String,Object> yAxis;
     private List<Map<String,Object>> series;
@@ -33,5 +34,13 @@ public class NonHeadMemoryDto extends BaseReportDto {
 
     public void setSeries(List<Map<String, Object>> series) {
         this.series = series;
+    }
+
+    public Map<String, Object> getLegend() {
+        return legend;
+    }
+
+    public void setLegend(Map<String, Object> legend) {
+        this.legend = legend;
     }
 }

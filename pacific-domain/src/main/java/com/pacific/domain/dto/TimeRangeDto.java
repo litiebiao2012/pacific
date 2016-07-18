@@ -9,7 +9,7 @@ import java.util.List;
  * Created by Fe on 16/7/15.
  */
 public class TimeRangeDto {
-    public static final String DEFAULT_DATE_FORMAT = "MM-dd HH:mm:ss";
+    public static final String DEFAULT_DATE_FORMAT = "HH:mm";
 
     private List<Date> timeList;
 

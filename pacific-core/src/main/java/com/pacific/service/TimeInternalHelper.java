@@ -22,7 +22,7 @@ public class TimeInternalHelper {
 
     public static TimeRangeDto getTimeRangeByInternal(String timeInternal) {
         TimeInternalEnums timeInternalEnums = TimeInternalEnums.fromCode(timeInternal);
-        if (timeInternal == null) PacificException.throwEx("error timeInternal");
+        if (timeInternalEnums == null) PacificException.throwEx("error timeInternal");
 
         String code = timeInternalEnums.getCode();
         if (code.equals(TimeInternalEnums.TEN_MINUTES.getCode())) {

@@ -46,7 +46,7 @@
 <script src="/resources/ehcharts/echarts.min.js"></script>
 <script type="application/javascript">
     var clientIp =  'all';
-    var timeInternal = 'ten'
+    var timeInternal = 'tenMinutes'
     var type = 'jvmReport';
     var applicationCode = $('#applicationCode').val();
 
