@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pacific.mapper.JdbcInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.pacific.domain.entity.JdbcInfo" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
+    <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="db_type" property="dbType" jdbcType="VARCHAR" />
+    <result column="driver_class_name" property="driverClassName" jdbcType="VARCHAR" />
+    <result column="error_count" property="errorCount" jdbcType="BIGINT" />
+    <result column="min_idle" property="minIdle" jdbcType="INTEGER" />
+    <result column="max_active" property="maxActive" jdbcType="INTEGER" />
+    <result column="pooling_count" property="poolingCount" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, application_code, client_ip, create_time, update_time, url, user_name, db_type, 
+    driver_class_name, error_count, min_idle, max_active, pooling_count, name
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_jdbc_info
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_jdbc_info
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pacific.domain.entity.JdbcInfo" >
+    insert into t_jdbc_info (id, application_code, client_ip, 
+      create_time, update_time, url, 
+      user_name, db_type, driver_class_name, 
+      error_count, min_idle, max_active, 
+      pooling_count, name)
+    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR}, 
+      #{userName,jdbcType=VARCHAR}, #{dbType,jdbcType=VARCHAR}, #{driverClassName,jdbcType=VARCHAR}, 
+      #{errorCount,jdbcType=BIGINT}, #{minIdle,jdbcType=INTEGER}, #{maxActive,jdbcType=INTEGER}, 
+      #{poolingCount,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pacific.domain.entity.JdbcInfo" >
+    insert into t_jdbc_info
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="applicationCode != null" >
+        application_code,
+      </if>
+      <if test="clientIp != null" >
+        client_ip,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="userName != null" >
+        user_name,
+      </if>
+      <if test="dbType != null" >
+        db_type,
+      </if>
+      <if test="driverClassName != null" >
+        driver_class_name,
+      </if>
+      <if test="errorCount != null" >
+        error_count,
+      </if>
+      <if test="minIdle != null" >
+        min_idle,
+      </if>
+      <if test="maxActive != null" >
+        max_active,
+      </if>
+      <if test="poolingCount != null" >
+        pooling_count,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="applicationCode != null" >
+        #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="dbType != null" >
+        #{dbType,jdbcType=VARCHAR},
+      </if>
+      <if test="driverClassName != null" >
+        #{driverClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="errorCount != null" >
+        #{errorCount,jdbcType=BIGINT},
+      </if>
+      <if test="minIdle != null" >
+        #{minIdle,jdbcType=INTEGER},
+      </if>
+      <if test="maxActive != null" >
+        #{maxActive,jdbcType=INTEGER},
+      </if>
+      <if test="poolingCount != null" >
+        #{poolingCount,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pacific.domain.entity.JdbcInfo" >
+    update t_jdbc_info
+    <set >
+      <if test="applicationCode != null" >
+        application_code = #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        client_ip = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="userName != null" >
+        user_name = #{userName,jdbcType=VARCHAR},
+      </if>
+      <if test="dbType != null" >
+        db_type = #{dbType,jdbcType=VARCHAR},
+      </if>
+      <if test="driverClassName != null" >
+        driver_class_name = #{driverClassName,jdbcType=VARCHAR},
+      </if>
+      <if test="errorCount != null" >
+        error_count = #{errorCount,jdbcType=BIGINT},
+      </if>
+      <if test="minIdle != null" >
+        min_idle = #{minIdle,jdbcType=INTEGER},
+      </if>
+      <if test="maxActive != null" >
+        max_active = #{maxActive,jdbcType=INTEGER},
+      </if>
+      <if test="poolingCount != null" >
+        pooling_count = #{poolingCount,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.pacific.domain.entity.JdbcInfo" >
+    update t_jdbc_info
+    set application_code = #{applicationCode,jdbcType=VARCHAR},
+      client_ip = #{clientIp,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      url = #{url,jdbcType=VARCHAR},
+      user_name = #{userName,jdbcType=VARCHAR},
+      db_type = #{dbType,jdbcType=VARCHAR},
+      driver_class_name = #{driverClassName,jdbcType=VARCHAR},
+      error_count = #{errorCount,jdbcType=BIGINT},
+      min_idle = #{minIdle,jdbcType=INTEGER},
+      max_active = #{maxActive,jdbcType=INTEGER},
+      pooling_count = #{poolingCount,jdbcType=INTEGER},
+      name = #{name,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

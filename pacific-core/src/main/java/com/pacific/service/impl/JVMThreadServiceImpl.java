@@ -4,9 +4,12 @@ import com.pacific.domain.dto.TimeRange;
 import com.pacific.domain.dto.TimeRangeDto;
 import com.pacific.domain.dto.jvm.JVMThreadDto;
 import com.pacific.domain.dto.report.JVMThreadReportDto;
+import com.pacific.domain.dto.report.ThreadCpuRateReportDto;
+import com.pacific.domain.dto.report.ThreadReportDto;
 import com.pacific.domain.entity.JVMMemory;
 import com.pacific.domain.entity.JVMThread;
 import com.pacific.mapper.JVMThreadMapper;
+import com.pacific.service.EChartHelper;
 import com.pacific.service.JVMThreadService;
 import com.pacific.service.TimeInternalHelper;
 import org.apache.commons.beanutils.BeanUtils;
@@ -43,33 +46,25 @@ public class JVMThreadServiceImpl implements JVMThreadService {
     }
 
 
-    public JVMThreadReportDto queryHeadMemoryDto(String applicationCode, String timeInternal, String clientIp) {
+    public JVMThreadReportDto queryThreadDto(String applicationCode, String timeInternal, String clientIp) {
         Assert.notNull(applicationCode);
         Assert.notNull(timeInternal);
         Assert.notNull(clientIp);
 
         if(clientIp.equals("all")) clientIp = null;
         JVMThreadReportDto jvmThreadReportDto = new JVMThreadReportDto();
+        ThreadReportDto threadReportDto = new ThreadReportDto();
+        ThreadCpuRateReportDto threadCpuRateReportDto = new ThreadCpuRateReportDto();
         TimeRangeDto timeRangeDto = TimeInternalHelper.getTimeRangeByInternal(timeInternal);
         List<String> timeList = timeRangeDto.getFormatTimeList();
 
-        Map<String,Object> xAlias = new HashMap<String,Object>();
-        xAlias.put("type","category");
-        xAlias.put("boundaryGap",false);
-        xAlias.put("data",timeList);
-        jvmThreadReportDto.setxAxis(xAlias);
+        threadReportDto.setxAxis(EChartHelper.buildXAxis(timeList));
+        threadReportDto.setyAxis(EChartHelper.buildYAxis());
+        threadReportDto.setLegend(EChartHelper.buildLegend("总线程","daemon线程","死锁线程"));
 
-        Map<String,Object> yAlias = new HashMap<String,Object>();
-        yAlias.put("type","value");
-        jvmThreadReportDto.setyAxis(yAlias);
-
-        Map<String,Object> legendMap = new HashMap<String,Object>();
-        List<String> list = new LinkedList<String>();
-        list.add("总线程");
-        list.add("daemon线程");
-        list.add("死锁线程");
-        legendMap.put("data",list);
-        jvmThreadReportDto.setLegend(legendMap);
+        threadCpuRateReportDto.setxAxis(EChartHelper.buildXAxis(timeList));
+        threadCpuRateReportDto.setyAxis(EChartHelper.buildYAxis());
+        threadCpuRateReportDto.setLegend(EChartHelper.buildLegend("百分比"));
 
 
         List<TimeRange> timeRangeList = timeRangeDto.getTimeRangeDtoList();
@@ -113,8 +108,21 @@ public class JVMThreadServiceImpl implements JVMThreadService {
         deadLockThreadCountMap.put("stack","总量");
         deadLockThreadCountMap.put("data",deadLockThreadCountList);
         threadSeries.add(deadLockThreadCountMap);
+        threadReportDto.setSeries(threadSeries);
 
-        return null;
 
+        List<Map<String,Object>> threadCpuRateSeries = new LinkedList<Map<String,Object>>();
+        Map<String,Object> threadCpuRateMap = new HashMap<String,Object>();
+        threadCpuRateMap.put("name","百分比");
+        threadCpuRateMap.put("type","line");
+        threadCpuRateMap.put("stack","总量");
+        threadCpuRateMap.put("data",processCpuTimeRateList);
+        threadCpuRateSeries.add(threadCpuRateMap);
+        threadCpuRateReportDto.setSeries(threadCpuRateSeries);
+
+        jvmThreadReportDto.setThreadReportDto(threadReportDto);
+        jvmThreadReportDto.setThreadCpuRateReportDto(threadCpuRateReportDto);
+
+        return jvmThreadReportDto;
     }
 }

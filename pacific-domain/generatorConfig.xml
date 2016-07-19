@@ -104,10 +104,22 @@
         <!--</table>-->
 
 
-        <!--<table tableName="t_machine"-->
-               <!--domainObjectName="Machine" enableCountByExample="false"-->
-               <!--enableUpdateByExample="false" enableDeleteByExample="false"-->
-               <!--enableSelectByExample="false" selectByExampleQueryId="false">-->
-        <!--</table>-->
+        <table tableName="t_web_url"
+               domainObjectName="WebUrl" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+
+        <table tableName="t_sql"
+               domainObjectName="Sql" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
+
+        <table tableName="t_jdbc_info"
+               domainObjectName="JdbcInfo" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false">
+        </table>
     </context>
 </generatorConfiguration>

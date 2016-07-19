@@ -8,6 +8,7 @@ import com.pacific.domain.dto.report.JVMMemoryReportDto;
 import com.pacific.domain.dto.report.NonHeadMemoryDto;
 import com.pacific.domain.entity.JVMMemory;
 import com.pacific.mapper.JVMMemoryMapper;
+import com.pacific.service.EChartHelper;
 import com.pacific.service.JVMMemoryService;
 import com.pacific.service.TimeInternalHelper;
 import org.apache.commons.beanutils.BeanUtils;
@@ -53,14 +54,14 @@ public class JVMMemoryServiceImpl implements JVMMemoryService{
         NonHeadMemoryDto nonHeadMemoryDto = new NonHeadMemoryDto();
         TimeRangeDto timeRangeDto = TimeInternalHelper.getTimeRangeByInternal(timeInternal);
         List<String> timeList = timeRangeDto.getFormatTimeList();
-        headMemoryDto.setxAxis(buildXAxis(timeList));
-        nonHeadMemoryDto.setxAxis(buildXAxis(timeList));
+        headMemoryDto.setxAxis(EChartHelper.buildXAxis(timeList));
+        nonHeadMemoryDto.setxAxis(EChartHelper.buildXAxis(timeList));
 
-        headMemoryDto.setyAxis(buildYAxis());
-        nonHeadMemoryDto.setyAxis(buildYAxis());
+        headMemoryDto.setyAxis(EChartHelper.buildYAxis());
+        nonHeadMemoryDto.setyAxis(EChartHelper.buildYAxis());
 
-        headMemoryDto.setLegend(buildLegend());
-        nonHeadMemoryDto.setLegend(buildLegend());
+        headMemoryDto.setLegend(EChartHelper.buildLegend("max","used"));
+        nonHeadMemoryDto.setLegend(EChartHelper.buildLegend("max","used"));
 
         List<TimeRange> timeRangeList = timeRangeDto.getTimeRangeDtoList();
         List<Long> heapMemoryMaxList = new LinkedList<Long>();
@@ -121,26 +122,4 @@ public class JVMMemoryServiceImpl implements JVMMemoryService{
         return jvmMemoryReportDto;
     }
 
-    public Map<String,Object> buildXAxis(List<String> timeList) {
-        Map<String,Object> xAlias = new HashMap<String,Object>();
-        xAlias.put("type","category");
-        xAlias.put("boundaryGap",false);
-        xAlias.put("data",timeList);
-        return  xAlias;
-    }
-
-    public Map<String,Object> buildYAxis() {
-        Map<String,Object> yAlias = new HashMap<String,Object>();
-        yAlias.put("type","value");
-        return  yAlias;
-    }
-
-    public Map<String,Object> buildLegend() {
-        Map<String,Object> legendMap = new HashMap<String,Object>();
-        List<String> list = new LinkedList<String>();
-        list.add("max");
-        list.add("used");
-        legendMap.put("data",list);
-        return  legendMap;
-    }
 }

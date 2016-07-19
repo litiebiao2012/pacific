@@ -130,7 +130,7 @@
                         headReport.setOption(data.data.headReport);
                         nonHeadReport.setOption(data.data.nonHeadReport);
                         threadReport.setOption(data.data.threadReport);
-                        cpuReport.setOption(data.data.cpuReport);
+                        cpuReport.setOption(data.data.threadCpuRateReport);
                         memoryReport.setOption(data.data.memoryReport);
                         gcCountReport.setOption(data.data.gcCountReport);
                         gcTimeReport.setOption(data.data.gcTimeReport);

@@ -3,9 +3,11 @@ package com.pacific.web.controller;
 import com.pacific.common.utils.VelocityTemplateUtil;
 import com.pacific.common.web.result.AjaxResult;
 import com.pacific.domain.dto.report.JVMMemoryReportDto;
+import com.pacific.domain.dto.report.JVMThreadReportDto;
 import com.pacific.domain.entity.Machine;
 import com.pacific.mapper.MachineMapper;
 import com.pacific.service.JVMMemoryService;
+import com.pacific.service.JVMThreadService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,6 +30,9 @@ public class JVMController {
 
     @Resource
     private JVMMemoryService jvmMemoryService;
+
+    @Resource
+    private JVMThreadService jvmThreadService;
 
 
     @RequestMapping("/jvmDetail.htm")
@@ -56,9 +61,13 @@ public class JVMController {
     public AjaxResult report(String clientIp,String timeInternal,String applicationCode) {
         AjaxResult ajaxResult = new AjaxResult();
         Map<String,Object> reportMap = new HashMap<String,Object>();
+
         JVMMemoryReportDto jvmMemoryReportDto = jvmMemoryService.queryHeadMemoryDto(applicationCode,timeInternal,clientIp);
+        JVMThreadReportDto jvmThreadReportDto = jvmThreadService.queryThreadDto(applicationCode,timeInternal,clientIp);
         reportMap.put("headReport",jvmMemoryReportDto.getHeadMemoryDto());
         reportMap.put("nonHeadReport",jvmMemoryReportDto.getNonHeadMemoryDto());
+        reportMap.put("threadReport",jvmThreadReportDto.getThreadReportDto());
+        reportMap.put("threadCpuRateReport",jvmThreadReportDto.getThreadCpuRateReportDto());
         ajaxResult.setData(reportMap);
         return ajaxResult;
     }

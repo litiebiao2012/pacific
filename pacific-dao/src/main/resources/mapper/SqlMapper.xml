@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.pacific.mapper.SqlMapper" >
+  <resultMap id="BaseResultMap" type="com.pacific.domain.entity.Sql" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
+    <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="sql_hash" property="sqlHash" jdbcType="BIGINT" />
+    <result column="count" property="count" jdbcType="BIGINT" />
+    <result column="concurrent_max" property="concurrentMax" jdbcType="INTEGER" />
+    <result column="total_time" property="totalTime" jdbcType="BIGINT" />
+    <result column="max_time" property="maxTime" jdbcType="BIGINT" />
+    <result column="fetch_row_count" property="fetchRowCount" jdbcType="BIGINT" />
+    <result column="fetch_row_count_max" property="fetchRowCountMax" jdbcType="BIGINT" />
+    <result column="effected_row_count" property="effectedRowCount" jdbcType="BIGINT" />
+    <result column="effected_row_count_max" property="effectedRowCountMax" jdbcType="BIGINT" />
+    <result column="error_time" property="errorTime" jdbcType="TIMESTAMP" />
+    <result column="is_error" property="isError" jdbcType="VARCHAR" />
+    <result column="sql" property="sql" jdbcType="LONGVARCHAR" />
+    <result column="error_msg" property="errorMsg" jdbcType="LONGVARCHAR" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, application_code, client_ip, create_time, update_time, url, sql_hash, count, 
+    concurrent_max, total_time, max_time, fetch_row_count, fetch_row_count_max, effected_row_count, 
+    effected_row_count_max, error_time, is_error,sql, error_msg
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from t_sql
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from t_sql
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.pacific.domain.entity.Sql" >
+    insert into t_sql (id, application_code, client_ip, 
+      create_time, update_time, url, 
+      sql_hash, count, concurrent_max, 
+      total_time, max_time, fetch_row_count, 
+      fetch_row_count_max, effected_row_count, effected_row_count_max, 
+      error_time, is_error, sql, 
+      error_msg)
+    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR}, 
+      #{sqlHash,jdbcType=BIGINT}, #{count,jdbcType=BIGINT}, #{concurrentMax,jdbcType=INTEGER}, 
+      #{totalTime,jdbcType=BIGINT}, #{maxTime,jdbcType=BIGINT}, #{fetchRowCount,jdbcType=BIGINT}, 
+      #{fetchRowCountMax,jdbcType=BIGINT}, #{effectedRowCount,jdbcType=BIGINT}, #{effectedRowCountMax,jdbcType=BIGINT}, 
+      #{errorTime,jdbcType=TIMESTAMP}, #{isError,jdbcType=VARCHAR}, #{sql,jdbcType=LONGVARCHAR}, 
+      #{errorMsg,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.pacific.domain.entity.Sql" >
+    insert into t_sql
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="applicationCode != null" >
+        application_code,
+      </if>
+      <if test="clientIp != null" >
+        client_ip,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="url != null" >
+        url,
+      </if>
+      <if test="sqlHash != null" >
+        sql_hash,
+      </if>
+      <if test="count != null" >
+        count,
+      </if>
+      <if test="concurrentMax != null" >
+        concurrent_max,
+      </if>
+      <if test="totalTime != null" >
+        total_time,
+      </if>
+      <if test="maxTime != null" >
+        max_time,
+      </if>
+      <if test="fetchRowCount != null" >
+        fetch_row_count,
+      </if>
+      <if test="fetchRowCountMax != null" >
+        fetch_row_count_max,
+      </if>
+      <if test="effectedRowCount != null" >
+        effected_row_count,
+      </if>
+      <if test="effectedRowCountMax != null" >
+        effected_row_count_max,
+      </if>
+      <if test="errorTime != null" >
+        error_time,
+      </if>
+      <if test="isError != null" >
+        is_error,
+      </if>
+      <if test="sql != null" >
+        sql,
+      </if>
+      <if test="errorMsg != null" >
+        error_msg,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="applicationCode != null" >
+        #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sqlHash != null" >
+        #{sqlHash,jdbcType=BIGINT},
+      </if>
+      <if test="count != null" >
+        #{count,jdbcType=BIGINT},
+      </if>
+      <if test="concurrentMax != null" >
+        #{concurrentMax,jdbcType=INTEGER},
+      </if>
+      <if test="totalTime != null" >
+        #{totalTime,jdbcType=BIGINT},
+      </if>
+      <if test="maxTime != null" >
+        #{maxTime,jdbcType=BIGINT},
+      </if>
+      <if test="fetchRowCount != null" >
+        #{fetchRowCount,jdbcType=BIGINT},
+      </if>
+      <if test="fetchRowCountMax != null" >
+        #{fetchRowCountMax,jdbcType=BIGINT},
+      </if>
+      <if test="effectedRowCount != null" >
+        #{effectedRowCount,jdbcType=BIGINT},
+      </if>
+      <if test="effectedRowCountMax != null" >
+        #{effectedRowCountMax,jdbcType=BIGINT},
+      </if>
+      <if test="errorTime != null" >
+        #{errorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isError != null" >
+        #{isError,jdbcType=VARCHAR},
+      </if>
+      <if test="sql != null" >
+        #{sql,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        #{errorMsg,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.pacific.domain.entity.Sql" >
+    update t_sql
+    <set >
+      <if test="applicationCode != null" >
+        application_code = #{applicationCode,jdbcType=VARCHAR},
+      </if>
+      <if test="clientIp != null" >
+        client_ip = #{clientIp,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="url != null" >
+        url = #{url,jdbcType=VARCHAR},
+      </if>
+      <if test="sqlHash != null" >
+        sql_hash = #{sqlHash,jdbcType=BIGINT},
+      </if>
+      <if test="count != null" >
+        count = #{count,jdbcType=BIGINT},
+      </if>
+      <if test="concurrentMax != null" >
+        concurrent_max = #{concurrentMax,jdbcType=INTEGER},
+      </if>
+      <if test="totalTime != null" >
+        total_time = #{totalTime,jdbcType=BIGINT},
+      </if>
+      <if test="maxTime != null" >
+        max_time = #{maxTime,jdbcType=BIGINT},
+      </if>
+      <if test="fetchRowCount != null" >
+        fetch_row_count = #{fetchRowCount,jdbcType=BIGINT},
+      </if>
+      <if test="fetchRowCountMax != null" >
+        fetch_row_count_max = #{fetchRowCountMax,jdbcType=BIGINT},
+      </if>
+      <if test="effectedRowCount != null" >
+        effected_row_count = #{effectedRowCount,jdbcType=BIGINT},
+      </if>
+      <if test="effectedRowCountMax != null" >
+        effected_row_count_max = #{effectedRowCountMax,jdbcType=BIGINT},
+      </if>
+      <if test="errorTime != null" >
+        error_time = #{errorTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isError != null" >
+        is_error = #{isError,jdbcType=VARCHAR},
+      </if>
+      <if test="sql != null" >
+        sql = #{sql,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="errorMsg != null" >
+        error_msg = #{errorMsg,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.pacific.domain.entity.Sql" >
+    update t_sql
+    set application_code = #{applicationCode,jdbcType=VARCHAR},
+      client_ip = #{clientIp,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      url = #{url,jdbcType=VARCHAR},
+      sql_hash = #{sqlHash,jdbcType=BIGINT},
+      count = #{count,jdbcType=BIGINT},
+      concurrent_max = #{concurrentMax,jdbcType=INTEGER},
+      total_time = #{totalTime,jdbcType=BIGINT},
+      max_time = #{maxTime,jdbcType=BIGINT},
+      fetch_row_count = #{fetchRowCount,jdbcType=BIGINT},
+      fetch_row_count_max = #{fetchRowCountMax,jdbcType=BIGINT},
+      effected_row_count = #{effectedRowCount,jdbcType=BIGINT},
+      effected_row_count_max = #{effectedRowCountMax,jdbcType=BIGINT},
+      error_time = #{errorTime,jdbcType=TIMESTAMP},
+      is_error = #{isError,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

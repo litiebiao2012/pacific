@@ -7,40 +7,22 @@ import java.util.Map;
  * Created by Fe on 16/7/18.
  */
 public class JVMThreadReportDto {
-    private Map<String,Object> legend;
-    private Map<String,Object> xAxis;
-    private Map<String,Object> yAxis;
-    private List<Map<String,Object>> series;
+    private ThreadReportDto threadReportDto;
+    private ThreadCpuRateReportDto threadCpuRateReportDto;
 
-    public Map<String, Object> getLegend() {
-        return legend;
+    public ThreadReportDto getThreadReportDto() {
+        return threadReportDto;
     }
 
-    public void setLegend(Map<String, Object> legend) {
-        this.legend = legend;
+    public void setThreadReportDto(ThreadReportDto threadReportDto) {
+        this.threadReportDto = threadReportDto;
     }
 
-    public Map<String, Object> getxAxis() {
-        return xAxis;
+    public ThreadCpuRateReportDto getThreadCpuRateReportDto() {
+        return threadCpuRateReportDto;
     }
 
-    public void setxAxis(Map<String, Object> xAxis) {
-        this.xAxis = xAxis;
-    }
-
-    public Map<String, Object> getyAxis() {
-        return yAxis;
-    }
-
-    public void setyAxis(Map<String, Object> yAxis) {
-        this.yAxis = yAxis;
-    }
-
-    public List<Map<String, Object>> getSeries() {
-        return series;
-    }
-
-    public void setSeries(List<Map<String, Object>> series) {
-        this.series = series;
+    public void setThreadCpuRateReportDto(ThreadCpuRateReportDto threadCpuRateReportDto) {
+        this.threadCpuRateReportDto = threadCpuRateReportDto;
     }
 }
