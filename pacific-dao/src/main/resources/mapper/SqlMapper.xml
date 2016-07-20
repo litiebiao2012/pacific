@@ -19,17 +19,17 @@
     <result column="effected_row_count_max" property="effectedRowCountMax" jdbcType="BIGINT" />
     <result column="error_time" property="errorTime" jdbcType="TIMESTAMP" />
     <result column="is_error" property="isError" jdbcType="VARCHAR" />
-    <result column="sql" property="sql" jdbcType="LONGVARCHAR" />
+    <result column="sql_text" property="sqlText" jdbcType="LONGVARCHAR" />
     <result column="error_msg" property="errorMsg" jdbcType="LONGVARCHAR" />
   </resultMap>
 
   <sql id="Base_Column_List" >
     id, application_code, client_ip, create_time, update_time, url, sql_hash, count, 
     concurrent_max, total_time, max_time, fetch_row_count, fetch_row_count_max, effected_row_count, 
-    effected_row_count_max, error_time, is_error,sql, error_msg
+    effected_row_count_max, error_time, is_error,sql_text, error_msg
   </sql>
 
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
     from t_sql
@@ -52,7 +52,7 @@
       #{sqlHash,jdbcType=BIGINT}, #{count,jdbcType=BIGINT}, #{concurrentMax,jdbcType=INTEGER}, 
       #{totalTime,jdbcType=BIGINT}, #{maxTime,jdbcType=BIGINT}, #{fetchRowCount,jdbcType=BIGINT}, 
       #{fetchRowCountMax,jdbcType=BIGINT}, #{effectedRowCount,jdbcType=BIGINT}, #{effectedRowCountMax,jdbcType=BIGINT}, 
-      #{errorTime,jdbcType=TIMESTAMP}, #{isError,jdbcType=VARCHAR}, #{sql,jdbcType=LONGVARCHAR}, 
+      #{errorTime,jdbcType=TIMESTAMP}, #{isError,jdbcType=VARCHAR}, #{sqlText,jdbcType=LONGVARCHAR},
       #{errorMsg,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.pacific.domain.entity.Sql" >
@@ -109,8 +109,8 @@
       <if test="isError != null" >
         is_error,
       </if>
-      <if test="sql != null" >
-        sql,
+      <if test="sqlText != null" >
+        sql_text,
       </if>
       <if test="errorMsg != null" >
         error_msg,
@@ -168,8 +168,8 @@
       <if test="isError != null" >
         #{isError,jdbcType=VARCHAR},
       </if>
-      <if test="sql != null" >
-        #{sql,jdbcType=LONGVARCHAR},
+      <if test="sqlText != null" >
+        #{sqlText,jdbcType=LONGVARCHAR},
       </if>
       <if test="errorMsg != null" >
         #{errorMsg,jdbcType=LONGVARCHAR},
@@ -227,8 +227,8 @@
       <if test="isError != null" >
         is_error = #{isError,jdbcType=VARCHAR},
       </if>
-      <if test="sql != null" >
-        sql = #{sql,jdbcType=LONGVARCHAR},
+      <if test="sqlText != null" >
+        sql_text = #{sqlText,jdbcType=LONGVARCHAR},
       </if>
       <if test="errorMsg != null" >
         error_msg = #{errorMsg,jdbcType=LONGVARCHAR},
@@ -257,4 +257,48 @@
       is_error = #{isError,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <insert id="batchSaveSql" parameterType="com.pacific.domain.entity.Sql" >
+    insert into t_sql (
+    application_code,
+    client_ip,
+    create_time,
+    update_time,
+    url,
+    sql_hash,
+    count,
+    concurrent_max,
+    total_time,
+    max_time,
+    fetch_row_count,
+    fetch_row_count_max,
+    effected_row_count,
+    effected_row_count_max,
+    error_time,
+    is_error,
+    sql_text,
+    error_msg)
+    values
+    <foreach collection="list" item="item" index="index"
+             separator=",">
+      (#{item.applicationCode,jdbcType=VARCHAR},
+      #{item.clientIp,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP},
+      #{item.updateTime,jdbcType=TIMESTAMP},
+      #{item.url,jdbcType=VARCHAR},
+      #{item.sqlHash,jdbcType=BIGINT},
+      #{item.count,jdbcType=BIGINT},
+      #{item.concurrentMax,jdbcType=INTEGER},
+      #{item.totalTime,jdbcType=BIGINT},
+      #{item.maxTime,jdbcType=BIGINT},
+      #{item.fetchRowCount,jdbcType=BIGINT},
+      #{item.fetchRowCountMax,jdbcType=BIGINT},
+      #{item.effectedRowCount,jdbcType=BIGINT},
+      #{item.effectedRowCountMax,jdbcType=BIGINT},
+      #{item.errorTime,jdbcType=TIMESTAMP},
+      #{item.isError,jdbcType=VARCHAR},
+      #{item.sqlText,jdbcType=LONGVARCHAR},
+      #{item.errorMsg,jdbcType=LONGVARCHAR})
+    </foreach>
+  </insert>
 </mapper>

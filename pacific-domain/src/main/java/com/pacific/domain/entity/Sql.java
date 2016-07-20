@@ -38,7 +38,7 @@ public class Sql implements Serializable {
 
     private String isError;
 
-    private String sql;
+    private String sqlText;
 
     private String errorMsg;
 
@@ -178,5 +178,21 @@ public class Sql implements Serializable {
 
     public void setIsError(String isError) {
         this.isError = isError == null ? null : isError.trim();
+    }
+
+    public String getSqlText() {
+        return sqlText;
+    }
+
+    public void setSqlText(String sqlText) {
+        this.sqlText = sqlText;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 }
