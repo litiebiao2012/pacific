@@ -1,6 +1,7 @@
 package com.pacific.mapper;
 
 import com.pacific.domain.entity.JdbcInfo;
+import org.apache.ibatis.annotations.Param;
 
 public interface JdbcInfoMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +15,8 @@ public interface JdbcInfoMapper {
     int updateByPrimaryKeySelective(JdbcInfo record);
 
     int updateByPrimaryKey(JdbcInfo record);
+
+    JdbcInfo queryJdbcInfoByParam(@Param("applicationCode") String applicationCode,
+                                  @Param("clientIp")String clientIp,
+                                  @Param("url") String url);
 }

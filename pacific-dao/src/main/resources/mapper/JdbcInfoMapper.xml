@@ -32,12 +32,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.pacific.domain.entity.JdbcInfo" >
-    insert into t_jdbc_info (id, application_code, client_ip, 
+    insert into t_jdbc_info (application_code, client_ip,
       create_time, update_time, url, 
       user_name, db_type, driver_class_name, 
       error_count, min_idle, max_active, 
       pooling_count, name)
-    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+    values (#{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR}, 
       #{userName,jdbcType=VARCHAR}, #{dbType,jdbcType=VARCHAR}, #{driverClassName,jdbcType=VARCHAR}, 
       #{errorCount,jdbcType=BIGINT}, #{minIdle,jdbcType=INTEGER}, #{maxActive,jdbcType=INTEGER}, 
@@ -196,4 +196,17 @@
       name = #{name,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <select id="queryJdbcInfoByParam" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from t_jdbc_info
+    where
+     application_code = #{applicationCode,jdbcType=VARCHAR}
+    and
+     client_ip = #{clientIp,jdbcType=VARCHAR}
+    and
+     url = #{url,jdbcType=VARCHAR}
+  </select>
 </mapper>
