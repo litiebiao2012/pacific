@@ -2,6 +2,8 @@ package com.pacific.mapper;
 
 import com.pacific.domain.entity.WebUrl;
 
+import java.util.List;
+
 public interface WebUrlMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -16,4 +18,6 @@ public interface WebUrlMapper {
     int updateByPrimaryKeyWithBLOBs(WebUrl record);
 
     int updateByPrimaryKey(WebUrl record);
+
+    void batchSaveWebUrl(List<WebUrl> webUrlList);
 }

@@ -14,6 +14,7 @@
     <bean id="jvmThreadService" class="com.pacific.service.impl.JVMThreadServiceImpl"></bean>
     <bean id="springMethodService" class="com.pacific.service.impl.SpringMethodServiceImpl"></bean>
     <bean id="sqlService" class="com.pacific.service.impl.SqlServiceImpl"></bean>
+    <bean id="webUrlService" class="com.pacific.service.impl.WebUrlServiceImpl"></bean>
 
 
     <bean id="elasticSearchHelper" class="com.pacific.service.ElasticSearchHelper">

@@ -207,4 +207,37 @@
       is_error = #{isError,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+
+  <insert id="batchSaveWebUrl" parameterType="com.pacific.domain.entity.WebUrl" >
+    insert into t_web_url (
+    application_code,
+    client_ip,
+    create_time,
+    update_time,
+    url,
+    count,
+    concurrent_max,
+    nano_total,
+    nano_max,
+    error_time,
+    is_error,
+    error_msg)
+    values
+    <foreach collection="list" item="item" index="index"
+             separator=",">
+      (#{item.applicationCode,jdbcType=VARCHAR},
+      #{item.clientIp,jdbcType=VARCHAR},
+      #{item.createTime,jdbcType=TIMESTAMP},
+      #{item.updateTime,jdbcType=TIMESTAMP},
+      #{item.url,jdbcType=VARCHAR},
+      #{item.count,jdbcType=BIGINT},
+      #{item.concurrentMax,jdbcType=INTEGER},
+      #{item.nanoTotal,jdbcType=BIGINT},
+      #{item.nanoMax,jdbcType=BIGINT},
+      #{item.errorTime,jdbcType=TIMESTAMP},
+      #{item.isError,jdbcType=VARCHAR},
+      #{item.errorMsg,jdbcType=LONGVARCHAR})
+    </foreach>
+  </insert>
 </mapper>

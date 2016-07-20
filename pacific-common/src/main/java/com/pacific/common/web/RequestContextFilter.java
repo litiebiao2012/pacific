@@ -2,6 +2,7 @@ package com.pacific.common.web;
 
 import com.pacific.common.http.HttpUtils;
 import com.pacific.common.web.xuser.XUserSessionManager;
+import com.shining3d.monitor.plugin.web.WebUrlDataCalHelper;
 import org.apache.commons.lang.BooleanUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,8 +31,10 @@ public class RequestContextFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         RequestContext.init((HttpServletRequest) request, (HttpServletResponse) response, null);
 
+        WebUrlDataCalHelper.handleBefore(((HttpServletRequest) request).getRequestURI().toString());
         logger.debug(HttpUtils.requestMessage((HttpServletRequest) request));
         chain.doFilter(request, response);
+        WebUrlDataCalHelper.handleAfter();
         try {
             if(isOpenRefreshRemoteCache) {
                 XUserSessionManager.refreshRemoteCache();
