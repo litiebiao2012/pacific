@@ -297,8 +297,11 @@
     select
     <include refid="Base_Column_List" />
     from t_jvm_info
-    where client_ip = #{clientIp,jdbcType=VARCHAR} and
+    where
     application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="clientIp != null">
+      and  client_ip = #{clientIp,jdbcType=VARCHAR}
+    </if>
   </select>
 
 

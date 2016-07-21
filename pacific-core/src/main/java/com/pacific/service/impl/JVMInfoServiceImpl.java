@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Fe on 16/7/12.
@@ -28,8 +29,8 @@ public class JVMInfoServiceImpl implements JVMInfoService {
             String appCode = jvmInfoDto.getAppCode();
             String clientIp = jvmInfoDto.getClientIp();
 
-            JVMInfo ji = jvmInfoMapper.selectByParam(appCode,clientIp);
-            if (ji == null) {
+            List<JVMInfo> jvmInfoList = jvmInfoMapper.selectByParam(appCode,clientIp);
+            if (jvmInfoList == null || jvmInfoList.size() == 0) {
                 BeanUtils.copyProperties(jvmInfo,jvmInfoDto);
                 jvmInfo.setApplicationCode(jvmInfoDto.getAppCode());
                 jvmInfo.setCreateTime(new Date());
@@ -42,6 +43,7 @@ public class JVMInfoServiceImpl implements JVMInfoService {
                 jvmInfo.setJvm(jvmInfoDto.getjVM());
                 jvmInfoMapper.insertSelective(jvmInfo);
             } else {
+                JVMInfo ji = jvmInfoList.get(0);
                 BeanUtils.copyProperties(ji,jvmInfoDto);
                 ji.setHostName(jvmInfoDto.getHostname());
                 ji.setJvmStartTime(jvmInfoDto.getStartTime());

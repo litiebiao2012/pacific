@@ -4,22 +4,25 @@
             <div class="col-sm-6"></div>
             <div class="col-sm-6"></div>
         </div>
-        <div class="row">
-            <div class="col-sm-12">
-                <table id="jvmTable" class="table table-bordered dataTable no-footer" cellspacing="0" width="100%" role="grid" aria-describedby="table_info">
-                    <thead>
-                    <tr role="row">
-                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 30%;"></td>
-                        <td class="sorting_disabled" rowspan="1" colspan="1" aria-label="" style="width: 70%;"></td>
-                    </thead>
-                    <tbody>
-                    <tr role="row" class="odd">
-                        <td>/common/upload.json</td>
-                        <td>1000</td>
-                    </tr>
-                    </tbody>
-                </table>
+        #foreach($key in $allJvmInfoMap.keySet())
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="jvmTable" class="table table-bordered dataTable no-footer" cellspacing="0" width="100%" role="grid" aria-describedby="table_info">
+                        <thead>
+                          <tr role="row"><td class="sorting_disabled" rowspan="1" colspan="2" aria-label="URL" style="width: 30%;" align="center">$key</td></tr>
+                        </thead>
+                        <tbody>
+                            #foreach($item in $allJvmInfoMap.get($key))
+                            <tr role="row" class="odd">
+                                <td align="right">$item.name</td>
+                                <td>$item.value</td>
+                            </tr>
+                            #end
+                        </tbody>
+                    </table>
+                </div>
             </div>
-        </div>
+            <div></div>
+        #end
     </div>
 </div>

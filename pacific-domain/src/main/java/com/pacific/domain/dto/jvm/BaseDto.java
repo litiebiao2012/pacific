@@ -8,6 +8,7 @@ import java.util.Date;
 public class BaseDto {
     private String appCode;
     private String clientIp;
+    private String clientHostName;
     private Date createTime;
 
     public String getClientIp() {
@@ -32,5 +33,13 @@ public class BaseDto {
 
     public void setAppCode(String appCode) {
         this.appCode = appCode;
+    }
+
+    public String getClientHostName() {
+        return clientHostName;
+    }
+
+    public void setClientHostName(String clientHostName) {
+        this.clientHostName = clientHostName;
     }
 }

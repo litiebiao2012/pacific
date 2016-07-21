@@ -1,24 +1,32 @@
 package com.pacific.web.controller;
 
+import com.pacific.common.utils.CollectionUtil;
+import com.pacific.common.utils.DateUtil;
 import com.pacific.common.utils.VelocityTemplateUtil;
 import com.pacific.common.web.result.AjaxResult;
+import com.pacific.domain.dto.JVMInfoDetailDto;
 import com.pacific.domain.dto.report.JVMGcReportDto;
 import com.pacific.domain.dto.report.JVMMemoryReportDto;
 import com.pacific.domain.dto.report.JVMThreadReportDto;
+import com.pacific.domain.entity.JVMInfo;
 import com.pacific.domain.entity.Machine;
+import com.pacific.domain.enums.MonitorTypeEnums;
+import com.pacific.mapper.JVMInfoMapper;
 import com.pacific.mapper.MachineMapper;
 import com.pacific.service.JVMGcService;
+import com.pacific.service.JVMInfoService;
 import com.pacific.service.JVMMemoryService;
 import com.pacific.service.JVMThreadService;
+import org.apache.velocity.context.Context;
+import org.apache.velocity.tools.ToolContext;
+import org.elasticsearch.monitor.jvm.JvmInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Fe on 16/7/13.
@@ -39,6 +47,9 @@ public class JVMController {
     @Resource
     private JVMGcService jvmGcService;
 
+    @Resource
+    private JVMInfoMapper jvmInfoMapper;
+
 
     @RequestMapping("/jvmDetail.htm")
     public ModelAndView jvmDetail(String applicationCode) {
@@ -55,8 +66,54 @@ public class JVMController {
     @RequestMapping("/loadHtmlView.json")
     public AjaxResult loadHtmlView(String clientIp,String timeInternal,String type,
                                    String applicationCode) {
-        String content = VelocityTemplateUtil.getContent("vm/" + type + ".vm",null);
         AjaxResult ajaxResult = new AjaxResult();
+        MonitorTypeEnums monitorTypeEnums = MonitorTypeEnums.fromCode(type);
+        if (monitorTypeEnums == null) {
+            ajaxResult.setStatus(AjaxResult.STATUS_ERROR);
+            ajaxResult.setMessage("type参数错误");
+            return ajaxResult;
+        }
+
+        Context context = null;
+        if (!monitorTypeEnums.getCode().equals(MonitorTypeEnums.JVM_REPORT.getCode())) {
+
+            if (clientIp.equals("all")) clientIp = null;
+            context = new ToolContext();
+            if (monitorTypeEnums.getCode().equals(MonitorTypeEnums.JVM_INFO.getCode())) {
+
+                List<JVMInfo> jvmInfoList = jvmInfoMapper.selectByParam(applicationCode,clientIp);
+                if (CollectionUtil.isNotEmpty(jvmInfoList)) {
+                    Map<String,List<JVMInfoDetailDto>> allJvmInfoMap = new LinkedHashMap<String,List<JVMInfoDetailDto>>();
+                    for (JVMInfo jvmInfo : jvmInfoList) {
+                        List<JVMInfoDetailDto> jvmInfoDetailDtoList = new LinkedList<JVMInfoDetailDto>();
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("主机名",jvmInfo.getHostName()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("IP",jvmInfo.getClientIp()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("进程ID",jvmInfo.getPid()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("启动时间", DateUtil.formatDate(jvmInfo.getJvmStartTime())));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("启动参数",jvmInfo.getInputArguments()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("硬件平台",jvmInfo.getArch()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("可用CPU个数",jvmInfo.getAvailableProcessors() + ""));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("操作系统",jvmInfo.getOsName()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("文件编码",jvmInfo.getFileEncode()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JVM名称",jvmInfo.getJvm()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaVersion",jvmInfo.getJavaVersion()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaSpecVersion",jvmInfo.getJavaSpecificationVersion()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaHome",jvmInfo.getJavaHome()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaLibraryPath",jvmInfo.getJavaLibraryPath()));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("当前装载的类总数",jvmInfo.getLoadedClassCount() + ""));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("总共装载过的类总数",jvmInfo.getTotalLoadedClassCount() + ""));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("卸载的类总数",jvmInfo.getUnloadedClassCount() + ""));
+                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("总共编译时间",jvmInfo.getTotalCompilationTime() + ""));
+
+                        allJvmInfoMap.put(jvmInfo.getHostName(),jvmInfoDetailDtoList);
+                    }
+                    context.put("allJvmInfoMap",allJvmInfoMap);
+                }
+            }
+
+        }
+
+        String content = VelocityTemplateUtil.getContent("vm/" + type + ".vm",context);
         ajaxResult.setData(content);
         return ajaxResult;
     }

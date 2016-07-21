@@ -26,11 +26,12 @@
                     <div class="row">
                         <div class="form-group" id="type">
                             <label for="" class="col-md-1 text-left">类型:</label>
+                            <a class="label label-info" data-value="os">操作系统</a>
                             <a class="label label-default" data-value="jvmReport">JVM</a>
                             <a class="label label-info" data-value="jvmInfo">概述</a>
                             <a class="label label-info" data-value="url">URL</a>
                             <a class="label label-info" data-value="springMethod">Spring</a>
-                            <a class="label label-info" data-value="dataSource">DataSource</a>
+                            <a class="label label-info" data-value="druidDatasource">DataSource</a>
                             <a class="label label-info" data-value="sql">SQL</a>
                         </div>
                     </div>
@@ -82,6 +83,10 @@
                 if (data.status == 'OK') {
                     $('#resultView').html(data.data);
 
+                    if (type == 'os') {
+                        loadOsReport();
+                    }
+
                     if (type == 'jvmReport') {
                         loadJVMReport();
                     }
@@ -98,7 +103,7 @@
                         loadSpringMethodDetail();
                     }
 
-                    if (type == 'dataSource') {
+                    if (type == 'druidDatasource') {
                         loadDatasourceDetail();
                     }
 
@@ -111,6 +116,11 @@
                 }
             }
         });
+
+
+        function loadOsReport() {
+
+        }
 
         function loadJVMReport() {
             var headReport = echarts.init(document.getElementById('headReport'));
@@ -158,6 +168,7 @@
         function loadSqlDetail() {
 
         }
+
     }
 </script>
 

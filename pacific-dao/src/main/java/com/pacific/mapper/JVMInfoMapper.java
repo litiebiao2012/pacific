@@ -3,6 +3,8 @@ package com.pacific.mapper;
 import com.pacific.domain.entity.JVMInfo;
 import org.apache.ibatis.annotations.Param;
 
+import java.util.List;
+
 public interface JVMInfoMapper {
     int deleteByPrimaryKey(Long id);
 
@@ -18,5 +20,7 @@ public interface JVMInfoMapper {
 
     int updateByParam(JVMInfo jvmInfo);
 
-    JVMInfo selectByParam(@Param("applicationCode") String applicationCode,@Param("clientIp") String clientIp);
+    List<JVMInfo> selectByParam(@Param("applicationCode") String applicationCode, @Param("clientIp") String clientIp);
+
+
 }
