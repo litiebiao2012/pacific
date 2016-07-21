@@ -11,6 +11,6 @@ public interface JVMMemoryService {
 
     public void saveJVMMemory(JVMMemoryDto jvmMemoryDto);
 
-    public JVMMemoryReportDto queryHeadMemoryDto(String applicationCode, String timeInternal, String clientIp);
+    public JVMMemoryReportDto queryJVMMemoryDto(String applicationCode, String timeInternal, String clientIp);
 
 }

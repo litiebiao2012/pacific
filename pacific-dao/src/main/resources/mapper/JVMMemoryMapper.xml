@@ -260,10 +260,18 @@
 
   <select id="queryAllJVMMemoryByParam" resultMap="BaseResultMap" >
     select
-     max(heap_memory_max) as heap_memory_max,
-     max(heap_memory_used) as heap_memory_used,
-     max(non_heap_memory_max) as non_heap_memory_max,
-     max(non_heap_memory_used) as non_heap_memory_used
+      max(heap_memory_max) as heap_memory_max,
+      max(heap_memory_used) as heap_memory_used,
+      max(non_heap_memory_max) as non_heap_memory_max,
+      max(non_heap_memory_used) as non_heap_memory_used,
+      max(perm_gen_max) as perm_gen_max,
+      max(perm_gen_used) as perm_gen_used,
+      max(old_gen_max) as old_gen_max,
+      max(old_gen_used) as old_gen_used,
+      max(eden_space_max) as eden_space_max,
+      max(eden_space_used) as eden_space_used,
+      max(survivor_max) as survivor_max,
+      max(survivor_used) as survivor_used
     from t_jvm_memory
     where
        application_code = #{applicationCode,jdbcType=VARCHAR}

@@ -1,6 +1,9 @@
 package com.pacific.mapper;
 
 import com.pacific.domain.entity.JVMGc;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.Date;
 
 public interface JVMGcMapper {
     int deleteByPrimaryKey(Long id);
@@ -14,4 +17,9 @@ public interface JVMGcMapper {
     int updateByPrimaryKeySelective(JVMGc record);
 
     int updateByPrimaryKey(JVMGc record);
+
+    JVMGc queryAllJVMGcByParam(@Param("applicationCode") String applicationCode,
+                                       @Param("clientIp") String clientIp,
+                                       @Param("beginDate") Date beginDate,
+                                       @Param("endDate") Date endDate);
 }

@@ -131,9 +131,9 @@
                         nonHeadReport.setOption(data.data.nonHeadReport);
                         threadReport.setOption(data.data.threadReport);
                         cpuReport.setOption(data.data.threadCpuRateReport);
-                        memoryReport.setOption(data.data.memoryReport);
-                        gcCountReport.setOption(data.data.gcCountReport);
-                        gcTimeReport.setOption(data.data.gcTimeReport);
+                        memoryReport.setOption(data.data.jvmMemoryDetailReport);
+                        gcCountReport.setOption(data.data.gcCount);
+                        gcTimeReport.setOption(data.data.gcTime);
                     }
                 }
             });

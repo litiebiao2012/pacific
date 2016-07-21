@@ -139,4 +139,21 @@
       full_gc_collection_time = #{fullGcCollectionTime,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+  <select id="queryAllJVMGcByParam" resultMap="BaseResultMap">
+    select
+     max(young_gc_collection_count) as young_gc_collection_count,
+     max(full_gc_collection_count) as full_gc_collection_count,
+     max(young_gc_collection_time) as young_gc_collection_time,
+     max(full_gc_collection_time) as full_gc_collection_time
+    from t_jvm_gc
+    where
+    application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="clientIp != null">
+      and client_ip = #{clientIp,jdbcType=VARCHAR}
+    </if>
+      and  create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[
+         and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+  </select>
 </mapper>

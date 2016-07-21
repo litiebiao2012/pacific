@@ -6,7 +6,7 @@ package com.pacific.domain.dto.report;
 public class JVMMemoryReportDto {
     private HeadMemoryDto headMemoryDto;
     private NonHeadMemoryDto nonHeadMemoryDto;
-
+    private JVMMemoryDetailDto jvmMemoryDetailDto;
 
     public HeadMemoryDto getHeadMemoryDto() {
         return headMemoryDto;
@@ -22,5 +22,13 @@ public class JVMMemoryReportDto {
 
     public void setNonHeadMemoryDto(NonHeadMemoryDto nonHeadMemoryDto) {
         this.nonHeadMemoryDto = nonHeadMemoryDto;
+    }
+
+    public JVMMemoryDetailDto getJvmMemoryDetailDto() {
+        return jvmMemoryDetailDto;
+    }
+
+    public void setJvmMemoryDetailDto(JVMMemoryDetailDto jvmMemoryDetailDto) {
+        this.jvmMemoryDetailDto = jvmMemoryDetailDto;
     }
 }
