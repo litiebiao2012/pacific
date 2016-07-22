@@ -56,13 +56,43 @@ public class JVMController {
 
 
     @RequestMapping("/jvmDetail.htm")
-    public String jvmDetail(String applicationCode,@RequestParam(defaultValue = "jvmReport") String type) {
+    public ModelAndView jvmDetail(String applicationCode,@RequestParam(defaultValue = "jvmReport") String type,String clientIp) {
+        ModelAndView modelAndView = new ModelAndView();
         String viewName = "jvm/jvmReport";
         if (type.equals("jvmReport")) {
             viewName = "jvm/jvmReport";
         }
 
+        if (clientIp != null && clientIp.equals("all")) clientIp = null;
         if (type.equals("jvmInfo")) {
+            List<JVMInfo> jvmInfoList = jvmInfoMapper.selectByParam(applicationCode,clientIp);
+            if (CollectionUtil.isNotEmpty(jvmInfoList)) {
+                Map<String,List<JVMInfoDetailDto>> allJvmInfoMap = new LinkedHashMap<String,List<JVMInfoDetailDto>>();
+                for (JVMInfo jvmInfo : jvmInfoList) {
+                    List<JVMInfoDetailDto> jvmInfoDetailDtoList = new LinkedList<JVMInfoDetailDto>();
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("主机名",jvmInfo.getHostName()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("IP",jvmInfo.getClientIp()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("进程ID",jvmInfo.getPid()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("启动时间", DateUtil.formatDate(jvmInfo.getJvmStartTime())));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("启动参数",jvmInfo.getInputArguments()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("硬件平台",jvmInfo.getArch()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("可用CPU个数",jvmInfo.getAvailableProcessors() + ""));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("操作系统",jvmInfo.getOsName()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("文件编码",jvmInfo.getFileEncode()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JVM名称",jvmInfo.getJvm()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaVersion",jvmInfo.getJavaVersion()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaSpecVersion",jvmInfo.getJavaSpecificationVersion()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaHome",jvmInfo.getJavaHome()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaLibraryPath",jvmInfo.getJavaLibraryPath()));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("当前装载的类总数",jvmInfo.getLoadedClassCount() + ""));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("总共装载过的类总数",jvmInfo.getTotalLoadedClassCount() + ""));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("卸载的类总数",jvmInfo.getUnloadedClassCount() + ""));
+                    jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("总共编译时间",jvmInfo.getTotalCompilationTime() + ""));
+
+                    allJvmInfoMap.put(jvmInfo.getHostName(),jvmInfoDetailDtoList);
+                }
+                modelAndView.addObject("allJvmInfoMap",allJvmInfoMap);
+            }
             viewName = "jvm/jvmInfoReport";
         }
 
@@ -81,7 +111,8 @@ public class JVMController {
         if (type.equals("sql")) {
             viewName = "jvm/sql";
         }
-        return viewName;
+        modelAndView.setViewName(viewName);
+        return modelAndView;
     }
 
     @RequestMapping("/jvmInfoReport.htm")
@@ -110,43 +141,12 @@ public class JVMController {
             context = new ToolContext();
             if (monitorTypeEnums.getCode().equals(MonitorTypeEnums.JVM_INFO.getCode())) {
 
-
-
-                List<JVMInfo> jvmInfoList = jvmInfoMapper.selectByParam(applicationCode,clientIp);
-                if (CollectionUtil.isNotEmpty(jvmInfoList)) {
-                    Map<String,List<JVMInfoDetailDto>> allJvmInfoMap = new LinkedHashMap<String,List<JVMInfoDetailDto>>();
-                    for (JVMInfo jvmInfo : jvmInfoList) {
-                        List<JVMInfoDetailDto> jvmInfoDetailDtoList = new LinkedList<JVMInfoDetailDto>();
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("主机名",jvmInfo.getHostName()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("IP",jvmInfo.getClientIp()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("进程ID",jvmInfo.getPid()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("启动时间", DateUtil.formatDate(jvmInfo.getJvmStartTime())));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("启动参数",jvmInfo.getInputArguments()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("硬件平台",jvmInfo.getArch()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("可用CPU个数",jvmInfo.getAvailableProcessors() + ""));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("操作系统",jvmInfo.getOsName()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("文件编码",jvmInfo.getFileEncode()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JVM名称",jvmInfo.getJvm()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaVersion",jvmInfo.getJavaVersion()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaSpecVersion",jvmInfo.getJavaSpecificationVersion()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaHome",jvmInfo.getJavaHome()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("JavaLibraryPath",jvmInfo.getJavaLibraryPath()));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("当前装载的类总数",jvmInfo.getLoadedClassCount() + ""));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("总共装载过的类总数",jvmInfo.getTotalLoadedClassCount() + ""));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("卸载的类总数",jvmInfo.getUnloadedClassCount() + ""));
-                        jvmInfoDetailDtoList.add(JVMInfoDetailDto.buildJVMInfoDetail("总共编译时间",jvmInfo.getTotalCompilationTime() + ""));
-
-                        allJvmInfoMap.put(jvmInfo.getHostName(),jvmInfoDetailDtoList);
-                    }
-                    context.put("allJvmInfoMap",allJvmInfoMap);
-                }
             }
 
             if (monitorTypeEnums.getCode().equals(MonitorTypeEnums.WEB_URL.getCode())) {
                 Date endDate = new Date();
                 Date beginDate = TimeInternalHelper.getBeginDate(endDate,timeInternal);
                 List<WebUrl> webUrlList = webUrlMapper.selectByParam(applicationCode,clientIp,beginDate,endDate);
-
             }
 
         }

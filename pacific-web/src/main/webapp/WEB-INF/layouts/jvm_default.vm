@@ -14,25 +14,34 @@
         var applicationCode = getQueryString('applicationCode');
         $(document).ready(function () {
             $("#clientIp a").click(function () {
-                clientIp = $(this).attr('data-value');
-                $("#clientIp a").attr('class', 'label label-info');
-                $(this).attr('class', 'label label-default');
-                loadData();
+                var url = '/jvm/jvmDetail.htm?type=' + getTypeParam() + '&applicationCode=' + applicationCode + '&clientIp=' + $(this).attr('data-value')  + '&timeInternal=' + getTimeInternalParam();
+                window.location.href = url;
             });
 
             $("#timeInternal a").click(function () {
-                timeInternal = $(this).attr('data-value');
-                $("#timeInternal a").attr('class', 'label label-info');
-                $(this).attr('class', 'label label-default');
-                loadData();
+                var url = '/jvm/jvmDetail.htm?type=' + getTypeParam() + '&applicationCode=' + applicationCode + '&clientIp=' + getClientIpParam()  + '&timeInternal=' + $(this).attr('data-value');
+                window.location.href = url;
             });
 
             $('#type a').click(function(){
-                window.location.href ='/jvm/jvmDetail.htm?type=' + $(this).attr('data-value') + '&applicationCode=' + applicationCode;
+                var url = '/jvm/jvmDetail.htm?type=' + $(this).attr('data-value') + '&applicationCode=' + applicationCode + '&clientIp=' + getClientIpParam()  + '&timeInternal=' + getTimeInternalParam();
+                window.location.href = url;
             });
-            $("#type a").attr('class', 'label label-info');
+
+            $("#clientIp a[data-value='"+ getClientIpParam() +"']").attr('class', 'label label-default');
+
+            $("#timeInternal a[data-value='"+ getTimeInternalParam() +"']").attr('class', 'label label-default');
+
             $("#type a[data-value='"+ getTypeParam() +"']").attr('class', 'label label-default');
         });
+
+        function getClientIpParam() {
+            return getQueryString('clientIp') == null ? 'all' : getQueryString('clientIp');
+        }
+
+        function getTimeInternalParam() {
+            return getQueryString('timeInternal') == null ? 'tenMinutes' : getQueryString('timeInternal');
+        }
 
         function getTypeParam() {
             return getQueryString('type') == null ? 'jvmReport' : getQueryString('type');
@@ -42,6 +51,13 @@
             var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
             var r = window.location.search.substr(1).match(reg);
             if(r!=null)return  unescape(r[2]); return null;
+        }
+
+        function buildRequestUrl(obj) {
+            clientIp = getClientIpParam();
+            timeInternal = getTimeInternalParam();
+            var url = '/jvm/jvmDetail.htm?type=' + $(obj).attr('data-value') + '&applicationCode=' + applicationCode + '&clientIp=' + clientIp + '&timeInternal=' + timeInternal;
+            return url;
         }
     </script>
 </head>
@@ -64,16 +80,16 @@
                                 <div class="row">
                                     <div class="form-group" id="clientIp">
                                         <label for="" class="col-md-1 text-left">机器列表:</label>
-                                        <a class="label label-default" data-value="all">all</a>
+                                        <a class="label label-info" data-value="all">all</a>
                                         #foreach($item in $pacificWebTool.queryMachineList())
-                                            <a class="label label-info" data-value="$item.ip">$item.hostName</a>
+                                            <a class="label label-info" data-value="$item.ip" data-host="$item.hostName">$item.hostName</a>
                                         #end
                                     </div>
                                 </div>
                                 <div class="row">
                                     <div class="form-group" id="timeInternal">
                                         <label for="" class="col-md-1 text-left">时间间隔:</label>
-                                        <a class="label label-default" data-value="tenMinutes">10分钟</a>
+                                        <a class="label label-info" data-value="tenMinutes">10分钟</a>
                                         <a class="label label-info" data-value="thirtyMinutes">30分钟</a>
                                         <a class="label label-info" data-value="oneHour">1小时</a>
                                         <a class="label label-info" data-value="threeHour">3小时</a>
@@ -83,7 +99,7 @@
                                 <div class="row">
                                     <div class="form-group" id="type">
                                         <label for="" class="col-md-1 text-left">类型:</label>
-                                        <a class="label label-default" data-value="jvmReport">JVM</a>
+                                        <a class="label label-info" data-value="jvmReport">JVM</a>
                                         <a class="label label-info" data-value="jvmInfo">概述</a>
                                         <a class="label label-info" data-value="webUrl">URL</a>
                                         <a class="label label-info" data-value="springMethod">Spring</a>
