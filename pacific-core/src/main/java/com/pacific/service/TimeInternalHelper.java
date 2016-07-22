@@ -86,6 +86,34 @@ public class TimeInternalHelper {
         return returnDate;
     }
 
+    public static Date getBeginDate(Date date,String timeInternal) {
+        Date beginDate = null;
+        if (timeInternal.equals(TimeInternalEnums.TEN_MINUTES.getCode())) {
+            beginDate = DateUtil.getBeforeMinutesDate(date,10);
+        }
+
+        if (timeInternal.equals(TimeInternalEnums.THIRTY_MINUTES.getCode())) {
+            beginDate = DateUtil.getBeforeMinutesDate(date,30);
+        }
+
+        if (timeInternal.equals(TimeInternalEnums.ONE_HOUR.getCode())) {
+            beginDate = DateUtil.getBeforeHourDate(date,1);
+        }
+
+        if (timeInternal.equals(TimeInternalEnums.THREE_HOUR.getCode())) {
+            beginDate = DateUtil.getBeforeHourDate(date,3);
+        }
+
+        if (timeInternal.equals(TimeInternalEnums.ONE_DAY.getCode())) {
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR_OF_DAY, 0);
+            calendar.set(Calendar.MINUTE, 0);
+            calendar.set(Calendar.SECOND, 0);
+            beginDate = calendar.getTime();
+        }
+        return beginDate;
+    }
+
 
     private static void sortDateList(List<Date> dateList) {
         if (CollectionUtil.isNotEmpty(dateList)) {

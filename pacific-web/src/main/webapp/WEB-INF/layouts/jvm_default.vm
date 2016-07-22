@@ -6,9 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
     <title>pacific监控平台</title>
     #parse("/WEB-INF/common/common.vm")
+    <script type="text/javascript">
+        var clientIp = 'all';
+        var timeInternal = 'tenMinutes';
+        var applicationCode = getQueryString('applicationCode');
+        $(document).ready(function () {
+            $("#clientIp a").click(function () {
+                clientIp = $(this).attr('data-value');
+                $("#clientIp a").attr('class', 'label label-info');
+                $(this).attr('class', 'label label-default');
+                loadData();
+            });
+
+            $("#timeInternal a").click(function () {
+                timeInternal = $(this).attr('data-value');
+                $("#timeInternal a").attr('class', 'label label-info');
+                $(this).attr('class', 'label label-default');
+                loadData();
+            });
+
+            $('#type a').click(function(){
+                window.location.href ='/jvm/jvmDetail.htm?type=' + $(this).attr('data-value') + '&applicationCode=' + applicationCode;
+            });
+            $("#type a").attr('class', 'label label-info');
+            $("#type a[data-value='"+ getTypeParam() +"']").attr('class', 'label label-default');
+        });
+
+        function getTypeParam() {
+            return getQueryString('type') == null ? 'jvmReport' : getQueryString('type');
+        }
+
+        function getQueryString(name) {
+            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if(r!=null)return  unescape(r[2]); return null;
+        }
+    </script>
 </head>
 <body>
 <div>
@@ -21,7 +56,48 @@
     <div id="page-wrapper">
         <div class="container-fluid">
             #parse("/WEB-INF/common/crumb.vm")
-            $body
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <form class="" id="searchForm" onsubmit="return false;">
+                                <div class="row">
+                                    <div class="form-group" id="clientIp">
+                                        <label for="" class="col-md-1 text-left">机器列表:</label>
+                                        <a class="label label-default" data-value="all">all</a>
+                                        #foreach($item in $pacificWebTool.queryMachineList())
+                                            <a class="label label-info" data-value="$item.ip">$item.hostName</a>
+                                        #end
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group" id="timeInternal">
+                                        <label for="" class="col-md-1 text-left">时间间隔:</label>
+                                        <a class="label label-default" data-value="tenMinutes">10分钟</a>
+                                        <a class="label label-info" data-value="thirtyMinutes">30分钟</a>
+                                        <a class="label label-info" data-value="oneHour">1小时</a>
+                                        <a class="label label-info" data-value="threeHour">3小时</a>
+                                        <a class="label label-info" data-value="oneDay">1天</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="form-group" id="type">
+                                        <label for="" class="col-md-1 text-left">类型:</label>
+                                        <a class="label label-default" data-value="jvmReport">JVM</a>
+                                        <a class="label label-info" data-value="jvmInfo">概述</a>
+                                        <a class="label label-info" data-value="webUrl">URL</a>
+                                        <a class="label label-info" data-value="springMethod">Spring</a>
+                                        <a class="label label-info" data-value="druidDatasource">DataSource</a>
+                                        <a class="label label-info" data-value="sql">SQL</a>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+                    $body
+                </div>
+            </div>
         </div>
     </div>
     <!--content-->
@@ -78,111 +154,6 @@
         </div>
     </div>
     <script src="/resources/laydate/laydate.js"></script>
-    <script type="text/javascript">
-        $(document).ready(function () {
-
-            table = dataTable({
-                selector: '#jvmTable',
-//                        url: '/log/list.json',
-                data: [
-                    {
-                        url: '/common/upload.json',
-                        times: 1000,
-                        maxConcurrent: 10,
-                        maxTime: 50,
-                        error: 2
-                    },
-                    {
-                        url: '/common/upload.json',
-                        times: 1000,
-                        maxConcurrent: 10,
-                        maxTime: 50,
-                        error: 2
-                    }
-                ],
-                form: '#searchForm',
-                columns: [
-                    {
-                        orderable: false,
-                        width: '30%',
-                        data: 'url'
-                    },
-                    {
-                        orderable: false,
-                        width: '15%',
-                        data: 'times'
-                    },
-                    {
-                        orderable: false,
-                        width: '15%',
-                        data: 'maxConcurrent'
-                    },
-                    {
-                        orderable: false,
-                        width: '15%',
-                        data: 'maxTime'
-                    },
-                    {
-                        orderable: false,
-                        width: '15%',
-                        data: 'error'
-                    },
-                    {
-                        orderable: false,
-                        width: '8%',
-                        render: function () {
-                            return "<button class='btn btn-primary' name='detail'>详情</button>";
-                        }
-                    }
-                ]
-            });
-
-
-            $('#searchButton').click(function () {
-                table.ajax.reload();
-            });
-
-
-
-
-
-
-            $('body').on('click', 'table button', function () {
-
-                $('#detail').modal('show');
-            });
-
-            $('#detail').on('shown.bs.modal', function (e) {
-                console.log("init chart");
-                var errorChart = echarts.init(document.getElementById('error-chart'));
-
-                // 指定图表的配置项和数据
-                var option = {
-                    title: {
-                        text: 'ECharts 入门示例'
-                    },
-                    tooltip: {},
-                    legend: {
-                        data: ['销量']
-                    },
-                    xAxis: {
-                        data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-                    },
-                    yAxis: {},
-                    series: [{
-                        name: '销量',
-                        type: 'bar',
-                        data: [5, 20, 36, 10, 10, 20]
-                    }]
-                };
-
-                // 使用刚指定的配置项和数据显示图表。
-                errorChart.setOption(option);
-            })
-
-
-        });
-    </script>
 </div>
 </body>
 </html>

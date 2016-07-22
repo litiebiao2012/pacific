@@ -5,10 +5,12 @@ import com.pacific.common.web.RequestContext;
 import com.pacific.common.web.xuser.XUser;
 import com.pacific.common.web.xuser.XUserSessionManager;
 import com.pacific.domain.entity.Application;
+import com.pacific.domain.entity.Machine;
 import com.pacific.domain.entity.User;
 import com.pacific.domain.enums.ChannelCodeEnums;
 import com.pacific.domain.enums.RoleTypeEnums;
 import com.pacific.domain.enums.StateEnums;
+import com.pacific.mapper.MachineMapper;
 import com.pacific.mapper.UserMapper;
 import com.pacific.service.ApplicationService;
 import com.pacific.service.UserService;
@@ -103,5 +105,12 @@ public class PacificWebTool {
     public List<Application> queryAllApplication(){
         ApplicationService applicationService = SpringContext.getBean(ApplicationService.class);
         return applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
+    }
+
+    public List<Machine> queryMachineList() {
+        String applicationCode = RequestContext.getRequest().getParameter("applicationCode");
+        MachineMapper machineMapper = SpringContext.getBean(MachineMapper.class);
+        List<Machine> machineList = machineMapper.selectAllMachineByApplicationCode(applicationCode);
+        return machineList;
     }
 }

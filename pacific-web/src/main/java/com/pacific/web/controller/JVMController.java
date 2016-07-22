@@ -10,18 +10,19 @@ import com.pacific.domain.dto.report.JVMMemoryReportDto;
 import com.pacific.domain.dto.report.JVMThreadReportDto;
 import com.pacific.domain.entity.JVMInfo;
 import com.pacific.domain.entity.Machine;
+import com.pacific.domain.entity.WebUrl;
 import com.pacific.domain.enums.MonitorTypeEnums;
 import com.pacific.mapper.JVMInfoMapper;
 import com.pacific.mapper.MachineMapper;
-import com.pacific.service.JVMGcService;
-import com.pacific.service.JVMInfoService;
-import com.pacific.service.JVMMemoryService;
-import com.pacific.service.JVMThreadService;
+import com.pacific.mapper.WebUrlMapper;
+import com.pacific.service.*;
+import org.apache.ibatis.annotations.Param;
 import org.apache.velocity.context.Context;
 import org.apache.velocity.tools.ToolContext;
 import org.elasticsearch.monitor.jvm.JvmInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -50,15 +51,43 @@ public class JVMController {
     @Resource
     private JVMInfoMapper jvmInfoMapper;
 
+    @Resource
+    private WebUrlMapper webUrlMapper;
+
 
     @RequestMapping("/jvmDetail.htm")
-    public ModelAndView jvmDetail(String applicationCode) {
-        ModelAndView modelAndView = new ModelAndView();
+    public String jvmDetail(String applicationCode,@RequestParam(defaultValue = "jvmReport") String type) {
+        String viewName = "jvm/jvmReport";
+        if (type.equals("jvmReport")) {
+            viewName = "jvm/jvmReport";
+        }
 
-        List<Machine> machineList = machineMapper.selectAllMachineByApplicationCode(applicationCode);
-        modelAndView.addObject("machineList",machineList);
-        modelAndView.addObject("applicationCode",applicationCode);
-        modelAndView.setViewName("jvm/jvmDetail");
+        if (type.equals("jvmInfo")) {
+            viewName = "jvm/jvmInfoReport";
+        }
+
+        if (type.equals("webUrl")) {
+            viewName = "jvm/webUrl";
+        }
+
+        if (type.equals("springMethod")) {
+            viewName = "jvm/springMethod";
+        }
+
+        if (type.equals("druidDatasource")) {
+            viewName = "jvm/druidDatasource";
+        }
+
+        if (type.equals("sql")) {
+            viewName = "jvm/sql";
+        }
+        return viewName;
+    }
+
+    @RequestMapping("/jvmInfoReport.htm")
+    public ModelAndView jvmInfoReport(String applicationCode) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("jvm/jvmInfoReport");
         return modelAndView;
     }
 
@@ -80,6 +109,8 @@ public class JVMController {
             if (clientIp.equals("all")) clientIp = null;
             context = new ToolContext();
             if (monitorTypeEnums.getCode().equals(MonitorTypeEnums.JVM_INFO.getCode())) {
+
+
 
                 List<JVMInfo> jvmInfoList = jvmInfoMapper.selectByParam(applicationCode,clientIp);
                 if (CollectionUtil.isNotEmpty(jvmInfoList)) {
@@ -111,12 +142,21 @@ public class JVMController {
                 }
             }
 
+            if (monitorTypeEnums.getCode().equals(MonitorTypeEnums.WEB_URL.getCode())) {
+                Date endDate = new Date();
+                Date beginDate = TimeInternalHelper.getBeginDate(endDate,timeInternal);
+                List<WebUrl> webUrlList = webUrlMapper.selectByParam(applicationCode,clientIp,beginDate,endDate);
+
+            }
+
         }
 
         String content = VelocityTemplateUtil.getContent("vm/" + type + ".vm",context);
         ajaxResult.setData(content);
         return ajaxResult;
     }
+
+
 
     @ResponseBody
     @RequestMapping("/report.json")
@@ -134,6 +174,13 @@ public class JVMController {
         reportMap.put("gcCount",jvmGcReportDto.getGcCountDto());
         reportMap.put("gcTime",jvmGcReportDto.getGcTimeDto());
         ajaxResult.setData(reportMap);
+        return ajaxResult;
+    }
+
+    @ResponseBody
+    @RequestMapping("/webUrlReport.json")
+    public AjaxResult webUrlReport(String clientIp,String timeInternal,String applicationCode) {
+        AjaxResult ajaxResult = new AjaxResult();
         return ajaxResult;
     }
 }

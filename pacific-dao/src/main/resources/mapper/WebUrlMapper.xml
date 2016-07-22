@@ -14,10 +14,9 @@
     <result column="nano_max" property="nanoMax" jdbcType="BIGINT" />
     <result column="error_time" property="errorTime" jdbcType="TIMESTAMP" />
     <result column="is_error" property="isError" jdbcType="VARCHAR" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.pacific.domain.entity.WebUrl" extends="BaseResultMap" >
     <result column="error_msg" property="errorMsg" jdbcType="LONGVARCHAR" />
   </resultMap>
+
   <sql id="Base_Column_List" >
     id, application_code, client_ip, create_time, update_time, url, count, concurrent_max, 
     nano_total, nano_max, error_time, is_error
@@ -25,11 +24,9 @@
   <sql id="Blob_Column_List" >
     error_msg
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from t_web_url
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -240,4 +237,20 @@
       #{item.errorMsg,jdbcType=LONGVARCHAR})
     </foreach>
   </insert>
+
+
+  <select id="selectByParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_web_url
+    where
+      application_code = #{applicationCode,jdbcType=VARCHAR}
+      <if test="clientIp != null">
+        and client_ip = #{clientIp,jdbcType=VARCHAR}
+      </if>
+        and create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[
+         and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+  </select>
+
 </mapper>

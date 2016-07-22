@@ -1,0 +1,108 @@
+<div class="row">
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 堆内存</h3>
+            </div>
+            <div class="panel-body">
+                <div id="headReport" style="width: 100%;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 非堆内存</h3>
+            </div>
+            <div class="panel-body">
+                <div id="nonHeadReport" style="width: 100%;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 线程</h3>
+            </div>
+            <div class="panel-body">
+                <div id="threadReport" style="width: 100%;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> CPU百分比</h3>
+            </div>
+            <div class="panel-body">
+                <div id="cpuReport" style="width: 100%;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 内存详细信息</h3>
+            </div>
+            <div class="panel-body">
+                <div id="memoryReport" style="width: 100%;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> GC次数</h3>
+            </div>
+            <div class="panel-body">
+                <div id="gcCountReport" style="width: 100%;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> GC时间</h3>
+            </div>
+            <div class="panel-body">
+                <div id="gcTimeReport" style="width: 100%;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script src="/resources/ehcharts/echarts.min.js"></script>
+<script>
+    $(document).ready(function(){
+       loadData();
+    });
+       function loadData() {
+            var headReport = echarts.init(document.getElementById('headReport'));
+            var nonHeadReport = echarts.init(document.getElementById('nonHeadReport'));
+            var threadReport = echarts.init(document.getElementById('threadReport'));
+            var cpuReport = echarts.init(document.getElementById('cpuReport'));
+            var memoryReport = echarts.init(document.getElementById('memoryReport'));
+            var gcCountReport = echarts.init(document.getElementById('gcCountReport'));
+            var gcTimeReport = echarts.init(document.getElementById('gcTimeReport'));
+            $.ajax({
+                type : 'POST',
+                url : '/jvm/report.json',
+                data : {'timeInternal' : timeInternal,'clientIp' : clientIp, 'applicationCode' : applicationCode},
+                dataType : 'json',
+                success : function(data){
+                    if (data.status == 'OK') {
+                        headReport.setOption(data.data.headReport);
+                        nonHeadReport.setOption(data.data.nonHeadReport);
+                        threadReport.setOption(data.data.threadReport);
+                        cpuReport.setOption(data.data.threadCpuRateReport);
+                        memoryReport.setOption(data.data.jvmMemoryDetailReport);
+                        gcCountReport.setOption(data.data.gcCount);
+                        gcTimeReport.setOption(data.data.gcTime);
+                    }
+                }
+            });
+       }
+</script>
+
+

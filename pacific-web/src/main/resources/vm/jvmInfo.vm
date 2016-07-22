@@ -9,7 +9,7 @@
                 <div class="col-sm-12">
                     <table id="jvmTable" class="table table-bordered dataTable no-footer" cellspacing="0" width="100%" role="grid" aria-describedby="table_info">
                         <thead>
-                          <tr role="row"><td class="sorting_disabled" rowspan="1" colspan="2" aria-label="URL" style="width: 30%;" align="center">$key</td></tr>
+                          <tr role="row"><td class="sorting_disabled" rowspan="1" colspan="2" aria-label="URL" style="width: 30%;background: green" align="center">$key</td></tr>
                         </thead>
                         <tbody>
                             #foreach($item in $allJvmInfoMap.get($key))
