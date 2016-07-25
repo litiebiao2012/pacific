@@ -81,8 +81,6 @@ public class WebUrlController {
                 htmlSb.append("<td>");
                 htmlSb.append(DateUtil.formatDateTime(webUrlErrorDetail.getErrorDateTime()));
                 htmlSb.append("</td>");
-                htmlSb.append("</tr>");
-                htmlSb.append("<tr>");
                 htmlSb.append("<td>");
                 htmlSb.append(webUrlErrorDetail.getErrorMsg() == null ? "" : webUrlErrorDetail.getErrorMsg());
                 htmlSb.append("</td>");
