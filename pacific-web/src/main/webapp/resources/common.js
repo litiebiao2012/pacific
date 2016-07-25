@@ -189,16 +189,22 @@ function dataTable(opt) {
             var orderLength = data.order.length;
             var sortProperty = orderLength == 0 ? '' : settings.aoColumns[data.order[0].column].sort || data.columns[data.order[0].column].data;
             var sortDirection = orderLength == 0 ? '' : data.order[0].dir;
+
+            var commonParam = {
+                'pageSize': data.length,
+                'currentPage': data.start / data.length + 1,
+                'property': sortProperty,
+                'direction': sortDirection,
+            };
+            if (opt.param != undefined) {
+                commonParam = $.extend(opt.param, commonParam);
+            }
+
             $.ajax({
                 type: "post",
                 url: opt.url,
                 dataType: "json",
-                data: $.extend($(opt.form).serializeObject(), {
-                    'pageSize': data.length,
-                    'currentPage': data.start / data.length + 1,
-                    'property': sortProperty,
-                    'direction': sortDirection,
-                }),
+                data: $.extend($(opt.form).serializeObject(), commonParam),
                 success: function (res) {
                     var data = res.data;
                     callback({
