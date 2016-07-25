@@ -1,3 +1,17 @@
+
+<style>
+    #webUrlErrorTable tr {
+        background: white;
+        transition: 0.5s;
+    }
+    #webUrlErrorTable tr:hover {
+        background: #F0FFF0;
+        transition: 0.5s;
+    }
+    #webUrlErrorTable tr td:first-child {
+        width: 25%;
+    }
+</style>
 <div class="row">
     <div class="col-lg-12">
         <table id="urlTable" class="table table-bordered" cellspacing="0"
@@ -20,12 +34,12 @@
 
 <!-- Modal -->
 <div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-dialog modal-lg-x" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel"></h4>
+                <h4 class="modal-title" id=""></h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -40,7 +54,7 @@
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <div  style="height:350px">
+                                <div  style="height:350px;overflow: scroll">
                                     <table class="table" id="webUrlErrorTable">
                                     </table>
                                 </div>
@@ -54,6 +68,30 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="detailChart" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id=""></h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div id="webUrlChatSingle" style="height:350px"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script type="text/javascript" src="/resources/ehcharts/echarts.min.js"></script>
 <script>
     table = dataTable({
@@ -95,7 +133,11 @@
                 orderable: false,
                 width: '8%',
                 render: function (data, type, row, meta) {
-                    return "<button class='btn btn-primary' name='detail' data-toggle='modal' data-target='#detail' data-url='" + row.url + "'>详情</button>";
+                    var id = '#detail';
+                    if (row.errorCount <= 0) {
+                        id = '#detailChart';
+                    }
+                    return "<button class='btn btn-primary' name='detail' data-toggle='modal' data-target='" + id +  "' data-url='" + row.url + "'>详情</button>";
                 }
             }
         ]
@@ -103,8 +145,25 @@
 
     $('#detail').on('shown.bs.modal', function (e) {
         var url = $(e.relatedTarget).attr('data-url');
-        $('#myModalLabel').text(url);
+        $('#detail .modal-header h4').text(url);
         var webUrlChat = echarts.init(document.getElementById('webUrlChat'));
+        $.ajax({
+            type : 'POST',
+            url : '/webUrl/webUrlDetailReport.json',
+            data : {'timeInternal' : getTimeInternalParam(),'clientIp' : getClientIpParam(), 'applicationCode' : getApplicationCode(),'url' : url},
+            dataType : 'json',
+            success : function(data){
+                if (data.status == 'OK') {
+                    webUrlChat.setOption(data.data.webUrlDetailReport);
+                    $('#webUrlErrorTable').html(data.data.webUrlErrorDetailHtml);
+                }
+            }
+        });
+    });
+    $('#detailChart').on('shown.bs.modal', function (e) {
+        var url = $(e.relatedTarget).attr('data-url');
+        $('#detailChart .modal-header h4').text(url);
+        var webUrlChat = echarts.init(document.getElementById('webUrlChatSingle'));
         $.ajax({
             type : 'POST',
             url : '/webUrl/webUrlDetailReport.json',
