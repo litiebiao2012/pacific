@@ -10,6 +10,7 @@
                 <td>平均耗时</td>
                 <td>最大耗时</td>
                 <td>错误数</td>
+                <td>操作</td>
             </tr>
             </thead>
             <tbody></tbody>
@@ -24,7 +25,7 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                <h4 class="modal-title" id="myModalLabel">Detail</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -69,13 +70,17 @@
         </div>
     </div>
 </div>
+<<<<<<< HEAD
 
 
 <script type="text/javascript" src="/resources/ehcharts/echarts.min.js"></script>
+=======
+<script src="/resources/ehcharts/echarts.min.js"></script>
+>>>>>>> c2f20ff6cfcc8ef2e22e39a6fb06cbe9f50b01b9
 <script>
     table = dataTable({
         selector: '#urlTable',
-        url: '/jvm/webUrlReport.json',
+        url: '/webUrl/webUrlReport.json',
         param : {'applicationCode' : getApplicationCode() , 'clientIp' : getClientIpParam() , 'timeInternal' : getTimeInternalParam()},
         columns: [
             {
@@ -86,22 +91,27 @@
             {
                 orderable: false,
                 width: '15%',
-                data: 'times'
+                data: 'total'
             },
             {
                 orderable: false,
                 width: '15%',
-                data: 'maxConcurrent'
+                data: 'concurrentMax'
             },
             {
                 orderable: false,
                 width: '15%',
-                data: 'maxTime'
+                data: 'avgNano'
             },
             {
                 orderable: false,
                 width: '15%',
-                data: 'error'
+                data: 'nanoMax'
+            },
+            {
+                orderable: false,
+                width: '15%',
+                data: 'errorCount'
             },
             {
                 orderable: false,
@@ -140,6 +150,5 @@
         };
         errorChart.setOption(option);
     });
-
 
 </script>

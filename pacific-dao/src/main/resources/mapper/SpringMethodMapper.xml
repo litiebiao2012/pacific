@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
     <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="host_name" property="hostName" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="class_name" property="className" jdbcType="VARCHAR" />
@@ -19,7 +20,7 @@
     <result column="error_stack_trace" property="errorStackTrace" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, application_code, client_ip, create_time, update_time, class_name, method, count, 
+    id, application_code, client_ip, host_name,create_time, update_time, class_name, method, count,
     concurrent_max, is_error, nano_total, nano_max, error_time, error_msg, error_stack_trace
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -33,13 +34,13 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.pacific.domain.entity.SpringMethod" >
-    insert into t_spring_method (id, application_code, client_ip, 
+    insert into t_spring_method (id, application_code, client_ip, host_name,
       create_time, update_time, class_name, 
       method, count, concurrent_max, 
       is_error, nano_total, nano_max, 
       error_time, error_msg, error_stack_trace
       )
-    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, #{hostName,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{className,jdbcType=VARCHAR}, 
       #{method,jdbcType=VARCHAR}, #{count,jdbcType=BIGINT}, #{concurrentMax,jdbcType=BIGINT}, 
       #{isError,jdbcType=VARCHAR}, #{nanoTotal,jdbcType=BIGINT}, #{nanoMax,jdbcType=BIGINT}, 
@@ -57,6 +58,9 @@
       </if>
       <if test="clientIp != null" >
         client_ip,
+      </if>
+      <if test="hostName != null" >
+        host_name,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -105,6 +109,9 @@
       <if test="clientIp != null" >
         #{clientIp,jdbcType=VARCHAR},
       </if>
+      <if test="hostName != null" >
+        #{hostName,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -152,6 +159,9 @@
       <if test="clientIp != null" >
         client_ip = #{clientIp,jdbcType=VARCHAR},
       </if>
+      <if test="hostName != null" >
+        host_name = #{hostName,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -195,6 +205,7 @@
     update t_spring_method
     set application_code = #{applicationCode,jdbcType=VARCHAR},
       client_ip = #{clientIp,jdbcType=VARCHAR},
+      host_name = #{hostName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       class_name = #{className,jdbcType=VARCHAR},
@@ -212,7 +223,7 @@
 
 
   <insert id="batchSaveSpringMethod" parameterType="com.pacific.domain.entity.SpringMethod" >
-    insert into t_spring_method (application_code, client_ip,
+    insert into t_spring_method (application_code, client_ip,host_name,
     create_time, update_time, class_name,
     method, count, concurrent_max,
     is_error, nano_total, nano_max,
@@ -221,7 +232,7 @@
     values
     <foreach collection="list" item="item" index="index"
              separator=",">
-      (#{item.applicationCode,jdbcType=VARCHAR}, #{item.clientIp,jdbcType=VARCHAR},
+      (#{item.applicationCode,jdbcType=VARCHAR}, #{item.clientIp,jdbcType=VARCHAR},#{item.hostName,jdbcType=VARCHAR}
       #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.className,jdbcType=VARCHAR},
       #{item.method,jdbcType=VARCHAR}, #{item.count,jdbcType=BIGINT}, #{item.concurrentMax,jdbcType=BIGINT},
       #{item.isError,jdbcType=VARCHAR}, #{item.nanoTotal,jdbcType=BIGINT}, #{item.nanoMax,jdbcType=BIGINT},

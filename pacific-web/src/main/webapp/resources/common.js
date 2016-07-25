@@ -258,6 +258,10 @@ function getApplicationCode() {
     return getQueryString('applicationCode') == null ? 'pacific' : getQueryString('applicationCode');
 }
 
+function getHostName() {
+    return getQueryString('hostName') == null ? 'all' : getQueryString('hostName')
+}
+
 function getQueryString(name) {
     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
     var r = window.location.search.substr(1).match(reg);

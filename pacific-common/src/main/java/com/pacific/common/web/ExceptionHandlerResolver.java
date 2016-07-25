@@ -25,7 +25,6 @@ public class ExceptionHandlerResolver extends SimpleMappingExceptionResolver {
 
     @Override
     public ModelAndView doResolveException(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) {
-        WebUrlDataCalHelper.handleException(true,ex.getMessage());
         if (ex != null) {
             WebUrlDataCalHelper.handleException(true,ex.getMessage());
 //            logger.error("seq : {" + RequestContext.getSeq() + "} , pacific runtime exception, e : {}",ex);
@@ -44,6 +43,8 @@ public class ExceptionHandlerResolver extends SimpleMappingExceptionResolver {
                     printWriter.write(JsonCommonRender.getJsonResult(ajaxResult));
                     printWriter.flush();
                     printWriter.close();
+
+                    WebUrlDataCalHelper.handleAfter();
                 }
             } catch (Exception e) {
                 logger.error("resolveException eror !", e);

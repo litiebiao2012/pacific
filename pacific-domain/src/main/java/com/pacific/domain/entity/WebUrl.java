@@ -30,6 +30,8 @@ public class WebUrl implements Serializable {
 
     private String errorMsg;
 
+    private String hostName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -134,5 +136,13 @@ public class WebUrl implements Serializable {
 
     public void setErrorMsg(String errorMsg) {
         this.errorMsg = errorMsg == null ? null : errorMsg.trim();
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 }

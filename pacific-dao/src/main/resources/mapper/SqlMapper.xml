@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
     <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="host_name" property="hostName" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="url" property="url" jdbcType="VARCHAR" />
@@ -24,7 +25,7 @@
   </resultMap>
 
   <sql id="Base_Column_List" >
-    id, application_code, client_ip, create_time, update_time, url, sql_hash, count, 
+    id, application_code, client_ip, host_name,create_time, update_time, url, sql_hash, count,
     concurrent_max, total_time, max_time, fetch_row_count, fetch_row_count_max, effected_row_count, 
     effected_row_count_max, error_time, is_error,sql_text, error_msg
   </sql>
@@ -40,14 +41,14 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.pacific.domain.entity.Sql" >
-    insert into t_sql (id, application_code, client_ip, 
+    insert into t_sql (id, application_code, client_ip, host_name,
       create_time, update_time, url, 
       sql_hash, count, concurrent_max, 
       total_time, max_time, fetch_row_count, 
       fetch_row_count_max, effected_row_count, effected_row_count_max, 
       error_time, is_error, sql, 
       error_msg)
-    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, #{hostName,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR}, 
       #{sqlHash,jdbcType=BIGINT}, #{count,jdbcType=BIGINT}, #{concurrentMax,jdbcType=INTEGER}, 
       #{totalTime,jdbcType=BIGINT}, #{maxTime,jdbcType=BIGINT}, #{fetchRowCount,jdbcType=BIGINT}, 
@@ -66,6 +67,9 @@
       </if>
       <if test="clientIp != null" >
         client_ip,
+      </if>
+      <if test="hostName != null" >
+        host_name,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -126,6 +130,9 @@
       <if test="clientIp != null" >
         #{clientIp,jdbcType=VARCHAR},
       </if>
+      <if test="hostName != null" >
+        #{hostName,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -185,6 +192,9 @@
       <if test="clientIp != null" >
         client_ip = #{clientIp,jdbcType=VARCHAR},
       </if>
+      <if test="hostName != null" >
+        host_name = #{hostName,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -241,6 +251,7 @@
     update t_sql
     set application_code = #{applicationCode,jdbcType=VARCHAR},
       client_ip = #{clientIp,jdbcType=VARCHAR},
+      host_name = #{hostName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       url = #{url,jdbcType=VARCHAR},
@@ -262,6 +273,7 @@
     insert into t_sql (
     application_code,
     client_ip,
+    host_name,
     create_time,
     update_time,
     url,
@@ -283,6 +295,7 @@
              separator=",">
       (#{item.applicationCode,jdbcType=VARCHAR},
       #{item.clientIp,jdbcType=VARCHAR},
+      #{item.hostName,jdbcType=VARCHAR},
       #{item.createTime,jdbcType=TIMESTAMP},
       #{item.updateTime,jdbcType=TIMESTAMP},
       #{item.url,jdbcType=VARCHAR},
