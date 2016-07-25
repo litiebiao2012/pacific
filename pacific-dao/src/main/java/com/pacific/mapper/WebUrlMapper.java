@@ -1,5 +1,6 @@
 package com.pacific.mapper;
 
+import com.pacific.domain.dto.report.WebUrlReportDto;
 import com.pacific.domain.entity.WebUrl;
 import com.pacific.domain.search.query.WebUrlQuery;
 import org.apache.ibatis.annotations.Param;
@@ -24,7 +25,7 @@ public interface WebUrlMapper {
 
     void batchSaveWebUrl(List<WebUrl> webUrlList);
 
-    List<WebUrl> selectByParam(WebUrlQuery webUrlQuery);
+    List<WebUrlReportDto> selectByParam(WebUrlQuery webUrlQuery);
 
     int  getTotalByParam(WebUrlQuery webUrlQuery);
 

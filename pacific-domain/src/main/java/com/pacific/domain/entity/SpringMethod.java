@@ -34,6 +34,8 @@ public class SpringMethod implements Serializable {
 
     private String errorStackTrace;
 
+    private String hostName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -154,5 +156,13 @@ public class SpringMethod implements Serializable {
 
     public void setErrorStackTrace(String errorStackTrace) {
         this.errorStackTrace = errorStackTrace == null ? null : errorStackTrace.trim();
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 }

@@ -8,6 +8,7 @@ import com.pacific.domain.dto.JVMInfoDetailDto;
 import com.pacific.domain.dto.report.JVMGcReportDto;
 import com.pacific.domain.dto.report.JVMMemoryReportDto;
 import com.pacific.domain.dto.report.JVMThreadReportDto;
+import com.pacific.domain.dto.report.WebUrlReportDto;
 import com.pacific.domain.entity.JVMInfo;
 import com.pacific.domain.entity.Machine;
 import com.pacific.domain.entity.WebUrl;
@@ -176,7 +177,7 @@ public class JVMController {
     @RequestMapping("/webUrlReport.json")
     public AjaxResult webUrlReport(WebUrlQuery webUrlQuery) {
         AjaxResult ajaxResult = new AjaxResult();
-        Pagination<WebUrl> webUrlPagination = webUrlService.queryWebUrlPage(webUrlQuery);
+        Pagination<WebUrlReportDto> webUrlPagination = webUrlService.queryWebUrlPage(webUrlQuery);
         ajaxResult.setData(webUrlPagination);
         return ajaxResult;
     }

@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
     <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="host_name" property="hostName" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="url" property="url" jdbcType="VARCHAR" />
@@ -17,8 +18,17 @@
     <result column="error_msg" property="errorMsg" jdbcType="LONGVARCHAR" />
   </resultMap>
 
+  <resultMap id="BaseResultReportMap" type="com.pacific.domain.dto.report.WebUrlReportDto" >
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="total" property="total" jdbcType="BIGINT" />
+    <result column="concurrent_max" property="concurrentMax" jdbcType="BIGINT" />
+    <result column="avg_nano" property="avgNano" jdbcType="BIGINT" />
+    <result column="nano_max" property="nanoMax" jdbcType="BIGINT" />
+    <result column="error_count" property="errorCount" jdbcType="INTEGER" />
+  </resultMap>
+
   <sql id="Base_Column_List" >
-    id, application_code, client_ip, create_time, update_time, url, count, concurrent_max, 
+    id, application_code, client_ip,host_name, create_time, update_time, url, count, concurrent_max,
     nano_total, nano_max, error_time, is_error
   </sql>
   <sql id="Blob_Column_List" >
@@ -35,12 +45,12 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.pacific.domain.entity.WebUrl" >
-    insert into t_web_url (id, application_code, client_ip, 
+    insert into t_web_url (id, application_code, client_ip, host_name,
       create_time, update_time, url, 
       count, concurrent_max, nano_total, 
       nano_max, error_time, is_error, 
       error_msg)
-    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, #{hostName,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{url,jdbcType=VARCHAR}, 
       #{count,jdbcType=BIGINT}, #{concurrentMax,jdbcType=INTEGER}, #{nanoTotal,jdbcType=BIGINT}, 
       #{nanoMax,jdbcType=BIGINT}, #{errorTime,jdbcType=TIMESTAMP}, #{isError,jdbcType=VARCHAR}, 
@@ -57,6 +67,9 @@
       </if>
       <if test="clientIp != null" >
         client_ip,
+      </if>
+      <if test="hostName != null" >
+        host_name,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -99,6 +112,9 @@
       <if test="clientIp != null" >
         #{clientIp,jdbcType=VARCHAR},
       </if>
+      <if test="hostName != null" >
+        #{hostName,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -140,6 +156,9 @@
       <if test="clientIp != null" >
         client_ip = #{clientIp,jdbcType=VARCHAR},
       </if>
+      <if test="hostName != null" >
+        host_name = #{hostName,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -177,6 +196,7 @@
     update t_web_url
     set application_code = #{applicationCode,jdbcType=VARCHAR},
       client_ip = #{clientIp,jdbcType=VARCHAR},
+      host_name = #{hostName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       url = #{url,jdbcType=VARCHAR},
@@ -193,6 +213,7 @@
     update t_web_url
     set application_code = #{applicationCode,jdbcType=VARCHAR},
       client_ip = #{clientIp,jdbcType=VARCHAR},
+      host_name = #{hostName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       url = #{url,jdbcType=VARCHAR},
@@ -210,6 +231,7 @@
     insert into t_web_url (
     application_code,
     client_ip,
+    host_name,
     create_time,
     update_time,
     url,
@@ -225,6 +247,7 @@
              separator=",">
       (#{item.applicationCode,jdbcType=VARCHAR},
       #{item.clientIp,jdbcType=VARCHAR},
+      #{item.hostName,jdbcType=VARCHAR},
       #{item.createTime,jdbcType=TIMESTAMP},
       #{item.updateTime,jdbcType=TIMESTAMP},
       #{item.url,jdbcType=VARCHAR},
@@ -239,34 +262,56 @@
   </insert>
 
 
-  <select id="selectByParam" resultMap="BaseResultMap">
-    select
-    <include refid="Base_Column_List" />
-    from t_web_url
-    where
-      application_code = #{applicationCode,jdbcType=VARCHAR}
-      <if test="clientIp != null">
-        and client_ip = #{clientIp,jdbcType=VARCHAR}
-      </if>
-        and create_time > #{beginDate,jdbcType=TIMESTAMP}
-    <![CDATA[
-         and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+  <select id="selectByParam" resultMap="BaseResultReportMap">
+    select wu.url,wu.total,wu.concurrent_max,wu.avg_nano,wu.nano_max,IFNULL (error_wu.error_count,0)from
+    (SELECT  url,sum(count)  total,max(concurrent_max) concurrent_max,floor(sum(nano_total)/sum(count)/1000/1000)  avg_nano ,floor(max(nano_max)/1000/1000 ) nano_max  FROM t_web_url
+        where application_code = #{applicationCode,jdbcType=VARCHAR}
+              <if test="clientIp != null">
+                and client_ip = #{clientIp,jdbcType=VARCHAR}
+              </if>
+                and create_time > #{beginDate,jdbcType=TIMESTAMP}
+       <![CDATA[and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+        group by url) wu
+    left join
+    (SELECT url,count(1) as error_count FROM t_web_url
+      where is_error = 'y'
+           and application_code = #{applicationCode,jdbcType=VARCHAR}
+          <if test="clientIp != null">
+            and client_ip = #{clientIp,jdbcType=VARCHAR}
+          </if>
+            and create_time > #{beginDate,jdbcType=TIMESTAMP}
+          <![CDATA[
+            and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    group by url)  error_wu
+    on
+    wu.url = error_wu.url
     <include refid="Page.footer"/>
   </select>
 
 
   <select id="getTotalByParam" resultType="java.lang.Integer">
-    select
-      count(1)
-    from t_web_url
-    where
-    application_code = #{applicationCode,jdbcType=VARCHAR}
+    select count(1) from (select wu.url,wu.total,wu.concurrent_max,wu.avg_nano,wu.nano_max,IFNULL (error_wu.error_count,0)from
+    (SELECT  url,sum(count)  total,max(concurrent_max) concurrent_max,floor(sum(nano_total)/sum(count)/1000/1000)  avg_nano ,floor(max(nano_max)/1000/1000 ) nano_max  FROM t_web_url
+    where application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="clientIp != null">
+      and client_ip = #{clientIp,jdbcType=VARCHAR}
+    </if>
+    and create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    group by url) wu
+    left join
+    (SELECT url,count(1) as error_count FROM t_web_url
+    where is_error = 'y'
+    and application_code = #{applicationCode,jdbcType=VARCHAR}
     <if test="clientIp != null">
       and client_ip = #{clientIp,jdbcType=VARCHAR}
     </if>
     and create_time > #{beginDate,jdbcType=TIMESTAMP}
     <![CDATA[
-         and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+            and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    group by url)  error_wu
+    on
+    wu.url = error_wu.url) as tmp
   </select>
 
 </mapper>

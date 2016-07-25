@@ -22,6 +22,8 @@ public class JVMGc implements Serializable {
 
     private Long fullGcCollectionTime;
 
+    private String hostName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -94,5 +96,13 @@ public class JVMGc implements Serializable {
 
     public void setFullGcCollectionTime(Long fullGcCollectionTime) {
         this.fullGcCollectionTime = fullGcCollectionTime;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 }

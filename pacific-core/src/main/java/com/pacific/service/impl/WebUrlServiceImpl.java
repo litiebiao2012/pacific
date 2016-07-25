@@ -1,6 +1,7 @@
 package com.pacific.service.impl;
 
 import com.pacific.domain.dto.jvm.WebUrlInfo;
+import com.pacific.domain.dto.report.WebUrlReportDto;
 import com.pacific.domain.entity.WebUrl;
 import com.pacific.domain.query.Pagination;
 import com.pacific.domain.search.query.WebUrlQuery;
@@ -56,9 +57,8 @@ public class WebUrlServiceImpl implements WebUrlService {
     }
 
 
-    public Pagination<WebUrl> queryWebUrlPage(WebUrlQuery webUrlQuery) {
+    public Pagination<WebUrlReportDto> queryWebUrlPage(WebUrlQuery webUrlQuery) {
         Assert.notNull(webUrlQuery);
-
         if (webUrlQuery.getClientIp() != null && webUrlQuery.getClientIp().equals("all")) webUrlQuery.setClientIp(null);
 
         Date endDate = new Date();
@@ -66,9 +66,9 @@ public class WebUrlServiceImpl implements WebUrlService {
         webUrlQuery.setBeginDate(beginDate);
         webUrlQuery.setEndDate(endDate);
 
-        List<WebUrl> webUrlList = webUrlMapper.selectByParam(webUrlQuery);
+        List<WebUrlReportDto> webUrlList = webUrlMapper.selectByParam(webUrlQuery);
         int total = webUrlMapper.getTotalByParam(webUrlQuery);
-        Pagination<WebUrl> webUrlPagination = new Pagination<WebUrl>(webUrlQuery,webUrlList,total);
+        Pagination<WebUrlReportDto> webUrlPagination = new Pagination<WebUrlReportDto>(webUrlQuery,webUrlList,total);
         return webUrlPagination;
     }
 }

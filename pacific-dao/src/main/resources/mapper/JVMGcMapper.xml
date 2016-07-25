@@ -5,6 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="application_code" property="applicationCode" jdbcType="VARCHAR" />
     <result column="client_ip" property="clientIp" jdbcType="VARCHAR" />
+    <result column="host_name" property="hostName" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="young_gc_collection_count" property="youngGcCollectionCount" jdbcType="BIGINT" />
@@ -13,7 +14,7 @@
     <result column="full_gc_collection_time" property="fullGcCollectionTime" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, application_code, client_ip, create_time, update_time, young_gc_collection_count, 
+    id, application_code, client_ip, host_name,create_time, update_time, young_gc_collection_count,
     young_gc_collection_time, full_gc_collection_count, full_gc_collection_time
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
@@ -27,11 +28,11 @@
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.pacific.domain.entity.JVMGc" >
-    insert into t_jvm_gc (id, application_code, client_ip, 
+    insert into t_jvm_gc (id, application_code, client_ip, host_name,
       create_time, update_time, young_gc_collection_count, 
       young_gc_collection_time, full_gc_collection_count, 
       full_gc_collection_time)
-    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, #{hostName,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{youngGcCollectionCount,jdbcType=BIGINT}, 
       #{youngGcCollectionTime,jdbcType=BIGINT}, #{fullGcCollectionCount,jdbcType=BIGINT}, 
       #{fullGcCollectionTime,jdbcType=BIGINT})
@@ -47,6 +48,9 @@
       </if>
       <if test="clientIp != null" >
         client_ip,
+      </if>
+      <if test="hostName != null" >
+        host_name,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -77,6 +81,9 @@
       <if test="clientIp != null" >
         #{clientIp,jdbcType=VARCHAR},
       </if>
+      <if test="hostName != null" >
+        #{hostName,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -106,6 +113,9 @@
       <if test="clientIp != null" >
         client_ip = #{clientIp,jdbcType=VARCHAR},
       </if>
+      <if test="hostName != null" >
+        host_name = #{hostName,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
@@ -131,6 +141,7 @@
     update t_jvm_gc
     set application_code = #{applicationCode,jdbcType=VARCHAR},
       client_ip = #{clientIp,jdbcType=VARCHAR},
+      host_name = #{hostName,jdbcType=VARCHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       young_gc_collection_count = #{youngGcCollectionCount,jdbcType=BIGINT},

@@ -42,6 +42,8 @@ public class Sql implements Serializable {
 
     private String errorMsg;
 
+    private String hostName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -194,5 +196,13 @@ public class Sql implements Serializable {
 
     public void setErrorMsg(String errorMsg) {
         this.errorMsg = errorMsg;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 }

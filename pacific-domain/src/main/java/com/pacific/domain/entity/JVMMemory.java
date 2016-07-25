@@ -42,6 +42,8 @@ public class JVMMemory implements Serializable {
 
     private Long survivorUsed;
 
+    private String hostName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -194,5 +196,13 @@ public class JVMMemory implements Serializable {
 
     public void setSurvivorUsed(Long survivorUsed) {
         this.survivorUsed = survivorUsed;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 }

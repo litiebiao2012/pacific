@@ -25,6 +25,8 @@ public class JVMThread implements Serializable {
 
     private BigDecimal processCpuTimeRate;
 
+    private String hostName;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -105,5 +107,13 @@ public class JVMThread implements Serializable {
 
     public void setProcessCpuTimeRate(BigDecimal processCpuTimeRate) {
         this.processCpuTimeRate = processCpuTimeRate;
+    }
+
+    public String getHostName() {
+        return hostName;
+    }
+
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
     }
 }
