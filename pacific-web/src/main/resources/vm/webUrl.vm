@@ -76,7 +76,7 @@
         table = dataTable({
             selector: '#table',
             ajax: {
-                url: "/jvm/webUrlReport.json",
+                url: "/webUrl/webUrlReport.json",
                 type: "POST"
             },
             columns: [

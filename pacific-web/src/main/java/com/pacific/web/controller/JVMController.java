@@ -174,15 +174,6 @@ public class JVMController {
     }
 
     @ResponseBody
-    @RequestMapping("/webUrlReport.json")
-    public AjaxResult webUrlReport(WebUrlQuery webUrlQuery) {
-        AjaxResult ajaxResult = new AjaxResult();
-        Pagination<WebUrlReportDto> webUrlPagination = webUrlService.queryWebUrlPage(webUrlQuery);
-        ajaxResult.setData(webUrlPagination);
-        return ajaxResult;
-    }
-
-    @ResponseBody
     @RequestMapping("/sqlReport.json")
     public AjaxResult sqlReport(String clientIp,String timeInternal,String applicationCode) {
         AjaxResult ajaxResult = new AjaxResult();

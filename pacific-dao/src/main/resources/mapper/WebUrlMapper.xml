@@ -263,7 +263,7 @@
 
 
   <select id="selectByParam" resultMap="BaseResultReportMap">
-    select wu.url,wu.total,wu.concurrent_max,wu.avg_nano,wu.nano_max,IFNULL (error_wu.error_count,0)from
+    select wu.url,wu.total,wu.concurrent_max,wu.avg_nano,wu.nano_max,IFNULL(error_wu.error_count,0) error_count from
     (SELECT  url,sum(count)  total,max(concurrent_max) concurrent_max,floor(sum(nano_total)/sum(count)/1000/1000)  avg_nano ,floor(max(nano_max)/1000/1000 ) nano_max  FROM t_web_url
         where application_code = #{applicationCode,jdbcType=VARCHAR}
               <if test="clientIp != null">
@@ -290,7 +290,7 @@
 
 
   <select id="getTotalByParam" resultType="java.lang.Integer">
-    select count(1) from (select wu.url,wu.total,wu.concurrent_max,wu.avg_nano,wu.nano_max,IFNULL (error_wu.error_count,0)from
+    select count(1) from (select wu.url,wu.total,wu.concurrent_max,wu.avg_nano,wu.nano_max,IFNULL (error_wu.error_count,0) error_count from
     (SELECT  url,sum(count)  total,max(concurrent_max) concurrent_max,floor(sum(nano_total)/sum(count)/1000/1000)  avg_nano ,floor(max(nano_max)/1000/1000 ) nano_max  FROM t_web_url
     where application_code = #{applicationCode,jdbcType=VARCHAR}
     <if test="clientIp != null">

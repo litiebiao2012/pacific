@@ -70,11 +70,11 @@
         </div>
     </div>
 </div>
-
+<script src="/resources/ehcharts/echarts.min.js"></script>
 <script>
     table = dataTable({
         selector: '#urlTable',
-        url: '/jvm/webUrlReport.json',
+        url: '/webUrl/webUrlReport.json',
         param : {'applicationCode' : getApplicationCode() , 'clientIp' : getClientIpParam() , 'timeInternal' : getTimeInternalParam()},
         columns: [
             {
@@ -122,27 +122,17 @@
     });
 
     $('#detail').on('shown.bs.modal', function (e) {
-        console.log("init chart");
         var errorChart = echarts.init(document.getElementById('error-chart'));
-        var option = {
-            title: {
-                text: 'ECharts 入门示例'
-            },
-            tooltip: {},
-            legend: {
-                data: ['销量']
-            },
-            xAxis: {
-                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-            },
-            yAxis: {},
-            series: [{
-                name: '销量',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-        };
-        errorChart.setOption(option);
+        $.ajax({
+            type : 'POST',
+            url : '/webUrl/webUrlDetailReport.json',
+            dataType : 'json',
+            success : function(data){
+                if (data.status == 'OK') {
+                    errorChart.setOption(data.data);
+                }
+            }
+        });
     })
 
 
