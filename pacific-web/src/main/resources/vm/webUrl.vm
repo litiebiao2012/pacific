@@ -41,7 +41,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div  style="height:350px">
-                                    <table class="table">
+                                    <table class="table" id="webUrlTable">
                                         <tr>
                                             <td>
                                                 2016-05-14 23:22:22

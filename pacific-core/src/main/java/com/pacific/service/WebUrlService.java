@@ -1,6 +1,7 @@
 package com.pacific.service;
 
 import com.pacific.domain.dto.jvm.WebUrlInfo;
+import com.pacific.domain.dto.report.WebUrlDetailDto;
 import com.pacific.domain.dto.report.WebUrlReportDto;
 import com.pacific.domain.entity.WebUrl;
 import com.pacific.domain.query.Pagination;
@@ -16,4 +17,7 @@ public interface WebUrlService {
     public void saveWebUrlInfo(String appCode,String clientIp,List<WebUrlInfo> webUrlInfoList);
 
     public Pagination<WebUrlReportDto> queryWebUrlPage(WebUrlQuery webUrlQuery);
+
+    public WebUrlDetailDto buildWebUrlDetailDto(String clientIp,String timeInternal,String applicationCode,String url);
+
 }

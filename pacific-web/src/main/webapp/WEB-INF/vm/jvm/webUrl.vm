@@ -25,14 +25,14 @@
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
                         aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="myModalLabel">Detail</h4>
+                <h4 class="modal-title" id="myModalLabel"></h4>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <div id="error-chart" style="height:350px"></div>
+                                <div id="webUrlChat" style="height:350px"></div>
                             </div>
                         </div>
 
@@ -41,23 +41,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div  style="height:350px">
-                                    <table class="table">
-                                        <tr>
-                                            <td>
-                                                2016-05-14 23:22:22
-                                            </td>
-                                            <td>
-                                                sfowfewfefe
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>
-                                                2016-05-14 23:22:22
-                                            </td>
-                                            <td>
-                                                sfowfewfefe
-                                            </td>
-                                        </tr>
+                                    <table class="table" id="webUrlErrorTable">
                                     </table>
                                 </div>
                             </div>
@@ -70,13 +54,7 @@
         </div>
     </div>
 </div>
-<<<<<<< HEAD
-
-
 <script type="text/javascript" src="/resources/ehcharts/echarts.min.js"></script>
-=======
-<script src="/resources/ehcharts/echarts.min.js"></script>
->>>>>>> c2f20ff6cfcc8ef2e22e39a6fb06cbe9f50b01b9
 <script>
     table = dataTable({
         selector: '#urlTable',
@@ -125,30 +103,20 @@
 
     $('#detail').on('shown.bs.modal', function (e) {
         var url = $(e.relatedTarget).attr('data-url');
-        
-        console.log(url);
-
-        console.log("init chart");
-        var errorChart = echarts.init(document.getElementById('error-chart'));
-        var option = {
-            title: {
-                text: 'ECharts 入门示例'
-            },
-            tooltip: {},
-            legend: {
-                data: ['销量']
-            },
-            xAxis: {
-                data: ["衬衫", "羊毛衫", "雪纺衫", "裤子", "高跟鞋", "袜子"]
-            },
-            yAxis: {},
-            series: [{
-                name: '销量',
-                type: 'bar',
-                data: [5, 20, 36, 10, 10, 20]
-            }]
-        };
-        errorChart.setOption(option);
+        $('#myModalLabel').text(url);
+        var webUrlChat = echarts.init(document.getElementById('webUrlChat'));
+        $.ajax({
+            type : 'POST',
+            url : '/webUrl/webUrlDetailReport.json',
+            data : {'timeInternal' : getTimeInternalParam(),'clientIp' : getClientIpParam(), 'applicationCode' : getApplicationCode(),'url' : url},
+            dataType : 'json',
+            success : function(data){
+                if (data.status == 'OK') {
+                    webUrlChat.setOption(data.data.webUrlDetailReport);
+                    $('#webUrlErrorTable').html(data.data.webUrlErrorDetailHtml);
+                }
+            }
+        });
     });
 
 </script>

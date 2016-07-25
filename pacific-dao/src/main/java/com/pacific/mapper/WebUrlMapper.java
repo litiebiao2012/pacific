@@ -1,5 +1,6 @@
 package com.pacific.mapper;
 
+import com.pacific.domain.dto.report.WebUrlErrorDetail;
 import com.pacific.domain.dto.report.WebUrlReportDto;
 import com.pacific.domain.entity.WebUrl;
 import com.pacific.domain.search.query.WebUrlQuery;
@@ -28,5 +29,18 @@ public interface WebUrlMapper {
     List<WebUrlReportDto> selectByParam(WebUrlQuery webUrlQuery);
 
     int  getTotalByParam(WebUrlQuery webUrlQuery);
+
+
+    WebUrl queryAllWebUrlByParam(@Param("applicationCode") String applicationCode,
+                                 @Param("clientIp") String clientIp,
+                                 @Param("beginDate") Date beginDate,
+                                 @Param("endDate") Date endDate,
+                                 @Param("url")String url);
+
+    List<WebUrl> queryWebUrlErrorByParam(@Param("applicationCode") String applicationCode,
+                                         @Param("clientIp") String clientIp,
+                                         @Param("beginDate") Date beginDate,
+                                         @Param("endDate") Date endDate,
+                                         @Param("url")String url);
 
 }

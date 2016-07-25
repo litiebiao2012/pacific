@@ -29,7 +29,7 @@
 
   <sql id="Base_Column_List" >
     id, application_code, client_ip,host_name, create_time, update_time, url, count, concurrent_max,
-    nano_total, nano_max, error_time, is_error
+    nano_total, nano_max, error_time, is_error,error_msg
   </sql>
   <sql id="Blob_Column_List" >
     error_msg
@@ -312,6 +312,38 @@
     group by url)  error_wu
     on
     wu.url = error_wu.url) as tmp
+  </select>
+
+  <select id="queryAllWebUrlByParam" resultMap="BaseResultMap" >
+    select
+       sum(count) as count ,
+       max(concurrent_max) as concurrent_max
+    from t_web_url
+    where
+        application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="clientIp != null">
+        and client_ip = #{clientIp,jdbcType=VARCHAR}
+    </if>
+        and  create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[
+         and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+         and  url = #{url,jdbcType=VARCHAR}
+  </select>
+
+  <select id="queryWebUrlErrorByParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_web_url
+    where is_error = 'y'
+         and application_code = #{applicationCode,jdbcType=VARCHAR}
+        <if test="clientIp != null">
+          and client_ip = #{clientIp,jdbcType=VARCHAR}
+        </if>
+        and  create_time > #{beginDate,jdbcType=TIMESTAMP}
+        <![CDATA[
+             and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+        and  url = #{url,jdbcType=VARCHAR}
+    order by error_time desc
   </select>
 
 </mapper>
