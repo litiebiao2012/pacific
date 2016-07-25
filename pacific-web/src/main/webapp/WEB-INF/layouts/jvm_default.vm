@@ -11,7 +11,7 @@
     <script type="text/javascript">
         var clientIp = 'all';
         var timeInternal = 'tenMinutes';
-        var applicationCode = getQueryString('applicationCode');
+        var applicationCode = getApplicationCode();
         $(document).ready(function () {
             $("#clientIp a").click(function () {
                 var url = '/jvm/jvmDetail.htm?type=' + getTypeParam() + '&applicationCode=' + applicationCode + '&clientIp=' + $(this).attr('data-value')  + '&timeInternal=' + getTimeInternalParam();
@@ -34,24 +34,6 @@
 
             $("#type a[data-value='"+ getTypeParam() +"']").attr('class', 'label label-default');
         });
-
-        function getClientIpParam() {
-            return getQueryString('clientIp') == null ? 'all' : getQueryString('clientIp');
-        }
-
-        function getTimeInternalParam() {
-            return getQueryString('timeInternal') == null ? 'tenMinutes' : getQueryString('timeInternal');
-        }
-
-        function getTypeParam() {
-            return getQueryString('type') == null ? 'jvmReport' : getQueryString('type');
-        }
-
-        function getQueryString(name) {
-            var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if(r!=null)return  unescape(r[2]); return null;
-        }
 
         function buildRequestUrl(obj) {
             clientIp = getClientIpParam();

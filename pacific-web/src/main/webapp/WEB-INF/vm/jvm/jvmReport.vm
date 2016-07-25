@@ -88,7 +88,7 @@
             $.ajax({
                 type : 'POST',
                 url : '/jvm/report.json',
-                data : {'timeInternal' : timeInternal,'clientIp' : clientIp, 'applicationCode' : applicationCode},
+                data : {'timeInternal' : getTimeInternalParam(),'clientIp' : getClientIpParam(), 'applicationCode' : getApplicationCode()},
                 dataType : 'json',
                 success : function(data){
                     if (data.status == 'OK') {

@@ -1,6 +1,7 @@
 package com.pacific.mapper;
 
 import com.pacific.domain.entity.WebUrl;
+import com.pacific.domain.search.query.WebUrlQuery;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
@@ -23,8 +24,8 @@ public interface WebUrlMapper {
 
     void batchSaveWebUrl(List<WebUrl> webUrlList);
 
-    List<WebUrl> selectByParam(@Param("applicationCode") String applicationCode,
-                               @Param("clientIp") String clientIp,
-                               @Param("beginDate") Date beginDate,
-                               @Param("endDate") Date endDate);
+    List<WebUrl> selectByParam(WebUrlQuery webUrlQuery);
+
+    int  getTotalByParam(WebUrlQuery webUrlQuery);
+
 }

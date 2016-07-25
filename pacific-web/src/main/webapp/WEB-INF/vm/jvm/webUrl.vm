@@ -1,7 +1,80 @@
+<div class="row">
+    <div class="col-lg-12">
+        <table id="urlTable" class="table table-bordered" cellspacing="0"
+               width="100%">
+            <thead>
+            <tr>
+                <td>URL</td>
+                <td>访问次数</td>
+                <td>最大并发</td>
+                <td>平均耗时</td>
+                <td>最大耗时</td>
+                <td>错误数</td>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="detail" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                        aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div id="error-chart" style="height:350px"></div>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div  style="height:350px">
+                                    <table class="table">
+                                        <tr>
+                                            <td>
+                                                2016-05-14 23:22:22
+                                            </td>
+                                            <td>
+                                                sfowfewfefe
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                2016-05-14 23:22:22
+                                            </td>
+                                            <td>
+                                                sfowfewfefe
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     table = dataTable({
-        selector: '#jvmTable',
-        form: '#searchForm',
+        selector: '#urlTable',
+        url: '/jvm/webUrlReport.json',
+        param : {'applicationCode' : getApplicationCode() , 'clientIp' : getClientIpParam() , 'timeInternal' : getTimeInternalParam()},
         columns: [
             {
                 orderable: false,
@@ -45,8 +118,6 @@
     $('#detail').on('shown.bs.modal', function (e) {
         console.log("init chart");
         var errorChart = echarts.init(document.getElementById('error-chart'));
-
-        // 指定图表的配置项和数据
         var option = {
             title: {
                 text: 'ECharts 入门示例'
@@ -65,8 +136,6 @@
                 data: [5, 20, 36, 10, 10, 20]
             }]
         };
-
-        // 使用刚指定的配置项和数据显示图表。
         errorChart.setOption(option);
     })
 

@@ -12,6 +12,8 @@ import com.pacific.domain.entity.JVMInfo;
 import com.pacific.domain.entity.Machine;
 import com.pacific.domain.entity.WebUrl;
 import com.pacific.domain.enums.MonitorTypeEnums;
+import com.pacific.domain.query.Pagination;
+import com.pacific.domain.search.query.WebUrlQuery;
 import com.pacific.mapper.JVMInfoMapper;
 import com.pacific.mapper.MachineMapper;
 import com.pacific.mapper.WebUrlMapper;
@@ -52,7 +54,7 @@ public class JVMController {
     private JVMInfoMapper jvmInfoMapper;
 
     @Resource
-    private WebUrlMapper webUrlMapper;
+    private WebUrlService webUrlService;
 
 
     @RequestMapping("/jvmDetail.htm")
@@ -142,21 +144,14 @@ public class JVMController {
             if (monitorTypeEnums.getCode().equals(MonitorTypeEnums.JVM_INFO.getCode())) {
 
             }
-
             if (monitorTypeEnums.getCode().equals(MonitorTypeEnums.WEB_URL.getCode())) {
-                Date endDate = new Date();
-                Date beginDate = TimeInternalHelper.getBeginDate(endDate,timeInternal);
-                List<WebUrl> webUrlList = webUrlMapper.selectByParam(applicationCode,clientIp,beginDate,endDate);
             }
 
         }
-
         String content = VelocityTemplateUtil.getContent("vm/" + type + ".vm",context);
         ajaxResult.setData(content);
         return ajaxResult;
     }
-
-
 
     @ResponseBody
     @RequestMapping("/report.json")
@@ -179,7 +174,25 @@ public class JVMController {
 
     @ResponseBody
     @RequestMapping("/webUrlReport.json")
-    public AjaxResult webUrlReport(String clientIp,String timeInternal,String applicationCode) {
+    public AjaxResult webUrlReport(WebUrlQuery webUrlQuery) {
+        AjaxResult ajaxResult = new AjaxResult();
+        Pagination<WebUrl> webUrlPagination = webUrlService.queryWebUrlPage(webUrlQuery);
+        ajaxResult.setData(webUrlPagination);
+        return ajaxResult;
+    }
+
+    @ResponseBody
+    @RequestMapping("/sqlReport.json")
+    public AjaxResult sqlReport(String clientIp,String timeInternal,String applicationCode) {
+        AjaxResult ajaxResult = new AjaxResult();
+
+
+        return ajaxResult;
+    }
+
+    @ResponseBody
+    @RequestMapping("/springMethod.json")
+    public AjaxResult springMethod(String clientIp,String timeInternal,String applicationCode) {
         AjaxResult ajaxResult = new AjaxResult();
         return ajaxResult;
     }

@@ -2,7 +2,10 @@ package com.pacific.service.impl;
 
 import com.pacific.domain.dto.jvm.WebUrlInfo;
 import com.pacific.domain.entity.WebUrl;
+import com.pacific.domain.query.Pagination;
+import com.pacific.domain.search.query.WebUrlQuery;
 import com.pacific.mapper.WebUrlMapper;
+import com.pacific.service.TimeInternalHelper;
 import com.pacific.service.WebUrlService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.util.Assert;
@@ -50,5 +53,22 @@ public class WebUrlServiceImpl implements WebUrlService {
             webUrlList.add(webUrl);
         }
         webUrlMapper.batchSaveWebUrl(webUrlList);
+    }
+
+
+    public Pagination<WebUrl> queryWebUrlPage(WebUrlQuery webUrlQuery) {
+        Assert.notNull(webUrlQuery);
+
+        if (webUrlQuery.getClientIp() != null && webUrlQuery.getClientIp().equals("all")) webUrlQuery.setClientIp(null);
+
+        Date endDate = new Date();
+        Date beginDate = TimeInternalHelper.getBeginDate(endDate,webUrlQuery.getTimeInternal());
+        webUrlQuery.setBeginDate(beginDate);
+        webUrlQuery.setEndDate(endDate);
+
+        List<WebUrl> webUrlList = webUrlMapper.selectByParam(webUrlQuery);
+        int total = webUrlMapper.getTotalByParam(webUrlQuery);
+        Pagination<WebUrl> webUrlPagination = new Pagination<WebUrl>(webUrlQuery,webUrlList,total);
+        return webUrlPagination;
     }
 }

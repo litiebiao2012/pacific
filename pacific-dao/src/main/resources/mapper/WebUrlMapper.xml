@@ -251,6 +251,22 @@
         and create_time > #{beginDate,jdbcType=TIMESTAMP}
     <![CDATA[
          and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    <include refid="Page.footer"/>
+  </select>
+
+
+  <select id="getTotalByParam" resultType="java.lang.Integer">
+    select
+      count(1)
+    from t_web_url
+    where
+    application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="clientIp != null">
+      and client_ip = #{clientIp,jdbcType=VARCHAR}
+    </if>
+    and create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[
+         and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
   </select>
 
 </mapper>

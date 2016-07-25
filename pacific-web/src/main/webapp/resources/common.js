@@ -236,3 +236,26 @@ $.fn.serializeObject = function () {
     });
     return o;
 };
+
+
+function getClientIpParam() {
+    return getQueryString('clientIp') == null ? 'all' : getQueryString('clientIp');
+}
+
+function getTimeInternalParam() {
+    return getQueryString('timeInternal') == null ? 'tenMinutes' : getQueryString('timeInternal');
+}
+
+function getTypeParam() {
+    return getQueryString('type') == null ? 'jvmReport' : getQueryString('type');
+}
+
+function getApplicationCode() {
+    return getQueryString('applicationCode') == null ? 'pacific' : getQueryString('applicationCode');
+}
+
+function getQueryString(name) {
+    var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+    var r = window.location.search.substr(1).match(reg);
+    if(r!=null)return  unescape(r[2]); return null;
+}
