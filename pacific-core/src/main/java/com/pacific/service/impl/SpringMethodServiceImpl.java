@@ -20,7 +20,7 @@ public class SpringMethodServiceImpl implements SpringMethodService {
     private SpringMethodMapper springMethodMapper;
 
     @Override
-    public void saveSpringMethodInfo(String appCode, String clientIp,List<SpringMethodInfo> springMethodInfoList) {
+    public void saveSpringMethodInfo(String appCode, String clientIp,String hostName,List<SpringMethodInfo> springMethodInfoList) {
         Assert.notNull(appCode);
         Assert.notNull(clientIp);
         Assert.notNull(springMethodInfoList);
@@ -32,6 +32,7 @@ public class SpringMethodServiceImpl implements SpringMethodService {
             springMethod.setUpdateTime(new Date());
             springMethod.setApplicationCode(appCode);
             springMethod.setClientIp(clientIp);
+            springMethod.setHostName(hostName);
             springMethod.setClassName(springMethodInfo.getClassName());
             springMethod.setMethod(springMethodInfo.getMethod());
             springMethod.setCount(springMethodInfo.getCount());

@@ -28,7 +28,7 @@ public class SpringMethodController {
         String jsonData = springMethodDto.getData();
         if (StringUtils.isNotEmpty(jsonData)) {
             List<SpringMethodInfo> springMethodInfoList = FastJson.jsonToList(jsonData, SpringMethodInfo.class);
-            springMethodService.saveSpringMethodInfo(springMethodDto.getAppCode(),springMethodDto.getClientIp(),springMethodInfoList);
+            springMethodService.saveSpringMethodInfo(springMethodDto.getAppCode(),springMethodDto.getClientIp(),springMethodDto.getHostName(),springMethodInfoList);
         }
         return new AjaxResult();
     }

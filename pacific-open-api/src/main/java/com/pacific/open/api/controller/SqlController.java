@@ -29,7 +29,7 @@ public class SqlController {
         String jsonData = sqlDto.getData();
         if (StringUtils.isNotEmpty(jsonData)) {
             List<SqlInfo> sqlInfoList = FastJson.jsonToList(jsonData, SqlInfo.class);
-            sqlService.saveSqlInfo(sqlDto.getAppCode(),sqlDto.getClientIp(),sqlInfoList);
+            sqlService.saveSqlInfo(sqlDto.getAppCode(),sqlDto.getClientIp(),sqlDto.getHostName(),sqlInfoList);
         }
         return new AjaxResult();
     }

@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface SpringMethodService {
 
-    public void saveSpringMethodInfo(String appCode,String clientIp,List<SpringMethodInfo> springMethodInfoList);
+    public void saveSpringMethodInfo(String appCode,String clientIp,String hostName,List<SpringMethodInfo> springMethodInfoList);
 }

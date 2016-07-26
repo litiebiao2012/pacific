@@ -207,6 +207,9 @@
       <if test="clientIp != null" >
         client_ip = #{clientIp,jdbcType=VARCHAR},
       </if>
+      <if test="hostName != null" >
+        host_name = #{hostName,jdbcType=VARCHAR},
+      </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>

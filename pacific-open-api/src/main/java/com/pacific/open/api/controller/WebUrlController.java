@@ -29,7 +29,7 @@ public class WebUrlController {
         String jsonData = webUrlDto.getData();
         if (StringUtils.isNotEmpty(jsonData)) {
             List<WebUrlInfo> webUrlInfoList = FastJson.jsonToList(jsonData, WebUrlInfo.class);
-            webUrlService.saveWebUrlInfo(webUrlDto.getAppCode(),webUrlDto.getClientIp(),webUrlInfoList);
+            webUrlService.saveWebUrlInfo(webUrlDto.getAppCode(),webUrlDto.getClientIp(),webUrlDto.getHostName(),webUrlInfoList);
         }
         return new AjaxResult();
     }

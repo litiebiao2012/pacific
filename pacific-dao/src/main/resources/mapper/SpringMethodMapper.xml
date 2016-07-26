@@ -232,7 +232,7 @@
     values
     <foreach collection="list" item="item" index="index"
              separator=",">
-      (#{item.applicationCode,jdbcType=VARCHAR}, #{item.clientIp,jdbcType=VARCHAR},#{item.hostName,jdbcType=VARCHAR}
+      (#{item.applicationCode,jdbcType=VARCHAR}, #{item.clientIp,jdbcType=VARCHAR},#{item.hostName,jdbcType=VARCHAR},
       #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.className,jdbcType=VARCHAR},
       #{item.method,jdbcType=VARCHAR}, #{item.count,jdbcType=BIGINT}, #{item.concurrentMax,jdbcType=BIGINT},
       #{item.isError,jdbcType=VARCHAR}, #{item.nanoTotal,jdbcType=BIGINT}, #{item.nanoMax,jdbcType=BIGINT},

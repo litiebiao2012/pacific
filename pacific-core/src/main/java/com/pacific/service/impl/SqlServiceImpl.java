@@ -21,7 +21,7 @@ public class SqlServiceImpl implements SqlService {
     @Resource
     private SqlMapper sqlMapper;
 
-    public void saveSqlInfo(String appCode,String clientIp,List<SqlInfo> sqlInfoList) {
+    public void saveSqlInfo(String appCode,String clientIp,String hostName,List<SqlInfo> sqlInfoList) {
         Assert.notNull(appCode);
         Assert.notNull(clientIp);
         Assert.notNull(sqlInfoList);
@@ -33,6 +33,7 @@ public class SqlServiceImpl implements SqlService {
             sql.setUpdateTime(new Date());
             sql.setApplicationCode(appCode);
             sql.setClientIp(clientIp);
+            sql.setHostName(hostName);
             sql.setConcurrentMax(sqlInfo.getConcurrentMax());
             sql.setCount(sqlInfo.getCount());
             sql.setEffectedRowCount(sqlInfo.getEffectedRowCount());

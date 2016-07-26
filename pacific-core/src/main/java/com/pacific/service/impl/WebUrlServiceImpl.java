@@ -30,9 +30,10 @@ public class WebUrlServiceImpl implements WebUrlService {
     private WebUrlMapper webUrlMapper;
 
 
-    public void saveWebUrlInfo(String appCode,String clientIp,List<WebUrlInfo> webUrlInfoList) {
+    public void saveWebUrlInfo(String appCode,String clientIp,String hostName,List<WebUrlInfo> webUrlInfoList) {
         Assert.notNull(appCode);
         Assert.notNull(clientIp);
+        Assert.notNull(hostName);
         Assert.notNull(webUrlInfoList);
 
         List<WebUrl> webUrlList = new ArrayList<WebUrl>();
@@ -42,6 +43,7 @@ public class WebUrlServiceImpl implements WebUrlService {
             webUrl.setUpdateTime(new Date());
             webUrl.setApplicationCode(appCode);
             webUrl.setClientIp(clientIp);
+            webUrl.setHostName(hostName);
             webUrl.setUrl(webUrlInfo.getUrl());
             webUrl.setCount(webUrlInfo.getCount());
             webUrl.setConcurrentMax(webUrlInfo.getConcurrentMax());

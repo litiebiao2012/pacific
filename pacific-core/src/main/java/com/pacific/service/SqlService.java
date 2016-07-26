@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface SqlService {
 
-    public void saveSqlInfo(String appCode,String clientIp,List<SqlInfo> sqlInfoList);
+    public void saveSqlInfo(String appCode,String clientIp,String hostName,List<SqlInfo> sqlInfoList);
 }

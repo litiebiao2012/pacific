@@ -14,7 +14,7 @@ import java.util.List;
  */
 public interface WebUrlService {
 
-    public void saveWebUrlInfo(String appCode,String clientIp,List<WebUrlInfo> webUrlInfoList);
+    public void saveWebUrlInfo(String appCode,String clientIp,String hostName,List<WebUrlInfo> webUrlInfoList);
 
     public Pagination<WebUrlReportDto> queryWebUrlPage(WebUrlQuery webUrlQuery);
 

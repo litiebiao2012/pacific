@@ -37,6 +37,7 @@ public class JVMGcServiceImpl implements JVMGcService {
             jvmGc.setFullGcCollectionCount(jvmGcDto.getFullGCCollectionCount());
             jvmGc.setFullGcCollectionTime(jvmGcDto.getFullGCCollectionTime());
             jvmGc.setClientIp(jvmGcDto.getClientIp());
+            jvmGc.setHostName(jvmGcDto.getHostName());
             jvmGc.setApplicationCode(jvmGcDto.getAppCode());
             jvmGc.setCreateTime(new Date());
             jvmGc.setUpdateTime(new Date());
