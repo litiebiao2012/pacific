@@ -43,12 +43,12 @@ public class JVMMemoryServiceImpl implements JVMMemoryService{
         }
     }
 
-    public JVMMemoryReportDto queryJVMMemoryDto(String applicationCode, String timeInternal, String clientIp) {
+    public JVMMemoryReportDto queryJVMMemoryDto(String applicationCode, String timeInternal, String hostName) {
         Assert.notNull(applicationCode);
         Assert.notNull(timeInternal);
-        Assert.notNull(clientIp);
+        Assert.notNull(hostName);
 
-        if(clientIp.equals("all")) clientIp = null;
+        if(hostName.equals("all")) hostName = null;
         JVMMemoryReportDto jvmMemoryReportDto = new JVMMemoryReportDto();
 
         HeadMemoryDto headMemoryDto = new HeadMemoryDto();
@@ -87,7 +87,7 @@ public class JVMMemoryServiceImpl implements JVMMemoryService{
         List<Long> survivorMaxList = new LinkedList<Long>();
         List<Long> survivorUsedList = new LinkedList<Long>();
         for (TimeRange timeRange : timeRangeList) {
-            JVMMemory jvmMemory = jvmMemoryMapper.queryAllJVMMemoryByParam(applicationCode,clientIp,timeRange.getBeginDate(),timeRange.getEndDate());
+            JVMMemory jvmMemory = jvmMemoryMapper.queryAllJVMMemoryByParam(applicationCode,hostName,timeRange.getBeginDate(),timeRange.getEndDate());
 
             if (jvmMemory != null) {
                 heapMemoryMaxList.add(jvmMemory.getHeapMemoryMax());

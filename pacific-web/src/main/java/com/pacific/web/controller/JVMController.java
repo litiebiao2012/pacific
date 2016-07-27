@@ -59,16 +59,16 @@ public class JVMController {
 
 
     @RequestMapping("/jvmDetail.htm")
-    public ModelAndView jvmDetail(String applicationCode,@RequestParam(defaultValue = "jvmReport") String type,String clientIp) {
+    public ModelAndView jvmDetail(String applicationCode,@RequestParam(defaultValue = "jvmReport") String type,String hostName) {
         ModelAndView modelAndView = new ModelAndView();
         String viewName = "jvm/jvmReport";
         if (type.equals("jvmReport")) {
             viewName = "jvm/jvmReport";
         }
 
-        if (clientIp != null && clientIp.equals("all")) clientIp = null;
+        if (hostName != null && hostName.equals("all")) hostName = null;
         if (type.equals("jvmInfo")) {
-            List<JVMInfo> jvmInfoList = jvmInfoMapper.selectByParam(applicationCode,clientIp);
+            List<JVMInfo> jvmInfoList = jvmInfoMapper.selectByParam(applicationCode,hostName);
             if (CollectionUtil.isNotEmpty(jvmInfoList)) {
                 Map<String,List<JVMInfoDetailDto>> allJvmInfoMap = new LinkedHashMap<String,List<JVMInfoDetailDto>>();
                 for (JVMInfo jvmInfo : jvmInfoList) {
@@ -125,43 +125,15 @@ public class JVMController {
         return modelAndView;
     }
 
-    @ResponseBody
-    @RequestMapping("/loadHtmlView.json")
-    public AjaxResult loadHtmlView(String clientIp,String timeInternal,String type,
-                                   String applicationCode) {
-        AjaxResult ajaxResult = new AjaxResult();
-        MonitorTypeEnums monitorTypeEnums = MonitorTypeEnums.fromCode(type);
-        if (monitorTypeEnums == null) {
-            ajaxResult.setStatus(AjaxResult.STATUS_ERROR);
-            ajaxResult.setMessage("type参数错误");
-            return ajaxResult;
-        }
-
-        Context context = null;
-        if (!monitorTypeEnums.getCode().equals(MonitorTypeEnums.JVM_REPORT.getCode())) {
-
-            if (clientIp.equals("all")) clientIp = null;
-            context = new ToolContext();
-            if (monitorTypeEnums.getCode().equals(MonitorTypeEnums.JVM_INFO.getCode())) {
-
-            }
-            if (monitorTypeEnums.getCode().equals(MonitorTypeEnums.WEB_URL.getCode())) {
-            }
-
-        }
-        String content = VelocityTemplateUtil.getContent("vm/" + type + ".vm",context);
-        ajaxResult.setData(content);
-        return ajaxResult;
-    }
 
     @ResponseBody
     @RequestMapping("/report.json")
-    public AjaxResult report(String clientIp,String timeInternal,String applicationCode) {
+    public AjaxResult report(String hostName,String timeInternal,String applicationCode) {
         AjaxResult ajaxResult = new AjaxResult();
         Map<String,Object> reportMap = new HashMap<String,Object>();
-        JVMGcReportDto jvmGcReportDto = jvmGcService.queryJVMGcReportDto(applicationCode,timeInternal,clientIp);
-        JVMMemoryReportDto jvmMemoryReportDto = jvmMemoryService.queryJVMMemoryDto(applicationCode,timeInternal,clientIp);
-        JVMThreadReportDto jvmThreadReportDto = jvmThreadService.queryThreadDto(applicationCode,timeInternal,clientIp);
+        JVMGcReportDto jvmGcReportDto = jvmGcService.queryJVMGcReportDto(applicationCode,timeInternal,hostName);
+        JVMMemoryReportDto jvmMemoryReportDto = jvmMemoryService.queryJVMMemoryDto(applicationCode,timeInternal,hostName);
+        JVMThreadReportDto jvmThreadReportDto = jvmThreadService.queryThreadDto(applicationCode,timeInternal,hostName);
         reportMap.put("headReport",jvmMemoryReportDto.getHeadMemoryDto());
         reportMap.put("nonHeadReport",jvmMemoryReportDto.getNonHeadMemoryDto());
         reportMap.put("jvmMemoryDetailReport",jvmMemoryReportDto.getJvmMemoryDetailDto());
@@ -175,7 +147,7 @@ public class JVMController {
 
     @ResponseBody
     @RequestMapping("/sqlReport.json")
-    public AjaxResult sqlReport(String clientIp,String timeInternal,String applicationCode) {
+    public AjaxResult sqlReport(String hostName,String timeInternal,String applicationCode) {
         AjaxResult ajaxResult = new AjaxResult();
 
 
@@ -184,7 +156,7 @@ public class JVMController {
 
     @ResponseBody
     @RequestMapping("/springMethod.json")
-    public AjaxResult springMethod(String clientIp,String timeInternal,String applicationCode) {
+    public AjaxResult springMethod(String hostName,String timeInternal,String applicationCode) {
         AjaxResult ajaxResult = new AjaxResult();
         return ajaxResult;
     }

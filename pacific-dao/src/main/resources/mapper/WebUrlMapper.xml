@@ -266,8 +266,8 @@
     select wu.url,wu.total,wu.concurrent_max,wu.avg_nano,wu.nano_max,IFNULL(error_wu.error_count,0) error_count from
     (SELECT  url,sum(count)  total,max(concurrent_max) concurrent_max,floor(sum(nano_total)/sum(count)/1000/1000)  avg_nano ,floor(max(nano_max)/1000/1000 ) nano_max  FROM t_web_url
         where application_code = #{applicationCode,jdbcType=VARCHAR}
-              <if test="clientIp != null">
-                and client_ip = #{clientIp,jdbcType=VARCHAR}
+              <if test="hostName != null">
+                and host_name = #{hostName,jdbcType=VARCHAR}
               </if>
                 and create_time > #{beginDate,jdbcType=TIMESTAMP}
        <![CDATA[and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
@@ -276,8 +276,8 @@
     (SELECT url,count(1) as error_count FROM t_web_url
       where is_error = 'y'
            and application_code = #{applicationCode,jdbcType=VARCHAR}
-          <if test="clientIp != null">
-            and client_ip = #{clientIp,jdbcType=VARCHAR}
+          <if test="hostName != null">
+            and host_name = #{hostName,jdbcType=VARCHAR}
           </if>
             and create_time > #{beginDate,jdbcType=TIMESTAMP}
           <![CDATA[
@@ -293,8 +293,8 @@
     select count(1) from (select wu.url,wu.total,wu.concurrent_max,wu.avg_nano,wu.nano_max,IFNULL (error_wu.error_count,0) error_count from
     (SELECT  url,sum(count)  total,max(concurrent_max) concurrent_max,floor(sum(nano_total)/sum(count)/1000/1000)  avg_nano ,floor(max(nano_max)/1000/1000 ) nano_max  FROM t_web_url
     where application_code = #{applicationCode,jdbcType=VARCHAR}
-    <if test="clientIp != null">
-      and client_ip = #{clientIp,jdbcType=VARCHAR}
+    <if test="hostName != null">
+      and host_name = #{hostName,jdbcType=VARCHAR}
     </if>
     and create_time > #{beginDate,jdbcType=TIMESTAMP}
     <![CDATA[and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
@@ -303,8 +303,8 @@
     (SELECT url,count(1) as error_count FROM t_web_url
     where is_error = 'y'
     and application_code = #{applicationCode,jdbcType=VARCHAR}
-    <if test="clientIp != null">
-      and client_ip = #{clientIp,jdbcType=VARCHAR}
+    <if test="hostName != null">
+      and host_name = #{hostName,jdbcType=VARCHAR}
     </if>
     and create_time > #{beginDate,jdbcType=TIMESTAMP}
     <![CDATA[
@@ -321,8 +321,8 @@
     from t_web_url
     where
         application_code = #{applicationCode,jdbcType=VARCHAR}
-    <if test="clientIp != null">
-        and client_ip = #{clientIp,jdbcType=VARCHAR}
+    <if test="hostName != null">
+        and host_name = #{hostName,jdbcType=VARCHAR}
     </if>
         and  create_time > #{beginDate,jdbcType=TIMESTAMP}
     <![CDATA[
@@ -336,8 +336,8 @@
     from t_web_url
     where is_error = 'y'
          and application_code = #{applicationCode,jdbcType=VARCHAR}
-        <if test="clientIp != null">
-          and client_ip = #{clientIp,jdbcType=VARCHAR}
+        <if test="hostName != null">
+          and host_name = #{hostName,jdbcType=VARCHAR}
         </if>
         and  create_time > #{beginDate,jdbcType=TIMESTAMP}
         <![CDATA[

@@ -9,26 +9,26 @@
     <title>pacific监控平台</title>
     #parse("/WEB-INF/common/common.vm")
     <script type="text/javascript">
-        var clientIp = 'all';
+        var hostName = 'all';
         var timeInternal = 'tenMinutes';
         var applicationCode = getApplicationCode();
         $(document).ready(function () {
-            $("#clientIp a").click(function () {
-                var url = '/jvm/jvmDetail.htm?type=' + getTypeParam() + '&applicationCode=' + applicationCode + '&clientIp=' + $(this).attr('data-value')  + '&timeInternal=' + getTimeInternalParam();
+            $("#hostName a").click(function () {
+                var url = '/jvm/jvmDetail.htm?type=' + getTypeParam() + '&applicationCode=' + applicationCode + '&hostName=' + $(this).attr('data-host')  + '&timeInternal=' + getTimeInternalParam();
                 window.location.href = url;
             });
 
             $("#timeInternal a").click(function () {
-                var url = '/jvm/jvmDetail.htm?type=' + getTypeParam() + '&applicationCode=' + applicationCode + '&clientIp=' + getClientIpParam()  + '&timeInternal=' + $(this).attr('data-value');
+                var url = '/jvm/jvmDetail.htm?type=' + getTypeParam() + '&applicationCode=' + applicationCode + '&hostName=' + getHostName()  + '&timeInternal=' + $(this).attr('data-value');
                 window.location.href = url;
             });
 
             $('#type a').click(function(){
-                var url = '/jvm/jvmDetail.htm?type=' + $(this).attr('data-value') + '&applicationCode=' + applicationCode + '&clientIp=' + getClientIpParam()  + '&timeInternal=' + getTimeInternalParam();
+                var url = '/jvm/jvmDetail.htm?type=' + $(this).attr('data-value') + '&applicationCode=' + applicationCode + '&hostName=' + getHostName()  + '&timeInternal=' + getTimeInternalParam();
                 window.location.href = url;
             });
 
-            $("#clientIp a[data-value='"+ getClientIpParam() +"']").attr('class', 'label label-default');
+            $("#hostName a[data-host='"+ getHostName() +"']").attr('class', 'label label-default');
 
             $("#timeInternal a[data-value='"+ getTimeInternalParam() +"']").attr('class', 'label label-default');
 
@@ -36,9 +36,9 @@
         });
 
         function buildRequestUrl(obj) {
-            clientIp = getClientIpParam();
+            hostName = getHostName();
             timeInternal = getTimeInternalParam();
-            var url = '/jvm/jvmDetail.htm?type=' + $(obj).attr('data-value') + '&applicationCode=' + applicationCode + '&clientIp=' + clientIp + '&timeInternal=' + timeInternal;
+            var url = '/jvm/jvmDetail.htm?type=' + $(obj).attr('data-value') + '&applicationCode=' + applicationCode + '&hostName=' + hostName + '&timeInternal=' + timeInternal;
             return url;
         }
     </script>
@@ -60,9 +60,9 @@
                         <div class="col-lg-12">
                             <form class="" id="searchForm" onsubmit="return false;">
                                 <div class="row">
-                                    <div class="form-group" id="clientIp">
+                                    <div class="form-group" id="hostName">
                                         <label for="" class="col-md-1 text-left">机器列表:</label>
-                                        <a class="label label-info" data-value="all">all</a>
+                                        <a class="label label-info" data-value="all" data-host="all">all</a>
                                         #foreach($item in $pacificWebTool.queryMachineList())
                                             <a class="label label-info" data-value="$item.ip" data-host="$item.hostName">$item.hostName</a>
                                         #end

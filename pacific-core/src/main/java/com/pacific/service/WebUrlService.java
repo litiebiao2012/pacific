@@ -18,6 +18,6 @@ public interface WebUrlService {
 
     public Pagination<WebUrlReportDto> queryWebUrlPage(WebUrlQuery webUrlQuery);
 
-    public WebUrlDetailDto buildWebUrlDetailDto(String clientIp,String timeInternal,String applicationCode,String url);
+    public WebUrlDetailDto buildWebUrlDetailDto(String hostName,String timeInternal,String applicationCode,String url);
 
 }

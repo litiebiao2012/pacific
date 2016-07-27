@@ -10,5 +10,5 @@ import java.util.List;
  */
 public interface JdbcInfoService {
 
-    public void saveJdbcInfo(String appCode,String clientIp,List<JdbcInfoDetail> jdbcInfoDetailList);
+    public void saveJdbcInfo(String appCode,String clientIp,String hostName,List<JdbcInfoDetail> jdbcInfoDetailList);
 }

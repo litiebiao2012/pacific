@@ -286,8 +286,8 @@
     from t_jvm_memory
     where
        application_code = #{applicationCode,jdbcType=VARCHAR}
-      <if test="clientIp != null">
-        and client_ip = #{clientIp,jdbcType=VARCHAR}
+      <if test="hostName != null">
+        and host_name = #{hostName,jdbcType=VARCHAR}
       </if>
         and  create_time > #{beginDate,jdbcType=TIMESTAMP}
        <![CDATA[

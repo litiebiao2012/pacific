@@ -20,7 +20,7 @@ public interface JVMMemoryMapper {
     int updateByPrimaryKey(JVMMemory record);
 
     JVMMemory queryAllJVMMemoryByParam(@Param("applicationCode") String applicationCode,
-                                             @Param("clientIp") String clientIp,
+                                             @Param("hostName") String hostName,
                                              @Param("beginDate") Date beginDate,
                                              @Param("endDate") Date endDate);
 

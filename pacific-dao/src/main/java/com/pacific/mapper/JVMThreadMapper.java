@@ -19,7 +19,7 @@ public interface JVMThreadMapper {
     int updateByPrimaryKey(JVMThread record);
 
     JVMThread queryAllJVMThreadByParam(@Param("applicationCode") String applicationCode,
-                                       @Param("clientIp") String clientIp,
+                                       @Param("hostName") String hostName,
                                        @Param("beginDate") Date beginDate,
                                        @Param("endDate") Date endDate);
 }

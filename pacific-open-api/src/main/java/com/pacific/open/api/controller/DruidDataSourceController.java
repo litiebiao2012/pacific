@@ -30,7 +30,7 @@ public class DruidDataSourceController {
         String jsonData = jdbcInfoDto.getData();
         if (StringUtils.isNotEmpty(jsonData)) {
             List<JdbcInfoDetail> jdbcInfoDetailList = FastJson.jsonToList(jsonData, JdbcInfoDetail.class);
-            jdbcInfoService.saveJdbcInfo(jdbcInfoDto.getAppCode(),jdbcInfoDto.getClientIp(),jdbcInfoDetailList);
+            jdbcInfoService.saveJdbcInfo(jdbcInfoDto.getAppCode(),jdbcInfoDto.getClientIp(),jdbcInfoDto.getHostName(),jdbcInfoDetailList);
         }
         return new AjaxResult();
     }

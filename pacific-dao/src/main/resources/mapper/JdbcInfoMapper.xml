@@ -216,7 +216,7 @@
     where
      application_code = #{applicationCode,jdbcType=VARCHAR}
     and
-     client_ip = #{clientIp,jdbcType=VARCHAR}
+     host_name = #{hostName,jdbcType=VARCHAR}
     and
      url = #{url,jdbcType=VARCHAR}
   </select>

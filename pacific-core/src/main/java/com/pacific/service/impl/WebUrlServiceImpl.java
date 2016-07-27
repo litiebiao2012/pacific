@@ -66,7 +66,7 @@ public class WebUrlServiceImpl implements WebUrlService {
 
     public Pagination<WebUrlReportDto> queryWebUrlPage(WebUrlQuery webUrlQuery) {
         Assert.notNull(webUrlQuery);
-        if (webUrlQuery.getClientIp() != null && webUrlQuery.getClientIp().equals("all")) webUrlQuery.setClientIp(null);
+        if (webUrlQuery.getHostName() != null && webUrlQuery.getHostName().equals("all")) webUrlQuery.setHostName(null);
 
         Date endDate = new Date();
         Date beginDate = TimeInternalHelper.getBeginDate(endDate,webUrlQuery.getTimeInternal());
@@ -79,13 +79,13 @@ public class WebUrlServiceImpl implements WebUrlService {
         return webUrlPagination;
     }
 
-    public WebUrlDetailDto buildWebUrlDetailDto(String clientIp, String timeInternal, String applicationCode, String url) {
-        Assert.notNull(clientIp);
+    public WebUrlDetailDto buildWebUrlDetailDto(String hostName, String timeInternal, String applicationCode, String url) {
+        Assert.notNull(hostName);
         Assert.notNull(timeInternal);
         Assert.notNull(applicationCode);
         Assert.notNull(url);
 
-        if(clientIp.equals("all")) clientIp = null;
+        if(hostName.equals("all")) hostName = null;
 
         TimeRangeDto timeRangeDto = TimeInternalHelper.getTimeRangeByInternal(timeInternal);
         WebUrlDetailReportDto webUrlDetailReportDto = new WebUrlDetailReportDto();
@@ -98,7 +98,7 @@ public class WebUrlServiceImpl implements WebUrlService {
         List<Long> concurrentMaxList = new LinkedList<Long>();
         List<TimeRange> timeRangeList = timeRangeDto.getTimeRangeDtoList();
         for (TimeRange timeRange : timeRangeList) {
-            WebUrl webUrl = webUrlMapper.queryAllWebUrlByParam(applicationCode,clientIp,timeRange.getBeginDate(),timeRange.getEndDate(),url);
+            WebUrl webUrl = webUrlMapper.queryAllWebUrlByParam(applicationCode,hostName,timeRange.getBeginDate(),timeRange.getEndDate(),url);
 
             if (webUrl != null) {
                 totalList.add(webUrl.getCount());
@@ -129,7 +129,7 @@ public class WebUrlServiceImpl implements WebUrlService {
 
         Date endDate = new Date();
         Date beginDate = TimeInternalHelper.getBeginDate(endDate,timeInternal);
-        List<WebUrl> webUrlList = webUrlMapper.queryWebUrlErrorByParam(applicationCode,clientIp,beginDate,endDate,url);
+        List<WebUrl> webUrlList = webUrlMapper.queryWebUrlErrorByParam(applicationCode,hostName,beginDate,endDate,url);
         List<WebUrlErrorDetail> webUrlErrorDetailList = new LinkedList<WebUrlErrorDetail>();
         if (CollectionUtil.isNotEmpty(webUrlList)) {
             for (WebUrl webUrl : webUrlList) {

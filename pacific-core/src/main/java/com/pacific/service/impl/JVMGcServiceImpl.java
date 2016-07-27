@@ -47,12 +47,12 @@ public class JVMGcServiceImpl implements JVMGcService {
         }
     }
 
-    public JVMGcReportDto queryJVMGcReportDto(String applicationCode, String timeInternal, String clientIp) {
+    public JVMGcReportDto queryJVMGcReportDto(String applicationCode, String timeInternal, String hostName) {
         Assert.notNull(applicationCode);
         Assert.notNull(timeInternal);
-        Assert.notNull(clientIp);
+        Assert.notNull(hostName);
 
-        if(clientIp.equals("all")) clientIp = null;
+        if(hostName.equals("all")) hostName = null;
 
         TimeRangeDto timeRangeDto = TimeInternalHelper.getTimeRangeByInternal(timeInternal);
         List<String> timeList = timeRangeDto.getFormatTimeList();
@@ -78,7 +78,7 @@ public class JVMGcServiceImpl implements JVMGcService {
         List<Long> fullGcTimeList = new LinkedList<Long>();
         List<Long> youngGcTimeList = new LinkedList<Long>();
         for (TimeRange timeRange : timeRangeList) {
-            JVMGc jvmGc = jvmGcMapper.queryAllJVMGcByParam(applicationCode,clientIp,timeRange.getBeginDate(),timeRange.getEndDate());
+            JVMGc jvmGc = jvmGcMapper.queryAllJVMGcByParam(applicationCode,hostName,timeRange.getBeginDate(),timeRange.getEndDate());
 
             if (jvmGc != null) {
                 fullGcCountList.add(jvmGc.getFullGcCollectionCount());

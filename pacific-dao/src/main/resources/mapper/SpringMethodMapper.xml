@@ -19,6 +19,19 @@
     <result column="error_msg" property="errorMsg" jdbcType="LONGVARCHAR" />
     <result column="error_stack_trace" property="errorStackTrace" jdbcType="LONGVARCHAR" />
   </resultMap>
+
+
+  <resultMap id="BaseDetailResultMap" type="com.pacific.domain.dto.report.SpringMethodReportDto" >
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="method" property="method" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="BIGINT" />
+    <result column="concurrent_max" property="concurrentMax" jdbcType="BIGINT" />
+    <result column="avg_nano" property="avgNano" jdbcType="BIGINT" />
+    <result column="nano_max" property="nanoMax" jdbcType="BIGINT" />
+    <result column="error_count" property="errorCount" jdbcType="BIGINT" />
+  </resultMap>
+
+
   <sql id="Base_Column_List" >
     id, application_code, client_ip, host_name,create_time, update_time, class_name, method, count,
     concurrent_max, is_error, nano_total, nano_max, error_time, error_msg, error_stack_trace
@@ -240,4 +253,89 @@
       )
     </foreach>
   </insert>
+
+
+  <select id="selectByParam" resultMap="BaseDetailResultMap">
+    select sm.class_name,sm.method,sm.count,sm.concurrent_max,sm.avg_nano,sm.nano_max,ifnull(error_sm.error_count,0) as error_count  from
+        (select class_name,method,sum(count) as count,max(concurrent_max) as concurrent_max,floor(sum(nano_total)/sum(count)/1000/1000) as avg_nano,floor(max(nano_max)/1000/1000 ) as nano_max
+           from t_spring_method
+              where  application_code = #{applicationCode,jdbcType=VARCHAR}
+              <if test="hostName != null">
+                    and host_name = #{hostName,jdbcType=VARCHAR}
+              </if>
+              and create_time > #{beginDate,jdbcType=TIMESTAMP}
+              <![CDATA[and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+        group by class_name,method) sm
+        left join
+          (select class_name,method,count(1) as error_count from t_spring_method where is_error= 'y'
+                and application_code = #{applicationCode,jdbcType=VARCHAR}
+                <if test="hostName != null">
+                  and host_name = #{hostName,jdbcType=VARCHAR}
+                </if>
+                and create_time > #{beginDate,jdbcType=TIMESTAMP}
+                <![CDATA[  and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+           group by class_name,method) error_sm
+        on
+        sm.method=error_sm.method
+    <include refid="Page.footer"/>
+  </select>
+
+
+  <select id="getTotalByParam" resultType="java.lang.Integer">
+    select count(1)  from
+    (select class_name,method,sum(count) as count,max(concurrent_max) as concurrent_max,floor(sum(nano_total)/sum(count)/1000/1000) as avg_nano,floor(max(nano_max)/1000/1000 ) as nano_max
+    from t_spring_method
+    where  application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="hostName != null">
+      and host_name = #{hostName,jdbcType=VARCHAR}
+    </if>
+    and create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    group by class_name,method) sm
+    left join
+    (select class_name,method,count(1) as error_count from t_spring_method where is_error= 'y'
+    and application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="hostName != null">
+      and host_name = #{hostName,jdbcType=VARCHAR}
+    </if>
+    and create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[  and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    group by class_name,method) error_sm
+    on
+    sm.method=error_sm.method
+  </select>
+
+
+  <select id="querySpringMethodByParam" resultMap="BaseResultMap" >
+    select
+    sum(count) as count ,
+    max(concurrent_max) as concurrent_max
+    from t_spring_method
+    where
+    application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="hostName != null">
+      and host_name = #{hostName,jdbcType=VARCHAR}
+    </if>
+    and  create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[
+         and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    and  method = #{method,jdbcType=VARCHAR}
+  </select>
+
+  <select id="querySpringMethodErrorByParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_spring_method
+    where is_error = 'y'
+    and application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="hostName != null">
+      and host_name = #{hostName,jdbcType=VARCHAR}
+    </if>
+    and  create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[
+             and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    and  method = #{method,jdbcType=VARCHAR}
+    order by error_time desc
+  </select>
+
 </mapper>

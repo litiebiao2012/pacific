@@ -41,10 +41,10 @@ public class WebUrlController {
 
     @ResponseBody
     @RequestMapping("/webUrlDetailReport.json")
-    public AjaxResult webUrlDetailReport(String clientIp,String timeInternal,String applicationCode,String url) {
+    public AjaxResult webUrlDetailReport(String hostName,String timeInternal,String applicationCode,String url) {
         AjaxResult ajaxResult = new AjaxResult();
 
-        WebUrlDetailDto webUrlDetailDto = webUrlService.buildWebUrlDetailDto(clientIp,timeInternal,applicationCode,url);
+        WebUrlDetailDto webUrlDetailDto = webUrlService.buildWebUrlDetailDto(hostName,timeInternal,applicationCode,url);
         WebUrlDetailReportDto webUrlDetailReportDto = webUrlDetailDto.getWebUrlDetailReportDto();
         List<WebUrlErrorDetail> webUrlErrorDetailList =  webUrlDetailDto.getWebUrlErrorDetail();
         Map<String,Object> dataMap = new HashMap<String,Object>();

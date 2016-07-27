@@ -302,8 +302,8 @@
     from t_jvm_info
     where
     application_code = #{applicationCode,jdbcType=VARCHAR}
-    <if test="clientIp != null">
-      and  client_ip = #{clientIp,jdbcType=VARCHAR}
+    <if test="hostName != null">
+      and  host_name = #{hostName,jdbcType=VARCHAR}
     </if>
   </select>
 

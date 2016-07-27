@@ -20,7 +20,7 @@ public interface JVMInfoMapper {
 
     int updateByParam(JVMInfo jvmInfo);
 
-    List<JVMInfo> selectByParam(@Param("applicationCode") String applicationCode, @Param("clientIp") String clientIp);
+    List<JVMInfo> selectByParam(@Param("applicationCode") String applicationCode, @Param("hostName") String hostName);
 
 
 }

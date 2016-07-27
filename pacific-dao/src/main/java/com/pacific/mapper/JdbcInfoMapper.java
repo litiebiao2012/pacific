@@ -17,6 +17,6 @@ public interface JdbcInfoMapper {
     int updateByPrimaryKey(JdbcInfo record);
 
     JdbcInfo queryJdbcInfoByParam(@Param("applicationCode") String applicationCode,
-                                  @Param("clientIp")String clientIp,
+                                  @Param("hostName")String hostName,
                                   @Param("url") String url);
 }

@@ -19,7 +19,7 @@ public interface JVMGcMapper {
     int updateByPrimaryKey(JVMGc record);
 
     JVMGc queryAllJVMGcByParam(@Param("applicationCode") String applicationCode,
-                                       @Param("clientIp") String clientIp,
+                                       @Param("hostName") String hostName,
                                        @Param("beginDate") Date beginDate,
                                        @Param("endDate") Date endDate);
 }

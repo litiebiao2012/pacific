@@ -32,13 +32,13 @@ public interface WebUrlMapper {
 
 
     WebUrl queryAllWebUrlByParam(@Param("applicationCode") String applicationCode,
-                                 @Param("clientIp") String clientIp,
+                                 @Param("hostName") String hostName,
                                  @Param("beginDate") Date beginDate,
                                  @Param("endDate") Date endDate,
                                  @Param("url")String url);
 
     List<WebUrl> queryWebUrlErrorByParam(@Param("applicationCode") String applicationCode,
-                                         @Param("clientIp") String clientIp,
+                                         @Param("hostName") String hostName,
                                          @Param("beginDate") Date beginDate,
                                          @Param("endDate") Date endDate,
                                          @Param("url")String url);

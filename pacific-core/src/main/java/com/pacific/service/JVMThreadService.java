@@ -10,5 +10,5 @@ public interface JVMThreadService {
 
     public void saveJVMThread(JVMThreadDto jvmThreadDto);
 
-    public JVMThreadReportDto queryThreadDto(String applicationCode, String timeInternal, String clientIp);
+    public JVMThreadReportDto queryThreadDto(String applicationCode, String timeInternal, String hostName);
 }

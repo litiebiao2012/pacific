@@ -18,13 +18,14 @@ public class JdbcInfoServiceImpl implements JdbcInfoService {
     @Resource
     private JdbcInfoMapper jdbcInfoMapper;
 
-    public void saveJdbcInfo(String appCode,String clientIp,List<JdbcInfoDetail> jdbcInfoDetailList) {
+    public void saveJdbcInfo(String appCode,String clientIp,String hostName,List<JdbcInfoDetail> jdbcInfoDetailList) {
         Assert.notNull(appCode);
         Assert.notNull(clientIp);
+        Assert.notNull(hostName);
         Assert.notNull(jdbcInfoDetailList);
 
         for (JdbcInfoDetail jdbcInfoDetail : jdbcInfoDetailList) {
-            JdbcInfo jdbcInfo = jdbcInfoMapper.queryJdbcInfoByParam(appCode,clientIp,jdbcInfoDetail.getUrl());
+            JdbcInfo jdbcInfo = jdbcInfoMapper.queryJdbcInfoByParam(appCode,hostName,jdbcInfoDetail.getUrl());
             if (jdbcInfo == null) {
                 jdbcInfo = buildJdbcInfo(appCode,clientIp,jdbcInfoDetail,null);
                 jdbcInfoMapper.insert(jdbcInfo);

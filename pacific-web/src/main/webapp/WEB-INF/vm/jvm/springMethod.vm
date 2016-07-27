@@ -1,24 +1,25 @@
 
 <style>
-    #webUrlErrorTable tr {
+    #springMethodErrorTable tr {
         background: white;
         transition: 0.5s;
     }
-    #webUrlErrorTable tr:hover {
+    #springMethodErrorTable tr:hover {
         background: #F0FFF0;
         transition: 0.5s;
     }
-    #webUrlErrorTable tr td:first-child {
+    #springMethodErrorTable tr td:first-child {
         width: 25%;
     }
 </style>
 <div class="row">
     <div class="col-lg-12">
-        <table id="urlTable" class="table table-bordered" cellspacing="0"
+        <table id="smTable" class="table table-bordered" cellspacing="0"
                width="100%">
             <thead>
             <tr>
-                <td>URL</td>
+                <td>类名</td>
+                <td>方法名</td>
                 <td>访问次数</td>
                 <td>最大并发</td>
                 <td>平均耗时</td>
@@ -46,7 +47,7 @@
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <div id="webUrlChat" style="height:350px"></div>
+                                <div id="smInfoChart" style="height:350px"></div>
                             </div>
                         </div>
 
@@ -55,7 +56,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div  style="height:350px;overflow: scroll">
-                                    <table class="table" id="webUrlErrorTable">
+                                    <table class="table" id="springMethodErrorTable">
                                     </table>
                                 </div>
                             </div>
@@ -81,7 +82,7 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <div id="webUrlChatSingle" style="height:350px"></div>
+                                <div id="smInfoChartSingle" style="height:350px"></div>
                             </div>
                         </div>
 
@@ -95,87 +96,92 @@
 <script type="text/javascript" src="/resources/ehcharts/echarts.min.js"></script>
 <script>
     table = dataTable({
-        selector: '#urlTable',
-        url: '/webUrl/webUrlReport.json',
+        selector: '#smTable',
+        url: '/sm/springMethodReport.json',
         param : {'applicationCode' : getApplicationCode() , 'hostName' : getHostName() , 'timeInternal' : getTimeInternalParam()},
         columns: [
             {
                 orderable: false,
-                width: '30%',
-                data: 'url'
+                width: '20%',
+                data: 'className'
             },
             {
                 orderable: false,
-                width: '15%',
-                data: 'total'
+                width: '20%',
+                data: 'method'
             },
             {
                 orderable: false,
-                width: '15%',
+                width: '10%',
+                data: 'count'
+            },
+            {
+                orderable: false,
+                width: '10%',
                 data: 'concurrentMax'
             },
             {
                 orderable: false,
-                width: '15%',
+                width: '10%',
                 data: 'avgNano'
             },
             {
                 orderable: false,
-                width: '15%',
+                width: '10%',
                 data: 'nanoMax'
             },
             {
                 orderable: false,
-                width: '15%',
+                width: '10%',
                 data: 'errorCount'
             },
             {
                 orderable: false,
-                width: '8%',
+                width: '10%',
                 render: function (data, type, row, meta) {
                     var id = '#detail';
                     if (row.errorCount <= 0) {
                         id = '#detailChart';
                     }
-                    return "<button class='btn btn-primary' name='detail' data-toggle='modal' data-target='" + id +  "' data-url='" + row.url + "'>详情</button>";
+                    return "<button class='btn btn-primary' name='detail' data-toggle='modal' data-target='" + id +  "' data-method='" + row.method + "'>详情</button>";
                 }
             }
         ]
     });
 
     $('#detail').on('shown.bs.modal', function (e) {
-        var url = $(e.relatedTarget).attr('data-url');
-        $('#detail .modal-header h4').text(url);
-        var webUrlChat = echarts.init(document.getElementById('webUrlChat'));
+        var method = $(e.relatedTarget).attr('data-method');
+        $('#detail .modal-header h4').text(method);
+        var webUrlChat = echarts.init(document.getElementById('smInfoChart'));
         $.ajax({
             type : 'POST',
-            url : '/webUrl/webUrlDetailReport.json',
-            data : {'timeInternal' : getTimeInternalParam(),'hostName' : getHostName(), 'applicationCode' : getApplicationCode(),'url' : url},
+            url : '/sm/springMethodDetailReport.json',
+            data : {'timeInternal' : getTimeInternalParam(),'hostName' : getHostName(), 'applicationCode' : getApplicationCode(),'method' : method},
             dataType : 'json',
             success : function(data){
                 if (data.status == 'OK') {
-                    webUrlChat.setOption(data.data.webUrlDetailReport);
-                    $('#webUrlErrorTable').html(data.data.webUrlErrorDetailHtml);
+                    webUrlChat.setOption(data.data.springMethodDetailReport);
+                    $('#springMethodErrorTable').html(data.data.springMethodErrorDetailHtml);
                 }
             }
         });
     });
     $('#detailChart').on('shown.bs.modal', function (e) {
-        var url = $(e.relatedTarget).attr('data-url');
-        $('#detailChart .modal-header h4').text(url);
-        var webUrlChat = echarts.init(document.getElementById('webUrlChatSingle'));
+        var method = $(e.relatedTarget).attr('data-method');
+        $('#detailChart .modal-header h4').text(method);
+        var webUrlChat = echarts.init(document.getElementById('smInfoChartSingle'));
         $.ajax({
             type : 'POST',
-            url : '/webUrl/webUrlDetailReport.json',
-            data : {'timeInternal' : getTimeInternalParam(),'hostName' : getClientIpParam(), 'applicationCode' : getApplicationCode(),'url' : url},
+            url : '/sm/springMethodDetailReport.json',
+            data : {'timeInternal' : getTimeInternalParam(),'hostName' : getHostName(), 'applicationCode' : getApplicationCode(),'method' : method},
             dataType : 'json',
             success : function(data){
                 if (data.status == 'OK') {
-                    webUrlChat.setOption(data.data.webUrlDetailReport);
-                    $('#webUrlErrorTable').html(data.data.webUrlErrorDetailHtml);
+                    webUrlChat.setOption(data.data.springMethodDetailReport);
                 }
             }
         });
     });
+
 
 </script>

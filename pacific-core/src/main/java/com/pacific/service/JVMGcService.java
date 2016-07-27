@@ -10,5 +10,5 @@ public interface JVMGcService {
 
     public void saveJVMGc(JVMGcDto jvmGcDto);
 
-    public JVMGcReportDto queryJVMGcReportDto(String applicationCode, String timeInternal, String clientIp);
+    public JVMGcReportDto queryJVMGcReportDto(String applicationCode, String timeInternal, String hostName);
 }

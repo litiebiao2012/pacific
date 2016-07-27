@@ -46,12 +46,12 @@ public class JVMThreadServiceImpl implements JVMThreadService {
     }
 
 
-    public JVMThreadReportDto queryThreadDto(String applicationCode, String timeInternal, String clientIp) {
+    public JVMThreadReportDto queryThreadDto(String applicationCode, String timeInternal, String hostName) {
         Assert.notNull(applicationCode);
         Assert.notNull(timeInternal);
-        Assert.notNull(clientIp);
+        Assert.notNull(hostName);
 
-        if(clientIp.equals("all")) clientIp = null;
+        if(hostName.equals("all")) hostName = null;
         JVMThreadReportDto jvmThreadReportDto = new JVMThreadReportDto();
         ThreadReportDto threadReportDto = new ThreadReportDto();
         ThreadCpuRateReportDto threadCpuRateReportDto = new ThreadCpuRateReportDto();
@@ -73,7 +73,7 @@ public class JVMThreadServiceImpl implements JVMThreadService {
         List<Integer> deadLockThreadCountList = new LinkedList<Integer>();
         List<BigDecimal> processCpuTimeRateList = new LinkedList<BigDecimal>();
         for (TimeRange timeRange : timeRangeList) {
-            JVMThread jvmThread = jvmThreadMapper.queryAllJVMThreadByParam(applicationCode,clientIp,timeRange.getBeginDate(),timeRange.getEndDate());
+            JVMThread jvmThread = jvmThreadMapper.queryAllJVMThreadByParam(applicationCode,hostName,timeRange.getBeginDate(),timeRange.getEndDate());
             if (jvmThread != null) {
                 threadCountList.add(jvmThread.getThreadCount());
                 daemonThreadCountList.add(jvmThread.getDaemonThreadCount());
