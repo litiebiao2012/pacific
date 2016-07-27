@@ -33,7 +33,6 @@ public class SpringMethodController {
     @RequestMapping("/springMethodReport.json")
     public AjaxResult springMethodReport(SpringMethodQuery springMethodQuery) {
         AjaxResult ajaxResult = new AjaxResult();
-        springMethodQuery.setPageSize(50);
         Pagination<SpringMethodReportDto> springMethodReportDtoPagination = springMethodService.querySpringMethodReport(springMethodQuery);
         ajaxResult.setData(springMethodReportDtoPagination);
         return ajaxResult;

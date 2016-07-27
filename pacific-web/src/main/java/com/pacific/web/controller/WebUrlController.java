@@ -33,7 +33,6 @@ public class WebUrlController {
     @RequestMapping("/webUrlReport.json")
     public AjaxResult webUrlReport(WebUrlQuery webUrlQuery) {
         AjaxResult ajaxResult = new AjaxResult();
-        webUrlQuery.setPageSize(50);
         Pagination<WebUrlReportDto> webUrlPagination = webUrlService.queryWebUrlPage(webUrlQuery);
         ajaxResult.setData(webUrlPagination);
         return ajaxResult;

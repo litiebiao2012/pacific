@@ -6,18 +6,18 @@
                 <div class="col-sm-6"></div>
                 <div class="col-sm-6"></div>
             </div>
-            #foreach($key in $allJvmInfoMap.keySet())
+            #foreach($key in $allJdbcInfoMap.keySet())
                 <div class="row">
                     <div class="col-sm-12">
                         <table id="jvmTable" class="table table-bordered dataTable no-footer" cellspacing="0" width="100%" role="grid" aria-describedby="table_info">
                             <thead>
                             <tr role="row">
-                                <td class="sorting_disabled" aria-label="URL" style="width: 15%;background: green" align="right">机器</td>
+                                <td class="sorting_disabled" aria-label="URL" style="width: 15%;background: green" align="right">链接</td>
                                 <td class="sorting_disabled" aria-label="URL" style="width: 85%;background: green" align="left">$key</td>
                             </tr>
                             </thead>
                             <tbody>
-                                #foreach($item in $allJvmInfoMap.get($key))
+                                #foreach($item in $allJdbcInfoMap.get($key))
                                 <tr role="row" class="odd">
                                     <td align="right">$item.name</td>
                                     <td>$item.value</td>

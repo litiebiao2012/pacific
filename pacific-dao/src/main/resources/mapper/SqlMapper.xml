@@ -24,6 +24,21 @@
     <result column="error_msg" property="errorMsg" jdbcType="LONGVARCHAR" />
   </resultMap>
 
+  <resultMap id="BaseDetailResultMap" type="com.pacific.domain.dto.report.SqlReportDto" >
+    <result column="sql_text" property="sql" jdbcType="VARCHAR" />
+    <result column="sql_hash" property="sqlHash" jdbcType="VARCHAR" />
+    <result column="count" property="count" jdbcType="BIGINT" />
+    <result column="concurrent_max" property="concurrentMax" jdbcType="BIGINT" />
+    <result column="avg_time" property="avgTime" jdbcType="BIGINT" />
+    <result column="max_time" property="maxTime" jdbcType="BIGINT" />
+    <result column="error_count" property="errorCount" jdbcType="BIGINT" />
+    <result column="avg_fetch_row_count" property="avgFetchRowCount" jdbcType="BIGINT" />
+    <result column="max_fetch_row_count" property="maxFetchRowCount" jdbcType="BIGINT" />
+    <result column="avg_effected_row_count" property="avgEffectedRowCount" jdbcType="BIGINT" />
+    <result column="max_effected_row_count" property="maxEffectedRowCount" jdbcType="BIGINT" />
+  </resultMap>
+
+
   <sql id="Base_Column_List" >
     id, application_code, client_ip, host_name,create_time, update_time, url, sql_hash, count,
     concurrent_max, total_time, max_time, fetch_row_count, fetch_row_count_max, effected_row_count, 
@@ -314,4 +329,107 @@
       #{item.errorMsg,jdbcType=LONGVARCHAR})
     </foreach>
   </insert>
+
+
+  <select id="selectByParam" resultMap="BaseDetailResultMap">
+    select s.sql_text,s.sql_hash,s.count,s.concurrent_max,s.avg_time,s.max_time,s.avg_fetch_row_count,
+        s.max_fetch_row_count,s.avg_effected_row_count,s.max_effected_row_count,es.error_count
+        from (
+          select sql_text,sql_hash,sum(count) as count,max(concurrent_max) as concurrent_max,
+              floor(sum(total_time)/sum(count)) as avg_time,
+              max(max_time) as max_time,
+              floor(sum(fetch_row_count)/sum(count)) as avg_fetch_row_count,
+              max(fetch_row_count_max) as max_fetch_row_count,
+              floor(sum(effected_row_count)/sum(count)) as avg_effected_row_count,
+              max(effected_row_count_max) as max_effected_row_count
+              from t_sql
+                    where  application_code = #{applicationCode,jdbcType=VARCHAR}
+                    <if test="hostName != null">
+                      and host_name = #{hostName,jdbcType=VARCHAR}
+                    </if>
+                    and create_time > #{beginDate,jdbcType=TIMESTAMP}
+                    <![CDATA[and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+              group by sql_hash)s
+          left join
+              (select sql_hash,count(1) as error_count from t_sql
+              where is_error= 'y'
+                      and application_code = #{applicationCode,jdbcType=VARCHAR}
+                      <if test="hostName != null">
+                        and host_name = #{hostName,jdbcType=VARCHAR}
+                      </if>
+                      and create_time > #{beginDate,jdbcType=TIMESTAMP}
+                      <![CDATA[and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+               group by sql_hash) es
+          on
+            s.sql_hash = es.sql_hash
+    <include refid="Page.footer"/>
+  </select>
+
+
+  <select id="getTotalByParam" resultType="java.lang.Integer">
+    select count(1) from (
+        select  sql_text,sql_hash,sum(count) as count,max(concurrent_max) as concurrent_max,
+                floor(sum(total_time)/sum(count)) as avg_time,
+                max(max_time) as max_time,
+                floor(sum(fetch_row_count)/sum(count)) as avg_fetch_row_count,
+                max(fetch_row_count_max) as max_fetch_row_count,
+                floor(sum(effected_row_count)/sum(count)) as avg_effected_row_count,
+                max(effected_row_count_max) as max_effected_row_count
+        from t_sql
+          where  application_code = #{applicationCode,jdbcType=VARCHAR}
+          <if test="hostName != null">
+            and host_name = #{hostName,jdbcType=VARCHAR}
+          </if>
+            and create_time > #{beginDate,jdbcType=TIMESTAMP}
+          <![CDATA[and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+        group by sql_hash)s
+    left join
+    (select sql_hash,count(1) as error_count from t_sql
+    where is_error= 'y'
+    and application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="hostName != null">
+      and host_name = #{hostName,jdbcType=VARCHAR}
+    </if>
+    and create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[and create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    group by sql_hash) es
+    on
+    s.sql_hash = es.sql_hash
+  </select>
+
+
+  <select id="queryAlSqlByParam" resultMap="BaseResultMap" >
+    select
+    sum(count) as count ,
+    max(concurrent_max) as concurrent_max
+    from t_sql
+    where
+    application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="hostName != null">
+      and host_name = #{hostName,jdbcType=VARCHAR}
+    </if>
+    and  create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[
+         and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    and  sql_hash = #{sqlHash,jdbcType=VARCHAR}
+  </select>
+
+  <select id="querySqlErrorByParam" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from t_sql
+    where is_error = 'y'
+    and application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="hostName != null">
+      and host_name = #{hostName,jdbcType=VARCHAR}
+    </if>
+    and  create_time > #{beginDate,jdbcType=TIMESTAMP}
+    <![CDATA[
+             and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    and  sql_hash = #{sqlHash,jdbcType=VARCHAR}
+    order by error_time desc
+  </select>
+
+
+
 </mapper>

@@ -1,29 +1,32 @@
 
 <style>
-    #springMethodErrorTable tr {
+    #sqlErrorTable tr {
         background: white;
         transition: 0.5s;
     }
-    #springMethodErrorTable tr:hover {
+    #sqlErrorTable tr:hover {
         background: #F0FFF0;
         transition: 0.5s;
     }
-    #springMethodErrorTable tr td:first-child {
+    #sqlErrorTable tr td:first-child {
         width: 25%;
     }
 </style>
 <div class="row">
     <div class="col-lg-12">
-        <table id="smTable" class="table table-bordered" cellspacing="0"
+        <table id="sqlTable" class="table table-bordered" cellspacing="0"
                width="100%">
             <thead>
             <tr>
-                <td>类名</td>
-                <td>方法名</td>
+                <td>sql</td>
                 <td>访问次数</td>
                 <td>最大并发</td>
                 <td>平均耗时(ms)</td>
                 <td>最大耗时(ms)</td>
+                <td>平均抓取</td>
+                <td>最大抓取</td>
+                <td>平均影响</td>
+                <td>最大影响</td>
                 <td>错误数</td>
                 <td>操作</td>
             </tr>
@@ -47,7 +50,7 @@
                     <div class="col-md-6">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <div id="smInfoChart" style="height:350px"></div>
+                                <div id="sqlInfoChart" style="height:350px"></div>
                             </div>
                         </div>
 
@@ -56,7 +59,7 @@
                         <div class="panel panel-default">
                             <div class="panel-body">
                                 <div  style="height:350px;overflow: scroll">
-                                    <table class="table" id="springMethodErrorTable">
+                                    <table class="table" id="sqlErrorTable">
                                     </table>
                                 </div>
                             </div>
@@ -82,7 +85,7 @@
                     <div class="col-md-12">
                         <div class="panel panel-default">
                             <div class="panel-body">
-                                <div id="smInfoChartSingle" style="height:350px"></div>
+                                <div id="sqlInfoChartSingle" style="height:350px"></div>
                             </div>
                         </div>
 
@@ -96,39 +99,54 @@
 <script type="text/javascript" src="/resources/ehcharts/echarts.min.js"></script>
 <script>
     table = dataTable({
-        selector: '#smTable',
-        url: '/sm/springMethodReport.json',
+        selector: '#sqlTable',
+        url: '/sql/sqlReport.json',
         param : {'applicationCode' : getApplicationCode() , 'hostName' : getHostName() , 'timeInternal' : getTimeInternalParam()},
         columns: [
             {
                 orderable: false,
-                width: '20%',
-                data: 'className'
+                width: '30%',
+                data: 'sql'
             },
             {
                 orderable: false,
-                width: '20%',
-                data: 'method'
-            },
-            {
-                orderable: false,
-                width: '10%',
+                width: '5%',
                 data: 'count'
             },
             {
                 orderable: false,
-                width: '10%',
+                width: '5%',
                 data: 'concurrentMax'
             },
             {
                 orderable: false,
-                width: '10%',
-                data: 'avgNano'
+                width: '5%',
+                data: 'avgTime'
+            },
+            {
+                orderable: false,
+                width: '5%',
+                data: 'maxTime'
+            },
+            {
+                orderable: false,
+                width: '5%',
+                data: 'avgFetchRowCount'
+            },
+            {
+                orderable: false,
+                width: '5%',
+                data: 'maxFetchRowCount'
             },
             {
                 orderable: false,
                 width: '10%',
-                data: 'nanoMax'
+                data: 'avgEffectedRowCount'
+            },
+            {
+                orderable: false,
+                width: '10%',
+                data: 'maxEffectedRowCount'
             },
             {
                 orderable: false,
@@ -143,41 +161,39 @@
                     if (row.errorCount <= 0) {
                         id = '#detailChart';
                     }
-                    return "<button class='btn btn-primary' name='detail' data-toggle='modal' data-target='" + id +  "' data-method='" + row.method + "'>详情</button>";
+                    return "<button class='btn btn-primary' name='detail' data-toggle='modal' data-target='" + id +  "' data-sqlHash='" + row.sqlHash + "'>详情</button>";
                 }
             }
         ]
     });
 
     $('#detail').on('shown.bs.modal', function (e) {
-        var method = $(e.relatedTarget).attr('data-method');
-        $('#detail .modal-header h4').text(method);
-        var webUrlChat = echarts.init(document.getElementById('smInfoChart'));
+        var sqlHash = $(e.relatedTarget).attr('data-sqlHash');
+        var sqlChart = echarts.init(document.getElementById('sqlInfoChart'));
         $.ajax({
             type : 'POST',
-            url : '/sm/springMethodDetailReport.json',
-            data : {'timeInternal' : getTimeInternalParam(),'hostName' : getHostName(), 'applicationCode' : getApplicationCode(),'method' : method},
+            url : '/sql/sqlDetailReport.json',
+            data : {'timeInternal' : getTimeInternalParam(),'hostName' : getHostName(), 'applicationCode' : getApplicationCode(),'sqlHash' : sqlHash},
             dataType : 'json',
             success : function(data){
                 if (data.status == 'OK') {
-                    webUrlChat.setOption(data.data.springMethodDetailReport);
-                    $('#springMethodErrorTable').html(data.data.springMethodErrorDetailHtml);
+                    sqlChart.setOption(data.data.sqlDetailReport);
+                    $('#sqlErrorTable').html(data.data.sqlErrorDetailHtml);
                 }
             }
         });
     });
     $('#detailChart').on('shown.bs.modal', function (e) {
-        var method = $(e.relatedTarget).attr('data-method');
-        $('#detailChart .modal-header h4').text(method);
-        var webUrlChat = echarts.init(document.getElementById('smInfoChartSingle'));
+        var sqlHash = $(e.relatedTarget).attr('data-sqlHash');
+        var sqlChart = echarts.init(document.getElementById('sqlInfoChartSingle'));
         $.ajax({
             type : 'POST',
-            url : '/sm/springMethodDetailReport.json',
-            data : {'timeInternal' : getTimeInternalParam(),'hostName' : getHostName(), 'applicationCode' : getApplicationCode(),'method' : method},
+            url : '/sql/sqlDetailReport.json',
+            data : {'timeInternal' : getTimeInternalParam(),'hostName' : getHostName(), 'applicationCode' : getApplicationCode(),'sqlHash' : sqlHash},
             dataType : 'json',
             success : function(data){
                 if (data.status == 'OK') {
-                    webUrlChat.setOption(data.data.springMethodDetailReport);
+                    sqlChart.setOption(data.data.sqlDetailReport);
                 }
             }
         });

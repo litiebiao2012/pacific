@@ -220,4 +220,18 @@
     and
      url = #{url,jdbcType=VARCHAR}
   </select>
+
+
+  <select id="selectByParam" resultMap="BaseResultMap" >
+    select
+    <include refid="Base_Column_List" />
+    from t_jdbc_info
+    where
+        application_code = #{applicationCode,jdbcType=VARCHAR}
+    <if test="hostName != null">
+      and host_name = #{hostName,jdbcType=VARCHAR}
+    </if>
+
+  </select>
+
 </mapper>

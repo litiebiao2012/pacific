@@ -5,17 +5,20 @@ import com.pacific.common.utils.DateUtil;
 import com.pacific.common.utils.VelocityTemplateUtil;
 import com.pacific.common.web.result.AjaxResult;
 import com.pacific.domain.dto.JVMInfoDetailDto;
+import com.pacific.domain.dto.JdbcInfoDetailDto;
 import com.pacific.domain.dto.report.JVMGcReportDto;
 import com.pacific.domain.dto.report.JVMMemoryReportDto;
 import com.pacific.domain.dto.report.JVMThreadReportDto;
 import com.pacific.domain.dto.report.WebUrlReportDto;
 import com.pacific.domain.entity.JVMInfo;
+import com.pacific.domain.entity.JdbcInfo;
 import com.pacific.domain.entity.Machine;
 import com.pacific.domain.entity.WebUrl;
 import com.pacific.domain.enums.MonitorTypeEnums;
 import com.pacific.domain.query.Pagination;
 import com.pacific.domain.search.query.WebUrlQuery;
 import com.pacific.mapper.JVMInfoMapper;
+import com.pacific.mapper.JdbcInfoMapper;
 import com.pacific.mapper.MachineMapper;
 import com.pacific.mapper.WebUrlMapper;
 import com.pacific.service.*;
@@ -57,6 +60,8 @@ public class JVMController {
     @Resource
     private WebUrlService webUrlService;
 
+    @Resource
+    private JdbcInfoMapper jdbcInfoMapper;
 
     @RequestMapping("/jvmDetail.htm")
     public ModelAndView jvmDetail(String applicationCode,@RequestParam(defaultValue = "jvmReport") String type,String hostName) {
@@ -108,7 +113,26 @@ public class JVMController {
         }
 
         if (type.equals("druidDatasource")) {
-            viewName = "jvm/druidDatasource";
+            List<JdbcInfo> jdbcInfoList = jdbcInfoMapper.selectByParam(applicationCode,hostName);
+            if (CollectionUtil.isNotEmpty(jdbcInfoList)) {
+                Map<String,List<JdbcInfoDetailDto>> allJdbcInfoMap = new LinkedHashMap<String,List<JdbcInfoDetailDto>>();
+                for (JdbcInfo jdbcInfo : jdbcInfoList) {
+                    List<JdbcInfoDetailDto> jdbcInfoDetailDtoList = new LinkedList<JdbcInfoDetailDto>();
+                    jdbcInfoDetailDtoList.add(JdbcInfoDetailDto.buildJdbcInfoDetailDto("连接信息",jdbcInfo.getUrl()));
+                    jdbcInfoDetailDtoList.add(JdbcInfoDetailDto.buildJdbcInfoDetailDto("用户名", jdbcInfo.getUserName()));
+                    jdbcInfoDetailDtoList.add(JdbcInfoDetailDto.buildJdbcInfoDetailDto("数据库类型",jdbcInfo.getDbType()));
+                    jdbcInfoDetailDtoList.add(JdbcInfoDetailDto.buildJdbcInfoDetailDto("驱动",jdbcInfo.getDriverClassName()));
+                    jdbcInfoDetailDtoList.add(JdbcInfoDetailDto.buildJdbcInfoDetailDto("错误数",jdbcInfo.getErrorCount() + ""));
+                    jdbcInfoDetailDtoList.add(JdbcInfoDetailDto.buildJdbcInfoDetailDto("最小连接数",jdbcInfo.getMinIdle() + ""));
+                    jdbcInfoDetailDtoList.add(JdbcInfoDetailDto.buildJdbcInfoDetailDto("最大连接数",jdbcInfo.getMaxActive() + ""));
+                    jdbcInfoDetailDtoList.add(JdbcInfoDetailDto.buildJdbcInfoDetailDto("池中连接数",jdbcInfo.getPoolingCount() + ""));
+                    jdbcInfoDetailDtoList.add(JdbcInfoDetailDto.buildJdbcInfoDetailDto("名称",jdbcInfo.getName()));
+
+                    allJdbcInfoMap.put(jdbcInfo.getUrl(),jdbcInfoDetailDtoList);
+                }
+                modelAndView.addObject("allJdbcInfoMap",allJdbcInfoMap);
+            }
+            viewName = "jvm/druidDatasourceReport";
         }
 
         if (type.equals("sql")) {

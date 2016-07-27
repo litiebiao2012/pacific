@@ -21,8 +21,8 @@
                 <td>URL</td>
                 <td>访问次数</td>
                 <td>最大并发</td>
-                <td>平均耗时</td>
-                <td>最大耗时</td>
+                <td>平均耗时(ms)</td>
+                <td>最大耗时(ms)</td>
                 <td>错误数</td>
                 <td>操作</td>
             </tr>
