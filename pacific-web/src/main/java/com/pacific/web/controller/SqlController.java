@@ -31,6 +31,7 @@ public class SqlController {
     @RequestMapping("/sqlReport.json")
     public AjaxResult sqlReport(SqlQuery sqlQuery) {
         AjaxResult ajaxResult = new AjaxResult();
+
         Pagination<SqlReportDto> sqlReportPage = sqlService.querySqlReportPage(sqlQuery);
         ajaxResult.setData(sqlReportPage);
         return ajaxResult;

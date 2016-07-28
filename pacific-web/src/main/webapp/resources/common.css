@@ -6,3 +6,13 @@ table {
 .modal-lg-x {
     width: 1024px;
 }
+
+table tr {
+    background: white;
+    transition: 0.5s;
+}
+
+table tr:hover {
+    background: #F0FFF0;
+    transition: 0.5s;
+}

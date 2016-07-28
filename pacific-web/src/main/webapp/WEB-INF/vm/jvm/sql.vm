@@ -1,13 +1,5 @@
 
 <style>
-    #sqlErrorTable tr {
-        background: white;
-        transition: 0.5s;
-    }
-    #sqlErrorTable tr:hover {
-        background: #F0FFF0;
-        transition: 0.5s;
-    }
     #sqlErrorTable tr td:first-child {
         width: 25%;
     }
@@ -199,5 +191,20 @@
         });
     });
 
+
+    var tbodyTop = $('#sqlTable tbody').offset().top - $('nav').height();
+    var fixHeader = $('<div id="fixTableHeader" class="container-fluid" style="position: fixed;top: 35px;padding: 10px;"><div class="col-lg-12"><table class="table table-bordered dataTable no-footer" cellspacing="0" width="100%"><thead>' + $('#sqlTable thead').html() + '</thead></table></div></div>');
+    $('body').append(fixHeader);
+
+    $.event.add(window, "scroll", function() {
+        var p = $(window).scrollTop();
+        console.log(tbodyTop);
+        console.log(p);
+        if (p >= tbodyTop) {
+            $('#fixTableHeader').show();
+        } else {
+            $('#fixTableHeader').hide();
+        }
+    });
 
 </script>

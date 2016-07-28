@@ -161,8 +161,9 @@ function dataTable(opt) {
             }
         },
         searching: false,
-        lengthChange: false,
         autoWidth: false,
+        pagination:true,
+        lengthChange:true,
 
         columnDefs: [
             {
@@ -179,6 +180,7 @@ function dataTable(opt) {
 
     if (opt.url != undefined) {
         _opt.serverSide = true;
+
         _opt.ajax = function (data, callback, settings) {
             loading = layer.load(2, {
                 shade: [0.1, '#000']
@@ -205,7 +207,9 @@ function dataTable(opt) {
                 data: $.extend($(opt.form).serializeObject(), commonParam),
                 success: function (res) {
                     var data = res.data;
+                    console.log(data.totalPage);
                     callback({
+                        pages:data.totalPage,
                         recordsTotal: data.totalCount,
                         recordsFiltered: data.totalCount,
                         data: data.data
