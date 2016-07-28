@@ -36,6 +36,8 @@ public class SpringMethod implements Serializable {
 
     private String hostName;
 
+    private String isAlarm;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -164,5 +166,13 @@ public class SpringMethod implements Serializable {
 
     public void setHostName(String hostName) {
         this.hostName = hostName;
+    }
+
+    public String getIsAlarm() {
+        return isAlarm;
+    }
+
+    public void setIsAlarm(String isAlarm) {
+        this.isAlarm = isAlarm;
     }
 }

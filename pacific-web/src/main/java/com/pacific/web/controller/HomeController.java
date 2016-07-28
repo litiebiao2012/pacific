@@ -51,42 +51,13 @@ public class HomeController {
 
         List<Application> applicationList = applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
         int appCount = 0;
-        long dayAllLogTotal = 0;
-        long dayErrorLogTotal = 0;
-        long dayAlarmLogTotal = alarmLogService.getDayAlarmLogCount();
-
-        List<AlarmLogDto> alarmLogDtoList = null;
         if (CollectionUtil.isNotEmpty(applicationList)) {
-            String[] appCodes = new String[applicationList.size()];
-            int index = 0;
-            for (Application app : applicationList) {
-                appCodes[index] = app.getApplicationCode();
-                index++;
-            }
             appCount = applicationList.size();
 
-            LoggerQuery loggerQuery = new LoggerQuery();
-            Date date = new Date();
-            loggerQuery.setBeginDate(DateUtil.getBeginTimeOfDay(date).toDate());
-            loggerQuery.setEndDate(DateUtil.getEndTimeOfDay(date).toDate());
-            dayAllLogTotal = elasticSearchHelper.queryTotalLog(appCodes,loggerQuery);
-            loggerQuery.setLevel("error");
-            dayErrorLogTotal = elasticSearchHelper.queryTotalLog(appCodes,loggerQuery);
-
-            AlarmLogQuery alarmLogQuery = new AlarmLogQuery();
-            alarmLogQuery.setBeginDate(DateUtil.getBeginTimeOfDay(date).toDate());
-            alarmLogQuery.setEndDate(DateUtil.getEndTimeOfDay(date).toDate());
-            alarmLogQuery.setCurrentPage(1);
-            alarmLogQuery.setPageSize(10);
-            alarmLogDtoList = alarmLogService.queryDayAlarmLog(alarmLogQuery);
         }
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
         modelAndView.addObject("appCount",appCount);
-        modelAndView.addObject("dayAllLogTotal",dayAllLogTotal);
-        modelAndView.addObject("dayErrorLogTotal",dayErrorLogTotal);
-        modelAndView.addObject("dayAlarmLogTotal",dayAlarmLogTotal);
-        modelAndView.addObject("alarmLogDtoList",alarmLogDtoList);
         return modelAndView;
     }
 

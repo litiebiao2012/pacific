@@ -143,7 +143,14 @@
             {
                 orderable: false,
                 width: '10%',
-                data: 'errorCount'
+                data: 'errorCount',
+                render : function(data, type, row, meta) {
+                    if (row.errorCount <= 0) {
+                        return row.errorCount;
+                    } else {
+                        return "<font color='red'>" + row.errorCount + "</font>";
+                    }
+                }
             },
             {
                 orderable: false,

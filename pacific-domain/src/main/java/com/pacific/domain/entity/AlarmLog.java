@@ -22,6 +22,10 @@ public class AlarmLog implements Serializable {
 
     private String channelCode;
 
+    private Long objectId;
+
+    private String type;
+
     private static final long serialVersionUID = 1L;
 
     public Long getId() {
@@ -94,5 +98,21 @@ public class AlarmLog implements Serializable {
 
     public void setChannelCode(String channelCode) {
         this.channelCode = channelCode == null ? null : channelCode.trim();
+    }
+
+    public Long getObjectId() {
+        return objectId;
+    }
+
+    public void setObjectId(Long objectId) {
+        this.objectId = objectId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

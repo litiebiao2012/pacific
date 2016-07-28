@@ -14,11 +14,10 @@ import com.pacific.domain.dto.ChannelDto;
 import com.pacific.domain.entity.AlarmLog;
 import com.pacific.domain.entity.AlarmTemplate;
 import com.pacific.domain.entity.ErrorLogRecord;
+import com.pacific.domain.entity.SpringMethod;
+import com.pacific.domain.enums.AlarmLogTypeEnums;
 import com.pacific.domain.enums.ChannelCodeEnums;
-import com.pacific.mapper.AlarmLogMapper;
-import com.pacific.mapper.AlarmTemplateMapper;
-import com.pacific.mapper.ApplicationUserConfigMapper;
-import com.pacific.mapper.ErrorLogRecordMapper;
+import com.pacific.mapper.*;
 import com.pacific.service.AlarmService;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.context.Context;
@@ -41,13 +40,13 @@ public class AlarmServiceImpl implements AlarmService {
     public static ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1,new NamedThreadFactory("alarm-error-log"));
 
     @Resource
-    private ErrorLogRecordMapper errorLogRecordMapper;
-
-    @Resource
     private ApplicationUserConfigMapper applicationUserConfigMapper;
 
     @Resource
     private AlarmLogMapper alarmLogMapper;
+
+    @Resource
+    private SpringMethodMapper springMethodMapper;
 
     @Resource
     private AlarmTemplateMapper alarmTemplateMapper;
@@ -76,29 +75,29 @@ public class AlarmServiceImpl implements AlarmService {
     @Override
     public void alarm() {
         try {
-            List<ErrorLogRecord> errorLogRecordList = errorLogRecordMapper.queryHasNoAlarmErrorLogRecord();
+            List<SpringMethod> errorLogRecordList = springMethodMapper.queryHasNoAlarmErrorSpringMethod();
             logger.info("will be alarm error log data : {}", FastJson.toJson(errorLogRecordList));
             if (CollectionUtil.isNotEmpty(errorLogRecordList)) {
                 Map<String,List<ApplicationUserConfigDto>> appMap = groupByApplicationCode();
 
                 if (appMap != null && appMap.size() > 0) {
-                    for (ErrorLogRecord errorLogRecord : errorLogRecordList) {
-                        String applicationCode = errorLogRecord.getApplicationCode();
+                    for (SpringMethod errorSpringMethod : errorLogRecordList) {
+                        String applicationCode = errorSpringMethod.getApplicationCode();
 
                         List<ApplicationUserConfigDto> applicationUserConfigDtoList = appMap.get(applicationCode);
                         if (CollectionUtil.isNotEmpty(applicationUserConfigDtoList)) {
                             //TODO 根据每个用户的报警规则 开启报警
                             for (ApplicationUserConfigDto applicationUserConfigDto : applicationUserConfigDtoList) {
-                                processApplicationUserConfig(applicationUserConfigDto,errorLogRecord);
+                                processApplicationUserConfig(applicationUserConfigDto,errorSpringMethod);
                             }
                         }
 
                         //TODO 更新错误日志为已处理
-                        ErrorLogRecord updateErrorLogRecordParam = new ErrorLogRecord();
-                        updateErrorLogRecordParam.setId(errorLogRecord.getId());
-                        updateErrorLogRecordParam.setIsNotify("y");
-                        updateErrorLogRecordParam.setUpdateTime(new Date());
-                        errorLogRecordMapper.updateByPrimaryKeySelective(updateErrorLogRecordParam);
+                        SpringMethod updateSpringMethod = new SpringMethod();
+                        updateSpringMethod.setId(errorSpringMethod.getId());
+                        updateSpringMethod.setIsAlarm("y");
+                        updateSpringMethod.setUpdateTime(new Date());
+                        springMethodMapper.updateByPrimaryKeySelective(updateSpringMethod);
                     }
                 }
             }
@@ -107,7 +106,7 @@ public class AlarmServiceImpl implements AlarmService {
         }
     }
 
-    private void processApplicationUserConfig(ApplicationUserConfigDto applicationUserConfigDto,ErrorLogRecord errorLogRecord) {
+    private void processApplicationUserConfig(ApplicationUserConfigDto applicationUserConfigDto,SpringMethod springMethod) {
         String isMonitorAllErrorLog = applicationUserConfigDto.getIsMonitorAllErrorLog();
         String channelConfig = applicationUserConfigDto.getChannelConfig();
         String keyWords = applicationUserConfigDto.getMonitorErrorLogKeywords();
@@ -116,32 +115,28 @@ public class AlarmServiceImpl implements AlarmService {
 
         for (ChannelDto channelDto : channelDtoList) {
             if (isMonitorAllErrorLog.equals("y")) {
-                saveAlarmLog(channelDto,applicationUserConfigDto,errorLogRecord);
+                saveAlarmLog(channelDto,applicationUserConfigDto,springMethod);
             } else {
-                String logMessage = errorLogRecord.getLogMessage();
+                String logMessage = springMethod.getErrorMsg();
                 List<String> keyWordsList = FastJson.jsonToList(keyWords,String.class);
                 boolean flag = checkKeyWordsIsExists(keyWordsList,logMessage);
                 if (flag) {
-                    saveAlarmLog(channelDto,applicationUserConfigDto,errorLogRecord);
+                    saveAlarmLog(channelDto,applicationUserConfigDto,springMethod);
                 }
             }
         }
     }
 
     private void saveAlarmLog(ChannelDto channelDto,ApplicationUserConfigDto applicationUserConfigDto,
-                              ErrorLogRecord errorLogRecord) {
-
-
-
-
+                              SpringMethod errorSpringMethod) {
         AlarmTemplate alarmTemplate = alarmTemplateMapper.selectByChannelCode(channelDto.getChannelCode());
 
         if (alarmTemplate == null) PacificException.throwEx("alarmTemplate has not init!");
-        String message = getMessage(alarmTemplate,applicationUserConfigDto,errorLogRecord);
+        String message = getMessage(alarmTemplate,applicationUserConfigDto,errorSpringMethod);
 
         if(channelDto.getChannelCode().equals(ChannelCodeEnums.BEARY_CHAT.getCode())) {
             //TODO bearychat由于是广播通知,所以只做一次报警
-            int total = alarmLogMapper.queryTotalByParam(errorLogRecord.getId(),channelDto.getChannelCode());
+            int total = alarmLogMapper.queryTotalByParam(errorSpringMethod.getId(), AlarmLogTypeEnums.SPRING_METHOD.getCode(),channelDto.getChannelCode());
             if (total == 0) {
                 alarmToAppUser(channelDto,message,applicationUserConfigDto);
             }
@@ -158,22 +153,20 @@ public class AlarmServiceImpl implements AlarmService {
         alarmLog.setMessage(message);
         alarmLog.setSendTime(new Date());
         alarmLog.setUpdateTime(new Date());
-        alarmLog.setErrorLogId(errorLogRecord.getId());
+        alarmLog.setObjectId(errorSpringMethod.getId());
+        alarmLog.setType(AlarmLogTypeEnums.SPRING_METHOD.getCode());
         alarmLogMapper.insertSelective(alarmLog);
 
 
     }
-    private String getMessage(AlarmTemplate alarmTemplate,ApplicationUserConfigDto applicationUserConfigDto,ErrorLogRecord errorLogRecord) {
+    private String getMessage(AlarmTemplate alarmTemplate,ApplicationUserConfigDto applicationUserConfigDto,SpringMethod springMethod) {
         String templateText = alarmTemplate.getTemplateText();
         Context context = new VelocityContext();
         context.put("applicationName",applicationUserConfigDto.getApplicationName());
-        context.put("errorMsg",errorLogRecord.getLogMessage());
-        context.put("logCreateTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(errorLogRecord.getElasticsearchLogCreateTime()));
-        context.put("logStackTrace",errorLogRecord.getLogStackTrace());
-        context.put("host",errorLogRecord.getLogHostName());
-        context.put("errorLogType",errorLogRecord.getErrorLogType());
-        context.put("logLoggerName",errorLogRecord.getLogLoggerName());
-        context.put("logFilePath",errorLogRecord.getLogFilePath());
+        context.put("errorMsg",springMethod.getErrorMsg());
+        context.put("logCreateTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(springMethod.getErrorTime()));
+        context.put("logStackTrace",springMethod.getErrorStackTrace());
+        context.put("host",springMethod.getHostName());
         return VelocityTemplateUtil.merge(templateText,context);
     }
 

@@ -66,7 +66,7 @@ public class ApplicationServiceImpl implements ApplicationService {
             application.setUpdateTime(new Date());
             application.setState(StateEnums.AVAILABLE.getCode());
             applicationMapper.insert(application);
-            elasticSearchHelper.createIndexResponse(application.getApplicationCode());
+            //elasticSearchHelper.createIndexResponse(application.getApplicationCode());
 
             List<User> userList = userMapper.queryAllUserList();
             List<ApplicationUserConfig> applicationUserConfigList = new ArrayList<ApplicationUserConfig>();

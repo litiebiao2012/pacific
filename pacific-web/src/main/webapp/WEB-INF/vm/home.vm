@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-4 col-md-6">
         <div class="panel panel-primary">
             <div class="panel-heading">
                 <div class="row">
@@ -21,7 +21,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-4 col-md-6">
         <div class="panel panel-green">
             <div class="panel-heading">
                 <div class="row">
@@ -30,7 +30,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">$pacificWebTool.processNum(${dayAllLogTotal})</div>
-                        <div>当日采集日志总数</div>
+                        <div>当日调用请求量</div>
                     </div>
                 </div>
             </div>
@@ -43,29 +43,7 @@
             </a>
         </div>
     </div>
-    <div class="col-lg-3 col-md-6">
-        <div class="panel panel-yellow">
-            <div class="panel-heading">
-                <div class="row">
-                    <div class="col-xs-3">
-                        <i class="fa fa-shopping-cart fa-5x"></i>
-                    </div>
-                    <div class="col-xs-9 text-right">
-                        <div class="huge">$pacificWebTool.processNum(${dayAlarmLogTotal})</div>
-                        <div>今日报警次数</div>
-                    </div>
-                </div>
-            </div>
-            <a href="#">
-                <div class="panel-footer">
-                    <span class="pull-left">View Details</span>
-                    <span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
-                    <div class="clearfix"></div>
-                </div>
-            </a>
-        </div>
-    </div>
-    <div class="col-lg-3 col-md-6">
+    <div class="col-lg-4 col-md-6">
         <div class="panel panel-red">
             <div class="panel-heading">
                 <div class="row">
@@ -74,7 +52,7 @@
                     </div>
                     <div class="col-xs-9 text-right">
                         <div class="huge">$pacificWebTool.processNum(${dayErrorLogTotal})</div>
-                        <div>当日采集错误日志总数</div>
+                        <div>当日方法执行异常量</div>
                     </div>
                 </div>
             </div>
@@ -93,7 +71,17 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 最近7日错误日志统计</h3>
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 最近7日各应用请求量汇总统计</h3>
+            </div>
+            <div class="panel-body">
+                <div id="seven-day-error-log-chart" style="width: 100%;height:400px;"></div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-bar-chart-o fa-fw"></i> 最近7日各应用异常请求统计</h3>
             </div>
             <div class="panel-body">
                 <div id="seven-day-error-log-chart" style="width: 100%;height:400px;"></div>
@@ -106,7 +94,7 @@
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> 错误日志总数汇总</h3>
+                <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> 当日各应用sql执行平均响应时间统计</h3>
             </div>
             <div class="panel-body">
                 <div id="total-error-log-chart" style="width: 100%;height:400px;"></div>

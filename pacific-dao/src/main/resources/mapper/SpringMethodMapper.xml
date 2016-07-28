@@ -18,6 +18,7 @@
     <result column="error_time" property="errorTime" jdbcType="TIMESTAMP" />
     <result column="error_msg" property="errorMsg" jdbcType="LONGVARCHAR" />
     <result column="error_stack_trace" property="errorStackTrace" jdbcType="LONGVARCHAR" />
+    <result column="is_alarm" property="isAlarm" jdbcType="VARCHAR" />
   </resultMap>
 
 
@@ -34,7 +35,7 @@
 
   <sql id="Base_Column_List" >
     id, application_code, client_ip, host_name,create_time, update_time, class_name, method, count,
-    concurrent_max, is_error, nano_total, nano_max, error_time, error_msg, error_stack_trace
+    concurrent_max, is_error, nano_total, nano_max, error_time, error_msg, error_stack_trace,
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -51,13 +52,13 @@
       create_time, update_time, class_name, 
       method, count, concurrent_max, 
       is_error, nano_total, nano_max, 
-      error_time, error_msg, error_stack_trace
+      error_time, error_msg, error_stack_trace,is_alarm
       )
     values (#{id,jdbcType=BIGINT}, #{applicationCode,jdbcType=VARCHAR}, #{clientIp,jdbcType=VARCHAR}, #{hostName,jdbcType=VARCHAR},
       #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, #{className,jdbcType=VARCHAR}, 
       #{method,jdbcType=VARCHAR}, #{count,jdbcType=BIGINT}, #{concurrentMax,jdbcType=BIGINT}, 
       #{isError,jdbcType=VARCHAR}, #{nanoTotal,jdbcType=BIGINT}, #{nanoMax,jdbcType=BIGINT}, 
-      #{errorTime,jdbcType=TIMESTAMP}, #{errorMsg,jdbcType=VARCHAR}, #{errorStackTrace,jdbcType=VARCHAR}
+      #{errorTime,jdbcType=TIMESTAMP}, #{errorMsg,jdbcType=VARCHAR}, #{errorStackTrace,jdbcType=VARCHAR}, #{isAlarm,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pacific.domain.entity.SpringMethod" >
@@ -111,6 +112,9 @@
       <if test="errorStackTrace != null" >
         error_stack_trace,
       </if>
+      <if test="isAlarm != null" >
+        is_alarm,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -160,6 +164,9 @@
       </if>
       <if test="errorStackTrace != null" >
         #{errorStackTrace,jdbcType=VARCHAR},
+      </if>
+      <if test="isAlarm != null" >
+        #{isAlarm,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -211,6 +218,9 @@
       <if test="errorStackTrace != null" >
         error_stack_trace = #{errorStackTrace,jdbcType=VARCHAR},
       </if>
+      <if test="isAlarm != null" >
+        is_alarm = #{isAlarm,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -230,7 +240,8 @@
       nano_max = #{nanoMax,jdbcType=BIGINT},
       error_time = #{errorTime,jdbcType=TIMESTAMP},
       error_msg = #{errorMsg,jdbcType=VARCHAR},
-      error_stack_trace = #{errorStackTrace,jdbcType=VARCHAR}
+      error_stack_trace = #{errorStackTrace,jdbcType=VARCHAR},
+      is_alarm = #{isAlarm,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
@@ -240,7 +251,7 @@
     create_time, update_time, class_name,
     method, count, concurrent_max,
     is_error, nano_total, nano_max,
-    error_time, error_msg, error_stack_trace
+    error_time, error_msg, error_stack_trace,is_alarm
     )
     values
     <foreach collection="list" item="item" index="index"
@@ -249,7 +260,7 @@
       #{item.createTime,jdbcType=TIMESTAMP}, #{item.updateTime,jdbcType=TIMESTAMP}, #{item.className,jdbcType=VARCHAR},
       #{item.method,jdbcType=VARCHAR}, #{item.count,jdbcType=BIGINT}, #{item.concurrentMax,jdbcType=BIGINT},
       #{item.isError,jdbcType=VARCHAR}, #{item.nanoTotal,jdbcType=BIGINT}, #{item.nanoMax,jdbcType=BIGINT},
-      #{item.errorTime,jdbcType=TIMESTAMP}, #{item.errorMsg,jdbcType=VARCHAR}, #{item.errorStackTrace,jdbcType=VARCHAR}
+      #{item.errorTime,jdbcType=TIMESTAMP}, #{item.errorMsg,jdbcType=VARCHAR}, #{item.errorStackTrace,jdbcType=VARCHAR},#{item.isAlarm,jdbcType=VARCHAR}
       )
     </foreach>
   </insert>
@@ -336,6 +347,13 @@
              and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
     and  method = #{method,jdbcType=VARCHAR}
     order by error_time desc
+  </select>
+
+  <select id="queryHasNoAlarmErrorSpringMethod" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
+       <include refid="Base_Column_List" />
+      from t_spring_method
+    where is_error = 'y' and is_alarm = 'n'
   </select>
 
 </mapper>

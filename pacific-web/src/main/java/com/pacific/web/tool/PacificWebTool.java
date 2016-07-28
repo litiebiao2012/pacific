@@ -31,7 +31,7 @@ public class PacificWebTool {
     public static final Map<String, String> uriDescriptionMapping = new HashMap<String, String>();
 
     static {
-        uriDescriptionMapping.put("/home.htm", "日志大盘");
+        uriDescriptionMapping.put("/home.htm", "监控大盘");
         uriDescriptionMapping.put("/user/userList.htm", "用户列表");
         uriDescriptionMapping.put("/application/list.htm", "应用列表");
         uriDescriptionMapping.put("/log/list.htm", "日志列表");

@@ -38,4 +38,6 @@ public interface SpringMethodMapper {
                                          @Param("beginDate") Date beginDate,
                                          @Param("endDate") Date endDate,
                                          @Param("method")String method);
+
+    List<SpringMethod> queryHasNoAlarmErrorSpringMethod();
 }

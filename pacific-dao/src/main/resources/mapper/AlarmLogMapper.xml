@@ -11,6 +11,8 @@
     <result column="error_log_id" jdbcType="BIGINT" property="errorLogId" />
     <result column="send_time" jdbcType="TIMESTAMP" property="sendTime" />
     <result column="channel_code" jdbcType="VARCHAR" property="channelCode" />
+    <result column="object_id" jdbcType="BIGINT" property="objectId" />
+    <result column="type" jdbcType="VARCHAR" property="type" />
   </resultMap>
 
   <resultMap id="BaseDetailResultMap" type="com.pacific.domain.dto.AlarmLogDto" extends="BaseResultMap">
@@ -23,7 +25,7 @@
 
   <sql id="Base_Column_List">
     id, create_time, update_time, message, application_code, user_id, error_log_id, send_time, 
-    channel_code
+    channel_code,object_id,type
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
@@ -38,11 +40,12 @@
   <insert id="insert" parameterType="com.pacific.domain.entity.AlarmLog">
     insert into t_alarm_log (id, create_time, update_time, 
       message, application_code, user_id, 
-      error_log_id, send_time, channel_code
+      error_log_id, send_time, channel_code,object_id,type
       )
     values (#{id,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{message,jdbcType=VARCHAR}, #{applicationCode,jdbcType=VARCHAR}, #{userId,jdbcType=BIGINT}, 
       #{errorLogId,jdbcType=BIGINT}, #{sendTime,jdbcType=TIMESTAMP}, #{channelCode,jdbcType=VARCHAR}
+      , #{objectId,jdbcType=BIGINT}, #{type,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.pacific.domain.entity.AlarmLog">
@@ -75,6 +78,12 @@
       <if test="channelCode != null">
         channel_code,
       </if>
+      <if test="objectId != null">
+        object_id,
+      </if>
+      <if test="type != null">
+        type,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -103,6 +112,12 @@
       </if>
       <if test="channelCode != null">
         #{channelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="objectId != null">
+        #{objectId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -133,6 +148,12 @@
       <if test="channelCode != null">
         channel_code = #{channelCode,jdbcType=VARCHAR},
       </if>
+      <if test="objectId != null">
+        object_id = #{objectId,jdbcType=BIGINT},
+      </if>
+      <if test="type != null">
+        type = #{type,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -145,7 +166,9 @@
       user_id = #{userId,jdbcType=BIGINT},
       error_log_id = #{errorLogId,jdbcType=BIGINT},
       send_time = #{sendTime,jdbcType=TIMESTAMP},
-      channel_code = #{channelCode,jdbcType=VARCHAR}
+      channel_code = #{channelCode,jdbcType=VARCHAR},
+      object_id = #{objectId,jdbcType=BIGINT},
+      type = #{type,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 
@@ -224,11 +247,12 @@
     select
       count(1)
     from t_alarm_log
-    where error_log_id = #{errorLogId,jdbcType=BIGINT}
+    where
+         object_id = #{objectId,jdbcType=BIGINT}
+       and
+         type = #{type,jdbcType=BIGINT}
       and
-       channel_code = #{channelCode,jdbcType=VARCHAR}
+         channel_code = #{channelCode,jdbcType=VARCHAR}
   </select>
-
-
 
 </mapper>

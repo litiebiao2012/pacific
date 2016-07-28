@@ -57,6 +57,7 @@ public class SpringMethodServiceImpl implements SpringMethodService {
             springMethod.setErrorMsg(springMethodInfo.getLastErrorMsg());
             springMethod.setErrorStackTrace(springMethodInfo.getLastErrorStackTrace());
             springMethod.setErrorTime(springMethodInfo.getLastErrorTime());
+            springMethod.setIsAlarm("n");
 
             springMethodList.add(springMethod);
         }

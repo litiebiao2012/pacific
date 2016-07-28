@@ -25,6 +25,6 @@ public interface AlarmLogMapper {
 
     List<AlarmLogDto> queryAlarmLog(AlarmLogQuery alarmLogQuery);
 
-    int queryTotalByParam(@Param("errorLogId") Long errorLogId, @Param("channelCode") String channelCode);
+    int queryTotalByParam(@Param("objectId") Long objectId,@Param("type")String type, @Param("channelCode") String channelCode);
 
 }
