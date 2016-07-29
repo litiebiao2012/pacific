@@ -153,10 +153,10 @@
 
   <select id="queryAllJVMGcByParam" resultMap="BaseResultMap">
     select
-     max(young_gc_collection_count) as young_gc_collection_count,
-     max(full_gc_collection_count) as full_gc_collection_count,
-     max(young_gc_collection_time) as young_gc_collection_time,
-     max(full_gc_collection_time) as full_gc_collection_time
+     sum(young_gc_collection_count) as young_gc_collection_count,
+    sum(full_gc_collection_count) as full_gc_collection_count,
+    sum(young_gc_collection_time) as young_gc_collection_time,
+    sum(full_gc_collection_time) as full_gc_collection_time
     from t_jvm_gc
     where
     application_code = #{applicationCode,jdbcType=VARCHAR}

@@ -40,4 +40,7 @@ public interface SpringMethodMapper {
                                          @Param("method")String method);
 
     List<SpringMethod> queryHasNoAlarmErrorSpringMethod();
+
+    int queryErrorTotalSm(@Param("beginDate")Date beginDate,
+                          @Param("endDate") Date endDate);
 }

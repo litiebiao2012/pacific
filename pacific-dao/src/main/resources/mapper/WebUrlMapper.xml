@@ -346,4 +346,18 @@
     order by error_time desc
   </select>
 
+  <select id="queryTotalByParam" resultType="java.lang.Integer" >
+    select count(1)
+    from t_web_url
+    where create_time > #{beginDate,jdbcType=TIMESTAMP}
+        <![CDATA[
+          and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    <if test="isError != null and !isError.equals('')">
+          and is_error =  #{isError,jdbcType=VARCHAR}
+    </if>
+    <if test="applicationCode != null and !applicationCode.equals('')">
+          and application_code = #{applicationCode,jdbcType=VARCHAR}
+    </if>
+  </select>
+
 </mapper>

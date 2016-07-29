@@ -27,16 +27,16 @@ public class JdbcInfoServiceImpl implements JdbcInfoService {
         for (JdbcInfoDetail jdbcInfoDetail : jdbcInfoDetailList) {
             JdbcInfo jdbcInfo = jdbcInfoMapper.queryJdbcInfoByParam(appCode,hostName,jdbcInfoDetail.getUrl());
             if (jdbcInfo == null) {
-                jdbcInfo = buildJdbcInfo(appCode,clientIp,jdbcInfoDetail,null);
+                jdbcInfo = buildJdbcInfo(appCode,clientIp,hostName,jdbcInfoDetail,null);
                 jdbcInfoMapper.insert(jdbcInfo);
             } else {
-                jdbcInfo = buildJdbcInfo(appCode,clientIp,jdbcInfoDetail,jdbcInfo.getId());
+                jdbcInfo = buildJdbcInfo(appCode,clientIp,hostName,jdbcInfoDetail,jdbcInfo.getId());
                 jdbcInfoMapper.updateByPrimaryKeySelective(jdbcInfo);
             }
         }
     }
 
-    private JdbcInfo buildJdbcInfo(String appCode,String clientIp,JdbcInfoDetail jdbcInfoDetail,Long id) {
+    private JdbcInfo buildJdbcInfo(String appCode,String clientIp,String hostName,JdbcInfoDetail jdbcInfoDetail,Long id) {
         JdbcInfo jdbcInfo = new JdbcInfo();
 
         if (id == null) {
@@ -54,6 +54,7 @@ public class JdbcInfoServiceImpl implements JdbcInfoService {
         jdbcInfo.setPoolingCount(jdbcInfoDetail.getPoolingCount());
         jdbcInfo.setUserName(jdbcInfoDetail.getUserName());
         jdbcInfo.setName(jdbcInfoDetail.getName());
+        jdbcInfo.setHostName(hostName);
 
         if (id != null) jdbcInfo.setId(id);
 

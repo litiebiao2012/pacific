@@ -35,7 +35,7 @@
 
   <sql id="Base_Column_List" >
     id, application_code, client_ip, host_name,create_time, update_time, class_name, method, count,
-    concurrent_max, is_error, nano_total, nano_max, error_time, error_msg, error_stack_trace,
+    concurrent_max, is_error, nano_total, nano_max, error_time, error_msg, error_stack_trace
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
@@ -354,6 +354,17 @@
        <include refid="Base_Column_List" />
       from t_spring_method
     where is_error = 'y' and is_alarm = 'n'
+  </select>
+
+  <select id="queryErrorTotalSm" resultType="java.lang.Integer" >
+    select
+      count(1)
+    from
+      t_spring_method
+     where is_error = 'y'
+      and  create_time > #{beginDate,jdbcType=TIMESTAMP}
+        <![CDATA[
+             and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
   </select>
 
 </mapper>

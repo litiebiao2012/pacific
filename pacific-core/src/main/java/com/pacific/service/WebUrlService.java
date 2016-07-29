@@ -1,6 +1,8 @@
 package com.pacific.service;
 
 import com.pacific.domain.dto.jvm.WebUrlInfo;
+import com.pacific.domain.dto.report.SevenDayErrorWebUrlReport;
+import com.pacific.domain.dto.report.SevenDayWebUrlReport;
 import com.pacific.domain.dto.report.WebUrlDetailDto;
 import com.pacific.domain.dto.report.WebUrlReportDto;
 import com.pacific.domain.entity.WebUrl;
@@ -19,5 +21,8 @@ public interface WebUrlService {
     public Pagination<WebUrlReportDto> queryWebUrlPage(WebUrlQuery webUrlQuery);
 
     public WebUrlDetailDto buildWebUrlDetailDto(String hostName,String timeInternal,String applicationCode,String url);
+
+    public SevenDayWebUrlReport querySevenDayWebUrlReport(String isError);
+
 
 }

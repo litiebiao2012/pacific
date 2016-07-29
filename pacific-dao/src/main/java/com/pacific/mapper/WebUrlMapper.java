@@ -43,4 +43,9 @@ public interface WebUrlMapper {
                                          @Param("endDate") Date endDate,
                                          @Param("url")String url);
 
+    int queryTotalByParam(@Param("applicationCode") String applicationCode,
+                          @Param("beginDate") Date beginDate,
+                          @Param("endDate") Date endDate,
+                          @Param("isError") String isError);
+
 }

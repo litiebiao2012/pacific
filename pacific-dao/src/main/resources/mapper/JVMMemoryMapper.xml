@@ -271,18 +271,18 @@
 
   <select id="queryAllJVMMemoryByParam" resultMap="BaseResultMap" >
     select
-      max(heap_memory_max) as heap_memory_max,
-      max(heap_memory_used) as heap_memory_used,
-      max(non_heap_memory_max) as non_heap_memory_max,
-      max(non_heap_memory_used) as non_heap_memory_used,
-      max(perm_gen_max) as perm_gen_max,
-      max(perm_gen_used) as perm_gen_used,
-      max(old_gen_max) as old_gen_max,
-      max(old_gen_used) as old_gen_used,
-      max(eden_space_max) as eden_space_max,
-      max(eden_space_used) as eden_space_used,
-      max(survivor_max) as survivor_max,
-      max(survivor_used) as survivor_used
+      floor(heap_memory_max/1024/1024) as heap_memory_max,
+      floor(heap_memory_used/1024/1024) as heap_memory_used,
+      floor(non_heap_memory_max/1024/1024) as non_heap_memory_max,
+      floor(non_heap_memory_used/1024/1024) as non_heap_memory_used,
+      floor(perm_gen_max/1024/1024) as perm_gen_max,
+      floor(perm_gen_used/1024/1024) as perm_gen_used,
+      floor(old_gen_max/1024/1024) as old_gen_max,
+      floor(old_gen_used/1024/1024) as old_gen_used,
+      floor(eden_space_max/1024/1024) as eden_space_max,
+      floor(eden_space_used/1024/1024) as eden_space_used,
+      floor(survivor_max/1024/1024) as survivor_max,
+      floor(survivor_used/1024/1024) as survivor_used
     from t_jvm_memory
     where
        application_code = #{applicationCode,jdbcType=VARCHAR}
@@ -292,5 +292,6 @@
         and  create_time > #{beginDate,jdbcType=TIMESTAMP}
        <![CDATA[
          and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+    order by create_time desc limit 0,1
   </select>
 </mapper>

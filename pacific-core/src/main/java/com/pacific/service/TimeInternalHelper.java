@@ -159,4 +159,25 @@ public class TimeInternalHelper {
         }
         return strList;
     }
+
+    public static List<Date> buildSevenDayDateList() {
+        List<Date> dateList = new LinkedList<Date>();
+        dateList.add(new Date());
+        for (int i = -1; i >=-6; i--) {
+            dateList.add(DateUtil.offsiteDay(new Date(),i).toDate());
+        }
+        CollectionUtil.sort(dateList, new Comparator<Date>() {
+            @Override
+            public int compare(Date o1, Date o2) {
+                if (o1.getTime() >  o2.getTime()) {
+                    return 1;
+                } else if (o1.getTime() < o2.getTime()) {
+                    return -1;
+                } else {
+                    return 0;
+                }
+            }
+        });
+        return dateList;
+    }
 }

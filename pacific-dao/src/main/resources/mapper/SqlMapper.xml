@@ -430,6 +430,16 @@
     order by error_time desc
   </select>
 
+  <select id="queryAvgSqlTimeByParam" resultType="java.util.HashMap">
+     select s.avgTime,a.application_name as applicationName from (
+      select application_code, floor(sum(total_time)/sum(count))  as avgTime from t_sql
+        where  create_time > #{beginDate,jdbcType=TIMESTAMP}
+            <![CDATA[  and  create_time <= #{endDate,jdbcType=TIMESTAMP} ]]>
+        group by application_code) s
+        left join t_application a
+         on
+         s.application_code = a.application_code
+  </select>
 
 
 </mapper>

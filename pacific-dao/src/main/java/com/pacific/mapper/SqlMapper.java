@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 public interface SqlMapper {
     int deleteByPrimaryKey(Long id);
@@ -39,5 +40,8 @@ public interface SqlMapper {
                                          @Param("beginDate") Date beginDate,
                                          @Param("endDate") Date endDate,
                                          @Param("sqlHash")String sqlHash);
+
+    List<Map<String,Object>> queryAvgSqlTimeByParam( @Param("beginDate") Date beginDate,
+                                                     @Param("endDate") Date endDate);
 
 }

@@ -7,13 +7,15 @@ import com.pacific.common.web.result.AjaxResult;
 import com.pacific.domain.dto.AlarmLogDto;
 import com.pacific.domain.dto.AllAppErrorLogReportDto;
 import com.pacific.domain.dto.AllAppErrorLogSevenDayReportDto;
+import com.pacific.domain.dto.report.SevenDayWebUrlReport;
+import com.pacific.domain.dto.report.SqlAvgTimeReport;
 import com.pacific.domain.entity.Application;
 import com.pacific.domain.enums.StateEnums;
 import com.pacific.domain.query.AlarmLogQuery;
 import com.pacific.domain.search.query.LoggerQuery;
-import com.pacific.service.AlarmLogService;
-import com.pacific.service.ApplicationService;
-import com.pacific.service.ElasticSearchHelper;
+import com.pacific.mapper.SpringMethodMapper;
+import com.pacific.mapper.WebUrlMapper;
+import com.pacific.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -39,25 +41,36 @@ public class HomeController {
     private ApplicationService applicationService;
 
     @Resource
-    private ElasticSearchHelper elasticSearchHelper;
+    private AlarmLogService alarmLogService;
 
     @Resource
-    private AlarmLogService alarmLogService;
+    private WebUrlMapper webUrlMapper;
+
+    @Resource
+    private SpringMethodMapper springMethodMapper;
+
+    @Resource
+    private WebUrlService webUrlService;
+
+    @Resource
+    private SqlService sqlService;
+
 
     @RequestMapping("/home.htm")
     public ModelAndView home() {
-
-        logger.info("home begin!");
-
         List<Application> applicationList = applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
+        Date date = new Date();
+        int nowDayTotal = webUrlMapper.queryTotalByParam("",DateUtil.getBeginTimeOfDay(date).toDate(),DateUtil.getEndTimeOfDay(date).toDate(),"");
         int appCount = 0;
         if (CollectionUtil.isNotEmpty(applicationList)) {
             appCount = applicationList.size();
-
         }
+        int nowDayTotalErrorSm = springMethodMapper.queryErrorTotalSm(DateUtil.getBeginTimeOfDay(date).toDate(),DateUtil.getEndTimeOfDay(date).toDate());
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
         modelAndView.addObject("appCount",appCount);
+        modelAndView.addObject("nowDayTotal",nowDayTotal);
+        modelAndView.addObject("nowDayTotalErrorSm",nowDayTotalErrorSm);
         return modelAndView;
     }
 
@@ -68,41 +81,31 @@ public class HomeController {
     }
 
     @ResponseBody
+    @RequestMapping(value = "/queryAllAppWebUrLSevenDayReport.json")
+    public AjaxResult queryAllAppWebUrLSevenDayReport() {
+        AjaxResult ajaxResult = new AjaxResult();
+        SevenDayWebUrlReport sevenDayWebUrlReport = webUrlService.querySevenDayWebUrlReport("n");
+        ajaxResult.setData(sevenDayWebUrlReport);
+        return ajaxResult;
+    }
+
+    @ResponseBody
     @RequestMapping(value = "/queryAllAppErrorLogSevenDayReport.json")
     public AjaxResult queryAllAppErrorLogSevenDayReport() {
         AjaxResult ajaxResult = new AjaxResult();
-        AllAppErrorLogSevenDayReportDto allAppErrorLogSevenDayReportDto = alarmLogService.queryAllAppErrorLogSevenDayReport();
-        ajaxResult.setData(allAppErrorLogSevenDayReportDto);
-        return ajaxResult;
-    }
-
-
-    @ResponseBody
-    @RequestMapping(value = "/queryAllAppErrorLogDayHourReport.json")
-    public AjaxResult queryAllAppErrorLogDayHourReport() {
-        AjaxResult ajaxResult = new AjaxResult();
-        AllAppErrorLogSevenDayReportDto allAppErrorLogSevenDayReportDto = alarmLogService.queryAllAppErrorLogSevenDayReport();
-        ajaxResult.setData(allAppErrorLogSevenDayReportDto);
+        SevenDayWebUrlReport sevenDayWebUrlReport = webUrlService.querySevenDayWebUrlReport("y");
+        ajaxResult.setData(sevenDayWebUrlReport);
         return ajaxResult;
     }
 
     @ResponseBody
-    @RequestMapping(value = "/queryAllAppErrorLogReport.json")
-    public AjaxResult queryAllAppErrorLogReport() {
+    @RequestMapping(value = "/queryAllAppSqlAvgTime.json")
+    public AjaxResult queryAllAppSqlAvgTime() {
         AjaxResult ajaxResult = new AjaxResult();
-        AllAppErrorLogReportDto allAppErrorLogReportDto = alarmLogService.queryAllAppErrorLogReport();
-        ajaxResult.setData(allAppErrorLogReportDto);
+        SqlAvgTimeReport sqlAvgTimeReport = sqlService.queryDaySqlAvgTimeReport();
+        ajaxResult.setData(sqlAvgTimeReport);
         return ajaxResult;
     }
 
-    @LoginCheckAnnotation(checked = false)
-    @RequestMapping(value = "/check.htm",method = RequestMethod.GET)
-    public void check() {
-        try {
-            int i = 0;
-            int res = 1 / 0;
-        } catch (Exception e) {
-            logger.error("我的错,e : {}",e);
-        }
-    }
+
 }

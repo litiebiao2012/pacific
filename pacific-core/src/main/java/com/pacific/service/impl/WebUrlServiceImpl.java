@@ -1,17 +1,18 @@
 package com.pacific.service.impl;
 
 import com.pacific.common.utils.CollectionUtil;
+import com.pacific.common.utils.DateUtil;
 import com.pacific.domain.dto.TimeRange;
 import com.pacific.domain.dto.TimeRangeDto;
 import com.pacific.domain.dto.jvm.WebUrlInfo;
-import com.pacific.domain.dto.report.WebUrlDetailDto;
-import com.pacific.domain.dto.report.WebUrlDetailReportDto;
-import com.pacific.domain.dto.report.WebUrlErrorDetail;
-import com.pacific.domain.dto.report.WebUrlReportDto;
+import com.pacific.domain.dto.report.*;
+import com.pacific.domain.entity.Application;
 import com.pacific.domain.entity.WebUrl;
+import com.pacific.domain.enums.StateEnums;
 import com.pacific.domain.query.Pagination;
 import com.pacific.domain.search.query.WebUrlQuery;
 import com.pacific.mapper.WebUrlMapper;
+import com.pacific.service.ApplicationService;
 import com.pacific.service.EChartHelper;
 import com.pacific.service.TimeInternalHelper;
 import com.pacific.service.WebUrlService;
@@ -28,6 +29,9 @@ public class WebUrlServiceImpl implements WebUrlService {
 
     @Resource
     private WebUrlMapper webUrlMapper;
+
+    @Resource
+    private ApplicationService applicationService;
 
 
     public void saveWebUrlInfo(String appCode,String clientIp,String hostName,List<WebUrlInfo> webUrlInfoList) {
@@ -141,5 +145,71 @@ public class WebUrlServiceImpl implements WebUrlService {
         }
         webUrlDetailDto.setWebUrlErrorDetail(webUrlErrorDetailList);
         return webUrlDetailDto;
+    }
+
+    public SevenDayWebUrlReport querySevenDayWebUrlReport(String isError) {
+        Assert.notNull(isError);
+        SevenDayWebUrlReport sevenDayWebUrlReport = new SevenDayWebUrlReport();
+        List<Application> applicationList = applicationService.queryApplicationByState(StateEnums.AVAILABLE.getCode());
+
+        List<String> appNameList = new LinkedList<String>();
+        List<SevenDayWebUrlSeries> appErrorLogSeriesList = new LinkedList<SevenDayWebUrlSeries>();
+        List<Date> dateList = TimeInternalHelper.buildSevenDayDateList();
+        if (CollectionUtil.isNotEmpty(applicationList)) {
+            for (Application application : applicationList) {
+                appNameList.add(application.getApplicationName());
+
+                SevenDayWebUrlSeries sevenDayWebUrlSeries = new SevenDayWebUrlSeries();
+                sevenDayWebUrlSeries.setName(application.getApplicationName());
+                sevenDayWebUrlSeries.setType("line");
+                sevenDayWebUrlSeries.setStack("总量");
+                Map<String,Object> areaStyleMap = new HashMap<String,Object>();
+                areaStyleMap.put("normal",new HashMap<>());
+                sevenDayWebUrlSeries.setAreaStyle(areaStyleMap);
+
+                List<Integer> data = new LinkedList<Integer>();
+                for (Date date : dateList) {
+                    Date beginDate = DateUtil.getBeginTimeOfDay(date).toDate();
+                    Date endDate = DateUtil.getEndTimeOfDay(date).toDate();
+                    int total = webUrlMapper.queryTotalByParam(application.getApplicationCode(),beginDate,endDate,isError);
+                    data.add(total);
+                }
+                sevenDayWebUrlSeries.setData(data);
+                appErrorLogSeriesList.add(sevenDayWebUrlSeries);
+            }
+        }
+        Map<String,List<String>> legendMap = new HashMap<String,List<String>>();
+        legendMap.put("data",appNameList);
+        sevenDayWebUrlReport.setLegend(legendMap);
+
+        Map<String,Object> toolboxMap = new HashMap<String,Object>();
+        Map<String,Object> saveImageMap = new HashMap<String,Object>();
+        toolboxMap.put("feature",saveImageMap);
+        sevenDayWebUrlReport.setToolbox(toolboxMap);
+
+
+        List<Map<String,Object>> xAxis = new ArrayList<Map<String,Object>>();
+        Map<String,Object> xAxisMap = new HashMap<String,Object>();
+        xAxisMap.put("type","category");
+        xAxisMap.put("boundaryGap",false);
+        List<String> xAxisDataList = new LinkedList<String>();
+
+        for (Date date : dateList) {
+            xAxisDataList.add(DateUtil.format(date,DateUtil.DATE_PATTERN));
+        }
+        xAxisMap.put("data",xAxisDataList);
+        xAxis.add(xAxisMap);
+        sevenDayWebUrlReport.setxAxis(xAxis);
+
+        List<Map<String,Object>> yAxis = new ArrayList<Map<String,Object>>();
+        Map<String,Object> yAxisMap = new HashMap<String,Object>();
+        yAxisMap.put("type","value");
+        yAxis.add(yAxisMap);
+        sevenDayWebUrlReport.setyAxis(yAxis);
+
+        sevenDayWebUrlReport.setSeries(appErrorLogSeriesList);
+        return sevenDayWebUrlReport;
+
+
     }
 }
