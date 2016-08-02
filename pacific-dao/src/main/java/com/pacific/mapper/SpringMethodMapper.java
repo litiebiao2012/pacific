@@ -1,5 +1,6 @@
 package com.pacific.mapper;
 
+import com.pacific.domain.dto.SpringMethodErrorDto;
 import com.pacific.domain.dto.report.SpringMethodReportDto;
 import com.pacific.domain.entity.SpringMethod;
 import com.pacific.domain.search.query.SpringMethodQuery;
@@ -39,7 +40,7 @@ public interface SpringMethodMapper {
                                          @Param("endDate") Date endDate,
                                          @Param("method")String method);
 
-    List<SpringMethod> queryHasNoAlarmErrorSpringMethod();
+    List<SpringMethodErrorDto> queryHasNoAlarmErrorSpringMethod();
 
     int queryErrorTotalSm(@Param("beginDate")Date beginDate,
                           @Param("endDate") Date endDate);

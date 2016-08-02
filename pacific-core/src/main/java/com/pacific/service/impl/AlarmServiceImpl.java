@@ -11,6 +11,8 @@ import com.pacific.common.utils.NamedThreadFactory;
 import com.pacific.common.utils.VelocityTemplateUtil;
 import com.pacific.domain.dto.ApplicationUserConfigDto;
 import com.pacific.domain.dto.ChannelDto;
+import com.pacific.domain.dto.SpringMethodErrorDto;
+import com.pacific.domain.dto.jvm.SpringMethodDto;
 import com.pacific.domain.entity.AlarmLog;
 import com.pacific.domain.entity.AlarmTemplate;
 import com.pacific.domain.entity.ErrorLogRecord;
@@ -75,13 +77,13 @@ public class AlarmServiceImpl implements AlarmService {
     @Override
     public void alarm() {
         try {
-            List<SpringMethod> errorLogRecordList = springMethodMapper.queryHasNoAlarmErrorSpringMethod();
+            List<SpringMethodErrorDto> errorLogRecordList = springMethodMapper.queryHasNoAlarmErrorSpringMethod();
             logger.info("will be alarm error log data : {}", FastJson.toJson(errorLogRecordList));
             if (CollectionUtil.isNotEmpty(errorLogRecordList)) {
                 Map<String,List<ApplicationUserConfigDto>> appMap = groupByApplicationCode();
 
                 if (appMap != null && appMap.size() > 0) {
-                    for (SpringMethod errorSpringMethod : errorLogRecordList) {
+                    for (SpringMethodErrorDto errorSpringMethod : errorLogRecordList) {
                         String applicationCode = errorSpringMethod.getApplicationCode();
 
                         List<ApplicationUserConfigDto> applicationUserConfigDtoList = appMap.get(applicationCode);
@@ -106,7 +108,7 @@ public class AlarmServiceImpl implements AlarmService {
         }
     }
 
-    private void processApplicationUserConfig(ApplicationUserConfigDto applicationUserConfigDto,SpringMethod springMethod) {
+    private void processApplicationUserConfig(ApplicationUserConfigDto applicationUserConfigDto,SpringMethodErrorDto springMethodErrorDto) {
         String isMonitorAllErrorLog = applicationUserConfigDto.getIsMonitorAllErrorLog();
         String channelConfig = applicationUserConfigDto.getChannelConfig();
         String keyWords = applicationUserConfigDto.getMonitorErrorLogKeywords();
@@ -115,20 +117,20 @@ public class AlarmServiceImpl implements AlarmService {
 
         for (ChannelDto channelDto : channelDtoList) {
             if (isMonitorAllErrorLog.equals("y")) {
-                saveAlarmLog(channelDto,applicationUserConfigDto,springMethod);
+                saveAlarmLog(channelDto,applicationUserConfigDto,springMethodErrorDto);
             } else {
-                String logMessage = springMethod.getErrorMsg();
+                String logMessage = springMethodErrorDto.getErrorMsg();
                 List<String> keyWordsList = FastJson.jsonToList(keyWords,String.class);
                 boolean flag = checkKeyWordsIsExists(keyWordsList,logMessage);
                 if (flag) {
-                    saveAlarmLog(channelDto,applicationUserConfigDto,springMethod);
+                    saveAlarmLog(channelDto,applicationUserConfigDto,springMethodErrorDto);
                 }
             }
         }
     }
 
     private void saveAlarmLog(ChannelDto channelDto,ApplicationUserConfigDto applicationUserConfigDto,
-                              SpringMethod errorSpringMethod) {
+                              SpringMethodErrorDto errorSpringMethod) {
         AlarmTemplate alarmTemplate = alarmTemplateMapper.selectByChannelCode(channelDto.getChannelCode());
 
         if (alarmTemplate == null) PacificException.throwEx("alarmTemplate has not init!");
@@ -159,14 +161,18 @@ public class AlarmServiceImpl implements AlarmService {
 
 
     }
-    private String getMessage(AlarmTemplate alarmTemplate,ApplicationUserConfigDto applicationUserConfigDto,SpringMethod springMethod) {
+    private String getMessage(AlarmTemplate alarmTemplate,ApplicationUserConfigDto applicationUserConfigDto,SpringMethodErrorDto springMethodErrorDto) {
         String templateText = alarmTemplate.getTemplateText();
         Context context = new VelocityContext();
         context.put("applicationName",applicationUserConfigDto.getApplicationName());
-        context.put("errorMsg",springMethod.getErrorMsg());
-        context.put("logCreateTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(springMethod.getErrorTime()));
-        context.put("logStackTrace",springMethod.getErrorStackTrace());
-        context.put("host",springMethod.getHostName());
+        context.put("errorMsg",springMethodErrorDto.getErrorMsg());
+        context.put("logCreateTime",new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(springMethodErrorDto.getErrorTime()));
+        context.put("logStackTrace",springMethodErrorDto.getErrorStackTrace());
+        context.put("className",springMethodErrorDto.getClassName());
+        context.put("method",springMethodErrorDto.getMethod());
+        context.put("errorCount",springMethodErrorDto.getErrorCount());
+        context.put("clientIp",springMethodErrorDto.getClientIp());
+        context.put("hostName",springMethodErrorDto.getHostName());
         return VelocityTemplateUtil.merge(templateText,context);
     }
 

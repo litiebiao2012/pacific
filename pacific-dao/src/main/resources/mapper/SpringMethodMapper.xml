@@ -32,6 +32,10 @@
     <result column="error_count" property="errorCount" jdbcType="BIGINT" />
   </resultMap>
 
+  <resultMap id="BaseSmErrorResultMap" type="com.pacific.domain.dto.SpringMethodErrorDto" extends="BaseResultMap">
+    <result column="error_count" property="errorCount" jdbcType="BIGINT" />
+  </resultMap>
+
 
   <sql id="Base_Column_List" >
     id, application_code, client_ip, host_name,create_time, update_time, class_name, method, count,
@@ -349,10 +353,30 @@
     order by error_time desc
   </select>
 
-  <select id="queryHasNoAlarmErrorSpringMethod" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="queryHasNoAlarmErrorSpringMethod" resultMap="BaseSmErrorResultMap" parameterType="java.lang.Long" >
     select
-       <include refid="Base_Column_List" />
-      from t_spring_method
+        sm.id,
+        sm.application_code,
+        sm.client_ip,
+        sm.host_name,
+        sm.create_time,
+        sm.update_time,
+        sm.class_name,
+        sm.method,
+        sm.count,
+        sm.concurrent_max,
+        sm.is_error,
+        sm.nano_total,
+        sm.nano_max,
+        sm.error_time,
+        sm.error_msg,
+        sm.error_stack_trace,
+        error_sm.error_count
+      from t_spring_method sm
+      left join
+        (select method ,count(1) as error_count from t_spring_method where is_error = 'y' group by method) error_sm
+        on
+        error_sm.method = sm.method
     where is_error = 'y' and is_alarm = 'n'
   </select>
 
