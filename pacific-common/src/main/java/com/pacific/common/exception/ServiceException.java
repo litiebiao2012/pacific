@@ -3,7 +3,7 @@ package com.pacific.common.exception;
 /**
  *
  */
-public class ServiceException extends RuntimeException{
+public class ServiceException extends RuntimeException {
 	protected String exceptionCode;
 	/**
 	 * 

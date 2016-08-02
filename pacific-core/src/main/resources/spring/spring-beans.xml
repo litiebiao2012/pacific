@@ -16,6 +16,7 @@
     <bean id="sqlService" class="com.pacific.service.impl.SqlServiceImpl"></bean>
     <bean id="webUrlService" class="com.pacific.service.impl.WebUrlServiceImpl"></bean>
     <bean id="jdbcInfoService" class="com.pacific.service.impl.JdbcInfoServiceImpl"></bean>
+    <bean id="machineService" class="com.pacific.service.impl.MachineServiceImpl"></bean>
 
     <bean id="elasticSearchHelper" class="com.pacific.service.ElasticSearchHelper">
         <property name="ip" value="${elasticsearch.ip}"/>

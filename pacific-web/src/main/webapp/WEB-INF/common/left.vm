@@ -15,10 +15,15 @@
             <a href="/alarmLog/list.htm"><i class="fa fa-fw fa-edit"></i> 告警记录</a>
         </li>
         <li>
-            <a href="/log/list.htm"><i class="fa fa-fw fa-edit"></i> 模板管理</a>
-        </li>
-        <li>
-            <a href="/log/list.htm"><i class="fa fa-fw fa-edit"></i> 机器管理</a>
+            <a href="javascript:;" data-toggle="collapse" data-target="#machine"><i class="fa fa-fw fa-wrench"></i> 机器管理 <i class="fa fa-fw fa-caret-down"></i></a>
+            <ul id="machine" class="collapse">
+                <li>
+                    <a href="/machine/machineList.htm">机器列表</a>
+                </li>
+                <li>
+                    <a href="/machine/toMachineEdit.htm">机器添加</a>
+                </li>
+            </ul>
         </li>
 ##        <li>
 ##            <a href="/log/list.htm"><i class="fa fa-fw fa-edit"></i> 日志查询</a>

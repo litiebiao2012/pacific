@@ -115,11 +115,10 @@
                         <tr>
                             <th>用户名</th>
                             <th>应用名</th>
+                            <th>机器host</th>
                             <th>通知方式</th>
                             <th>通知时间</th>
                             <th>异常内容</th>
-                            <th>机器地址</th>
-                            <th>log文件地址</th>
                         </tr>
                         </thead>
                         <tboddy>
@@ -127,18 +126,14 @@
                                 <tr>
                                     <td>$item.userName</td>
                                     <td>$item.applicationName</td>
+                                    <td>$item.hostName</td>
                                     <td>$pacificWebTool.getChannelText($item.channelCode)</td>
                                     <td>$pacificWebTool.formatDate($item.createTime)</td>
-                                    <td>$item.logMessage</td>
-                                    <td>$item.logHostName</td>
-                                    <td>$item.logFilePath</td>
+                                    <td>$item.errorMsg</td>
                                 </tr>
                             #end
                         </tboddy>
                     </table>
-                </div>
-                <div class="text-right">
-                    <a href="#">查看详情 <i class="fa fa-arrow-circle-right"></i></a>
                 </div>
             </div>
         </div>

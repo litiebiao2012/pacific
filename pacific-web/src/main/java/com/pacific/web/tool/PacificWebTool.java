@@ -40,6 +40,8 @@ public class PacificWebTool {
         uriDescriptionMapping.put("/user/editUser.htm", "用户编辑");
         uriDescriptionMapping.put("/user/userUpdatePass.htm", "密码修改");
         uriDescriptionMapping.put("/jvm/jvmDetail.htm", "应用监控");
+        uriDescriptionMapping.put("/machine/machineList.htm", "机器管理");
+        uriDescriptionMapping.put("/machine/toMachineEdit.htm", "机器编辑");
     }
 
     public boolean hasPermission() {

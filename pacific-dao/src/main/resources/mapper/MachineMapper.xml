@@ -9,6 +9,12 @@
     <result column="ip" property="ip" jdbcType="VARCHAR" />
     <result column="host_name" property="hostName" jdbcType="VARCHAR" />
   </resultMap>
+
+
+  <resultMap id="BaseDetailResultMap" type="com.pacific.domain.dto.MachineDto" extends="BaseResultMap">
+    <result column="application_name" property="applicationName" jdbcType="VARCHAR" />
+  </resultMap>
+
   <sql id="Base_Column_List" >
     id, application_code, create_time, update_time, ip, host_name
   </sql>
@@ -111,4 +117,57 @@
     from t_machine
     where application_code = #{applicationCode,jdbcType=VARCHAR}
   </select>
+
+  <select id="queryMachineListByParam" resultMap="BaseDetailResultMap">
+    select
+         m.id, m.application_code, m.create_time, m.update_time, m.ip, m.host_name,
+        a.application_name
+    from t_machine m
+    left join
+     t_application a
+     on
+     m.application_code = a.application_code
+    <if test="keyWords != null and !keyWords.equals('')">
+      where
+       m.application_code like  CONCAT('%',#{keyWords},'%')
+      or a.application_name like CONCAT('%',#{keyWords},'%')
+      or m.ip like CONCAT('%',#{keyWords},'%')
+      or m.host_name like CONCAT('%',#{keyWords},'%')
+    </if>
+    <include refid="Page.footer"/>
+  </select>
+
+  <select id="queryMachineCountByParam" resultType="java.lang.Integer">
+    select
+        count(1)
+    from t_machine m
+    left join
+    t_application a
+    on
+    m.application_code = a.application_code
+    <if test="keyWords != null and !keyWords.equals('')">
+      where
+      m.application_code like  CONCAT('%',#{keyWords},'%')
+      or a.application_name like CONCAT('%',#{keyWords},'%')
+      or m.ip like CONCAT('%',#{keyWords},'%')
+      or m.host_name like CONCAT('%',#{keyWords},'%')
+    </if>
+  </select>
+
+
+  <select id="queryMachineByIpParam" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select
+      count(1)
+    from t_machine
+    where ip = #{ip,jdbcType=VARCHAR} and application_code = #{applicationCode,jdbcType=VARCHAR}
+  </select>
+
+
+  <select id="queryMachineByHostNameParam" resultType="java.lang.Integer" parameterType="java.lang.String" >
+    select
+      count(1)
+    from t_machine
+    where host_name = #{hostName,jdbcType=VARCHAR} and application_code = #{applicationCode,jdbcType=VARCHAR}
+  </select>
+
 </mapper>

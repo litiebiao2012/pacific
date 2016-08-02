@@ -8,25 +8,9 @@ import com.pacific.domain.entity.AlarmLog;
 public class AlarmLogDto extends AlarmLog {
     private String userName;
     private String applicationName;
-    private String logMessage;
-    private String logHostName;
-    private String logFilePath;
-
-    public String getLogMessage() {
-        return logMessage;
-    }
-
-    public void setLogMessage(String logMessage) {
-        this.logMessage = logMessage;
-    }
-
-    public String getLogHostName() {
-        return logHostName;
-    }
-
-    public void setLogHostName(String logHostName) {
-        this.logHostName = logHostName;
-    }
+    private String errorMsg;
+    private String hostName;
+    private String clientIp;
 
     public String getUserName() {
         return userName;
@@ -44,11 +28,27 @@ public class AlarmLogDto extends AlarmLog {
         this.applicationName = applicationName;
     }
 
-    public String getLogFilePath() {
-        return logFilePath;
+    public String getHostName() {
+        return hostName;
     }
 
-    public void setLogFilePath(String logFilePath) {
-        this.logFilePath = logFilePath;
+    public void setHostName(String hostName) {
+        this.hostName = hostName;
+    }
+
+    public String getClientIp() {
+        return clientIp;
+    }
+
+    public void setClientIp(String clientIp) {
+        this.clientIp = clientIp;
+    }
+
+    public String getErrorMsg() {
+        return errorMsg;
+    }
+
+    public void setErrorMsg(String errorMsg) {
+        this.errorMsg = errorMsg;
     }
 }

@@ -13,6 +13,7 @@ import com.pacific.domain.entity.Application;
 import com.pacific.domain.enums.StateEnums;
 import com.pacific.domain.query.AlarmLogQuery;
 import com.pacific.domain.search.query.LoggerQuery;
+import com.pacific.mapper.AlarmLogMapper;
 import com.pacific.mapper.SpringMethodMapper;
 import com.pacific.mapper.WebUrlMapper;
 import com.pacific.service.*;
@@ -55,6 +56,9 @@ public class HomeController {
     @Resource
     private SqlService sqlService;
 
+    @Resource
+    private AlarmLogMapper alarmLogMapper;
+
 
     @RequestMapping("/home.htm")
     public ModelAndView home() {
@@ -66,11 +70,15 @@ public class HomeController {
             appCount = applicationList.size();
         }
         int nowDayTotalErrorSm = springMethodMapper.queryErrorTotalSm(DateUtil.getBeginTimeOfDay(date).toDate(),DateUtil.getEndTimeOfDay(date).toDate());
+        AlarmLogQuery alarmLogQuery = new AlarmLogQuery();
+        alarmLogQuery.setPageSize(20);
+        List<AlarmLogDto> alarmLogDtoList = alarmLogMapper.queryAlarmLog(alarmLogQuery);
         ModelAndView modelAndView = new ModelAndView();
         modelAndView.setViewName("home");
         modelAndView.addObject("appCount",appCount);
         modelAndView.addObject("nowDayTotal",nowDayTotal);
         modelAndView.addObject("nowDayTotalErrorSm",nowDayTotalErrorSm);
+        modelAndView.addObject("alarmLogDtoList",alarmLogDtoList);
         return modelAndView;
     }
 
